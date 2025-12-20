@@ -23,7 +23,7 @@
 
 🧩 **Now**: Developing `Digital Twin` services with a focus on 3D visualization using `Autodesk APS Viewer SDK` at `Mossland`.
 <br>
-🎯 **Goal**: Establishing a fully synchronized physical-to-digital model pipeline.
+🎯 **Goal**: Create a development pipeline that simplifies building Digital Twin services.
 
 <br>
 
@@ -36,7 +36,7 @@
 
 <br>
 
-#### Contact Me!
+#### Contact me!
 <p>
   <a href="mailto:yena@moss.land"><img src="https://img.shields.io/badge/Email-yena@moss.land-D14836?style=flat-square&logo=gmail&logoColor=white"/></a>
   <a href="https://www.instagram.com/2ye._na/"><img src="https://img.shields.io/badge/Instagram-@2ye._na-E4405F?style=flat-square&logo=instagram&logoColor=white"/></a>
