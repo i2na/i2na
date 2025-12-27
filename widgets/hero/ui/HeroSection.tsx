@@ -5,15 +5,15 @@ import { SplineScene } from "./SplineScene";
 import styles from "./HeroSection.module.scss";
 
 export const HeroSection: React.FC = () => {
-  return (
-    <section id="hero" className={styles.heroSection}>
+    return (
+        <section id="hero" className={styles.heroSection}>
             <SplineScene />
             <div className={styles.content}>
-                <h1 className={styles.title}>{HERO.content1}</h1>
-                <div className={styles.subtitle}>
-                    <span>{HERO.content2.part1}</span>
+                <h1 className={styles.content1}>{HERO.content1}</h1>
+                <div className={styles.content2}>
+                    <span className={styles.part1}>{HERO.content2.part1}</span>
                     <span className={styles.dot}></span>
-                    <span>{HERO.content2.part2}</span>
+                    <span className={styles.part2}>{HERO.content2.part2}</span>
                 </div>
             </div>
 

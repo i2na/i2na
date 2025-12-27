@@ -19,8 +19,6 @@ export const SplineScene: React.FC = () => {
                 onLoad={() => setIsLoading(false)}
                 title="Spline 3D Robot"
             />
-
-            <div className={styles.gradientOverlay} />
         </div>
     );
 };

@@ -1,22 +1,21 @@
 @use "@/shared/styles/variables" as *;
 @use "@/shared/styles/mixins" as *;
 
+$nav-button-padding: $spacing-sm $spacing-md;
+$nav-button-font-size: $font-size-base;
+
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: $z-fixed;
-    padding: $spacing-sm $spacing-md;
+    padding: $spacing-md;
     display: flex;
     justify-content: space-between;
     align-items: center;
     pointer-events: none;
     transition: color $transition-slower;
-
-    @include respond-to(md) {
-        padding: $spacing-md $spacing-lg;
-    }
 
     &.light {
         color: $brand-black;
@@ -32,37 +31,35 @@
     cursor: pointer;
 
     span {
-        font-size: $font-size-lg;
+        font-size: $font-size-2xl;
         font-weight: 700;
         letter-spacing: -0.05em;
+    }
 
-        @include respond-to(md) {
-            font-size: $font-size-xl;
-        }
+    .part1 {
+        color: inherit;
+    }
 
-        .accent {
-            color: $brand-purple;
-        }
+    .part2 {
+        color: $brand-purple;
     }
 }
 
-.navLinks {
+.sections {
     pointer-events: auto;
     backdrop-filter: blur(12px);
-    padding: $spacing-xs $spacing-lg;
+    padding: $nav-button-padding;
     border-radius: $radius-full;
     display: none;
     gap: $spacing-lg;
-    font-size: $font-size-xs;
+    font-size: $nav-button-font-size;
     font-weight: 500;
     border: 1px solid;
     transition: all $transition-slower;
 
     @include respond-to(md) {
         display: flex;
-        padding: $spacing-sm $spacing-lg;
         gap: $spacing-xl;
-        font-size: $font-size-sm;
     }
 
     &.light {
@@ -88,26 +85,24 @@
     }
 }
 
-.githubButton {
+.github {
     pointer-events: auto;
     display: flex;
     align-items: center;
     gap: $spacing-xs;
-    padding: $spacing-xs $spacing-sm;
+    padding: $nav-button-padding;
     border-radius: $radius-full;
     font-weight: 700;
-    font-size: $font-size-xs;
+    font-size: $nav-button-font-size;
     transition: all $transition-slower;
     color: inherit;
     text-decoration: none;
 
     @include respond-to(md) {
-        padding: $spacing-sm $spacing-md;
-        font-size: $font-size-sm;
         gap: $spacing-sm;
     }
 
-    .githubText {
+    .label {
         display: none;
 
         @include respond-to(sm) {

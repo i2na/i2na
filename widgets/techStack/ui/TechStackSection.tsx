@@ -9,14 +9,14 @@ export const TechStackSection: React.FC = () => {
             <div className={styles.scrollWrapper}>
                 <div className={styles.scrollContainer}>
                     {TECH_STACK.contents.map((tech, i) => (
-                        <span key={i} className={styles.techItem}>
+                        <span key={i} className={styles.content}>
                             {tech}
                         </span>
                     ))}
                 </div>
                 <div className={styles.scrollContainer} aria-hidden="true">
                     {TECH_STACK.contents.map((tech, i) => (
-                        <span key={`clone-${i}`} className={styles.techItem}>
+                        <span key={`clone-${i}`} className={styles.content}>
                             {tech}
                         </span>
                     ))}

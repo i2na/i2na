@@ -24,9 +24,9 @@ export const AboutSection: React.FC = () => {
             <div className={cn(styles.blurCircle, styles.purple)} />
             <div className={cn(styles.blurCircle, styles.green)} />
 
-            <div className={styles.content}>
+            <div className={styles.container}>
                 <span className={styles.label}>{ABOUT.label}</span>
-                <p className={styles.text}>
+                <p className={styles.content}>
                     {ABOUT.content.map((item, index) => {
                         const className = getTextClassName(item.type);
                         return item.type === "plain" ? (

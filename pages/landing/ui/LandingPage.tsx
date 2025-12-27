@@ -32,7 +32,7 @@ export const LandingPage: React.FC = () => {
             <section id="blog" className={styles.blogSection}>
                 <div className={styles.sectionHeader}>
                     <div className={styles.label}>{BLOG.label}</div>
-                    <h2 className={styles.title}>{BLOG.content}</h2>
+                    <h2 className={styles.content}>{BLOG.content}</h2>
                 </div>
                 <BentoGrid onPostClick={handlePostClick} onViewArchive={handleArchiveClick} />
             </section>

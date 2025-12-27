@@ -7,11 +7,22 @@
     padding-right: $spacing-md;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     background: #050505;
+    transition: background-color $transition-base, border-color $transition-base;
 
     @include respond-to(md) {
         padding: $spacing-3xl 0;
         padding-left: $spacing-xl;
         padding-right: $spacing-xl;
+    }
+
+    &.theme-light {
+        background: $gray-50;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    &.theme-dark {
+        background: #050505;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 }
 
@@ -32,7 +43,7 @@
 }
 
 .left {
-    h2 {
+    .content {
         font-size: $font-size-2xl;
         font-weight: 700;
         margin-bottom: $spacing-md;
@@ -46,7 +57,7 @@
     }
 }
 
-.socialLinks {
+.social {
     display: flex;
     gap: $spacing-sm;
 
@@ -97,6 +108,32 @@
     }
 }
 
+.footer.theme-light {
+    .social a {
+        background: rgba(0, 0, 0, 0.05);
+        color: $brand-black;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        &.twitter:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #1da1f2;
+        }
+
+        &.linkedin:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #0a66c2;
+        }
+
+        &.mail:hover {
+            background: rgba(139, 92, 246, 0.2);
+            color: $brand-purple;
+        }
+    }
+}
+
 .right {
     text-align: right;
     width: 100%;
@@ -119,6 +156,16 @@
         font-size: $font-size-sm;
         margin-bottom: $spacing-xl;
         gap: $spacing-sm;
+    }
+}
+
+.footer.theme-light {
+    .meta {
+        color: rgba(0, 0, 0, 0.5);
+    }
+
+    .left .content {
+        color: $brand-black;
     }
 }
 

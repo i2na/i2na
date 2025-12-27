@@ -24,19 +24,10 @@
 }
 
 .label {
+    @include section-label($brand-orange, $spacing-xl, $spacing-2xl);
     display: flex;
     justify-content: center;
-    margin-bottom: $spacing-xl;
-    font-family: $font-family-mono;
-    color: $brand-orange;
     transition: color $transition-base;
-    letter-spacing: 0.1em;
-    font-size: $font-size-xs;
-
-    @include respond-to(md) {
-        margin-bottom: $spacing-2xl;
-        font-size: $font-size-sm;
-    }
 }
 
 .scrollWrapper {
@@ -61,7 +52,7 @@
     }
 }
 
-.techItem {
+.content {
     font-size: $font-size-2xl;
     font-weight: 700;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));

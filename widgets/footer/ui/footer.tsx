@@ -4,15 +4,21 @@ import { Icons } from "@/shared/ui/icons";
 import styles from "./footer.module.scss";
 import cn from "classnames";
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+    theme?: "light" | "dark";
+}
+
+export const Footer: React.FC<FooterProps> = ({ theme = "dark" }) => {
     return (
-        <footer id="contact" className={styles.footer}>
+        <footer id="contact" className={cn(styles.footer, styles[`theme-${theme}`])}>
             <div className={styles.container}>
                 <div className={styles.left}>
-                    <h2>
-                        {FOOTER.content.part1} <br /> {FOOTER.content.part2}
+                    <h2 className={styles.content}>
+                        <span className={styles.part1}>{FOOTER.content.part1}</span>
+                        <br />
+                        <span className={styles.part2}>{FOOTER.content.part2}</span>
                     </h2>
-                    <div className={styles.socialLinks}>
+                    <div className={styles.social}>
                         {FOOTER.social.map((item) => {
                             const Icon = Icons[item.icon as keyof typeof Icons];
                             if (!Icon) return null;
@@ -32,8 +38,8 @@ export const Footer: React.FC = () => {
                 </div>
                 <div className={styles.right}>
                     <div className={styles.meta}>
-                        <span>{FOOTER.location}</span>
-                        <span>
+                        <span className={styles.location}>{FOOTER.location}</span>
+                        <span className={styles.name}>
                             {new Date().getFullYear()} © {FOOTER.name}
                         </span>
                     </div>

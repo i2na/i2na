@@ -60,13 +60,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick, isLight, showNavLin
         <nav className={cn(styles.navbar, isLight ? styles.light : styles.dark)}>
             <div className={styles.logo} onClick={handleLogoClick}>
                 <span>
-                    {NAV.logo.part1}
-                    <span className={styles.accent}>{NAV.logo.part2}</span>
+                    <span className={styles.part1}>{NAV.logo.part1}</span>
+                    <span className={styles.part2}>{NAV.logo.part2}</span>
                 </span>
             </div>
 
             {showNavLinks && (
-                <div className={cn(styles.navLinks, isLight ? styles.light : styles.dark)}>
+                <div className={cn(styles.sections, isLight ? styles.light : styles.dark)}>
                     {NAV.sections.map((item) => (
                         <a
                             key={item.href}
@@ -84,9 +84,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick, isLight, showNavLin
                     href={NAV.github.url}
                     target="_blank"
                     rel="noreferrer"
-                    className={cn(styles.githubButton, isLight ? styles.light : styles.dark)}
+                    className={cn(styles.github, isLight ? styles.light : styles.dark)}
                 >
-                    <span className={styles.githubText}>{NAV.github.label}</span>
+                    <span className={styles.label}>{NAV.github.label}</span>
                     <Icons.Github />
                 </a>
             </div>

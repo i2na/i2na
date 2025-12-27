@@ -20,14 +20,6 @@ export const BlogPostItem: React.FC<BlogPostItemProps> = ({ post, theme, onClick
             <div className={styles.content}>
                 <h3 className={styles.title}>{post.title}</h3>
                 <p className={styles.excerpt}>{post.summary}</p>
-
-                <div className={styles.tags}>
-                    {post.tags?.map((tag) => (
-                        <span key={tag} className={styles.tag}>
-                            {tag}
-                        </span>
-                    ))}
-                </div>
             </div>
 
             <div className={styles.arrow}>

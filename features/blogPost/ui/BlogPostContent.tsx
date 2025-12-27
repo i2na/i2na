@@ -2,9 +2,11 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 import { formatDate } from "@/shared/lib/date";
 import type { BlogPost } from "@/entities/blog/model/types";
-import { Icons } from "@/shared/ui/icons";
+import { BackButton } from "@/shared/ui/backButton";
+import { Footer } from "@/widgets/footer/ui/footer";
 import styles from "./BlogPostContent.module.scss";
 import "highlight.js/styles/github-dark.css";
 
@@ -17,18 +19,10 @@ export const BlogPostContent: React.FC<BlogPostContentProps> = ({ post, onBack }
     return (
         <div className={styles.blogPostContent}>
             <div className={styles.container}>
-                <button onClick={onBack} className={styles.backButton}>
-                    <div className={styles.iconWrapper}>
-                        <Icons.ArrowRight />
-                    </div>
-                    <span className={styles.backText}>Back to Archive</span>
-                </button>
+                <BackButton onClick={onBack} />
 
                 <article className={styles.article}>
                     <div className={styles.header}>
-                        <div className={styles.tag}>
-                            <span>Technical</span>
-                        </div>
                         <h1 className={styles.title}>{post.title}</h1>
                         <div className={styles.meta}>
                             <span>
@@ -40,15 +34,13 @@ export const BlogPostContent: React.FC<BlogPostContentProps> = ({ post, onBack }
                                     .replace(/\./g, ".")
                                     .replace(/\s/g, "")}
                             </span>
-                            <span>•</span>
-                            <span>읽는 시간 5분</span>
                         </div>
                     </div>
 
                     <div className={styles.markdownContent}>
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
-                            rehypePlugins={[rehypeHighlight]}
+                            rehypePlugins={[rehypeRaw, rehypeHighlight]}
                             components={{
                                 a: ({ node, ...props }) => (
                                     <a {...props} target="_blank" rel="noopener noreferrer" />
@@ -58,21 +50,32 @@ export const BlogPostContent: React.FC<BlogPostContentProps> = ({ post, onBack }
                                         <table {...props} />
                                     </div>
                                 ),
+                                img: ({ node, className, ...props }: any) => {
+                                    // className이 있으면 그대로 사용, 없으면 기본 스타일 적용
+                                    return (
+                                        <img 
+                                            {...props} 
+                                            className={className || ''} 
+                                        />
+                                    );
+                                },
+                                video: ({ node, className, ...props }: any) => {
+                                    // className이 있으면 그대로 사용, 없으면 기본 스타일 적용
+                                    return (
+                                        <video 
+                                            {...props} 
+                                            className={className || ''} 
+                                        />
+                                    );
+                                },
                             }}
                         >
                             {post.content}
                         </ReactMarkdown>
                     </div>
                 </article>
-
-                <div className={styles.footer}>
-                    <span>Thank you for reading.</span>
-                    <div className={styles.socialLinks}>
-                        <Icons.Twitter />
-                        <Icons.Linkedin />
-                    </div>
-                </div>
             </div>
+            <Footer theme="light" />
         </div>
     );
 };

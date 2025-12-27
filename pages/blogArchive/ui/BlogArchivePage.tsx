@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BLOG } from "@/config/constants";
 import { getAllPostMetadata } from "@/entities/blog/api";
 import { BlogList } from "@/features/blogList/ui/BlogList";
 import { convertToDisplayPost, type BlogPostDisplay } from "@/features/blogList/model/types";
-import { Icons } from "@/shared/ui/icons";
+import { BackButton } from "@/shared/ui/backButton";
+import { Footer } from "@/widgets/footer/ui/footer";
 import type { BlogPostMetadata } from "@/entities/blog/model/types";
 import styles from "./BlogArchivePage.module.scss";
 
@@ -49,19 +51,18 @@ export const BlogArchivePage: React.FC = () => {
         <div className={styles.blogArchivePage}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <div className={styles.backButton}>
-                        <button onClick={handleBack}>
-                            <Icons.ArrowRight />
-                        </button>
-                    </div>
-                    <h1 className={styles.title}>Archive</h1>
-                    <p className={styles.subtitle}>
-                        Thoughts on Structure, Reliability, and Clarity.
-                    </p>
+                    <BackButton onClick={handleBack} />
                 </div>
 
-                <BlogList posts={displayPosts} theme="light" onPostClick={handlePostClick} />
+                <section className={styles.blogSection}>
+                    <div className={styles.sectionHeader}>
+                        <div className={styles.label}>{BLOG.label}</div>
+                        <h2 className={styles.content}>{BLOG.content}</h2>
+                    </div>
+                    <BlogList posts={displayPosts} theme="light" onPostClick={handlePostClick} />
+                </section>
             </div>
+            <Footer theme="light" />
         </div>
     );
 };

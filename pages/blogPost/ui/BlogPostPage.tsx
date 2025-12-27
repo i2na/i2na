@@ -37,7 +37,7 @@ export const BlogPostPage: React.FC = () => {
     }, [slug, navigate]);
 
     const handleBack = () => {
-        navigate("/blog");
+        navigate(-1);
     };
 
     if (loading) {

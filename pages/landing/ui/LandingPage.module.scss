@@ -38,19 +38,10 @@
 }
 
 .label {
-    font-family: $font-family-mono;
-    color: $brand-green;
-    margin-bottom: $spacing-md;
-    font-size: $font-size-xs;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-
-    @include respond-to(md) {
-        font-size: $font-size-sm;
-    }
+    @include section-label($brand-green);
 }
 
-.title {
+.content {
     font-size: $font-size-2xl;
     font-weight: 700;
     letter-spacing: -0.05em;

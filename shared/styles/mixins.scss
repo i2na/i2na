@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "sass:color";
 
 @mixin respond-to($breakpoint) {
     @if $breakpoint == sm {
@@ -82,7 +83,7 @@
         border-radius: 4px;
 
         &:hover {
-            background: lighten($thumb-color, 10%);
+            background: color.adjust($thumb-color, $lightness: 10%);
         }
     }
 }
@@ -103,5 +104,23 @@
     }
     to {
         transform: translateX(-100%);
+    }
+}
+
+@mixin section-label(
+    $color,
+    $margin-bottom-mobile: $spacing-sm,
+    $margin-bottom-desktop: $spacing-md
+) {
+    font-family: $font-family-mono;
+    color: $color;
+    margin-bottom: $margin-bottom-mobile;
+    font-size: $font-size-sm;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    @include respond-to(md) {
+        margin-bottom: $margin-bottom-desktop;
+        font-size: $font-size-sm;
     }
 }

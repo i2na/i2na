@@ -13,7 +13,42 @@ body {
     font-family: $font-family-sans;
     overflow-x: hidden;
     word-break: keep-all;
+    transition: background-color $transition-base;
     @include custom-scrollbar();
+
+    &.theme-light {
+        background-color: $gray-50;
+        color: $brand-black;
+
+        &::-webkit-scrollbar-track {
+            background: $gray-50;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+
+            &:hover {
+                background: rgba(0, 0, 0, 0.3);
+            }
+        }
+    }
+
+    &.theme-dark {
+        background-color: $brand-black;
+        color: $white;
+
+        &::-webkit-scrollbar-track {
+            background: $brand-black;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #333;
+
+            &:hover {
+                background: #444;
+            }
+        }
+    }
 }
 
 .glass-panel {
