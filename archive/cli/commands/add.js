@@ -11,10 +11,13 @@ export default async function addCommand(filepath) {
 
         // 파일 읽기
         const content = await fs.readFile(filepath, "utf-8");
-        const { data: frontmatter, content: body } = matter(content);
+        const { content: body } = matter(content);
+
+        // 첫 번째 # 헤딩에서 title 추출
+        const headingMatch = body.match(/^#\s+(.+)$/m);
+        const title = headingMatch ? headingMatch[1].trim() : path.basename(filepath, ".md");
 
         // slug 생성
-        const title = frontmatter.title || "untitled";
         const slug = title
             .toLowerCase()
             .replace(/[^a-z0-9가-힣]+/g, "_")
