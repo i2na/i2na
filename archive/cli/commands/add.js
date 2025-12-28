@@ -13,12 +13,8 @@ export default async function addCommand(filepath, options) {
         const content = await fs.readFile(filepath, "utf-8");
         const { content: body } = matter(content);
 
-        // 첫 번째 # 헤딩에서 title 추출
-        const headingMatch = body.match(/^#\s+(.+)$/m);
-        const title = headingMatch ? headingMatch[1].trim() : path.basename(filepath, ".md");
-
-        // slug 생성
-        const slug = title.replace(/[^a-zA-Z0-9가-힣]+/g, "_").replace(/^_|_$/g, "");
+        // 원본 파일명을 그대로 사용 (확장자 제거)
+        const slug = path.basename(filepath, ".md");
 
         // 한국 시간 생성 (KST)
         const now = new Date();
