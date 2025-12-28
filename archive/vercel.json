@@ -3,7 +3,7 @@
     "outputDirectory": "web/dist",
     "installCommand": "yarn install",
     "framework": null,
-    "ignoreCommand": "git diff HEAD^ HEAD --quiet -- archive/",
+    "ignoreCommand": "git diff HEAD^ HEAD --quiet .",
     "rewrites": [
         {
             "source": "/(.*)",
