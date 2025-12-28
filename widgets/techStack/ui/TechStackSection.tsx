@@ -1,8 +1,7 @@
-import React from "react";
 import { TECH_STACK } from "@/config/constants";
 import styles from "./TechStackSection.module.scss";
 
-export const TechStackSection: React.FC = () => {
+export function TechStackSection() {
     return (
         <section className={styles.techStackSection}>
             <div className={styles.label}>{TECH_STACK.label}</div>
@@ -24,4 +23,4 @@ export const TechStackSection: React.FC = () => {
             </div>
         </section>
     );
-};
+}

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BLOG } from "@/config/constants";
 import { getAllPostMetadata } from "@/entities/blog/api";
 import { BlogList } from "@/features/blogList/ui/BlogList";
-import { convertToDisplayPost, type BlogPostDisplay } from "@/features/blogList/model/types";
+import { convertToDisplayPost, type TPostDisplay } from "@/features/blogList/model/types";
 import { BackButton } from "@/shared/ui/backButton";
 import { Footer } from "@/widgets/footer/ui/footer";
-import type { BlogPostMetadata } from "@/entities/blog/model/types";
+import type { IPostMeta } from "@/entities/blog/model/types";
 import styles from "./BlogArchivePage.module.scss";
 
-export const BlogArchivePage: React.FC = () => {
+export function BlogArchivePage() {
     const navigate = useNavigate();
-    const [posts, setPosts] = useState<BlogPostMetadata[]>([]);
+    const [posts, setPosts] = useState<IPostMeta[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export const BlogArchivePage: React.FC = () => {
         loadPosts();
     }, []);
 
-    const handlePostClick = (post: BlogPostDisplay) => {
+    const handlePostClick = (post: TPostDisplay) => {
         navigate(`/blog/${post.slug}`);
     };
 
@@ -65,4 +65,4 @@ export const BlogArchivePage: React.FC = () => {
             <Footer theme="light" />
         </div>
     );
-};
+}

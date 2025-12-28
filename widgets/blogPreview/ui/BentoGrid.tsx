@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllPostMetadata } from "@/entities/blog/api";
 import { BlogList } from "@/features/blogList/ui/BlogList";
 import { convertToDisplayPost } from "@/features/blogList/model/types";
-import type { BlogPostMetadata } from "@/entities/blog/model/types";
+import type { IPostMeta } from "@/entities/blog/model/types";
+import type { IBentoGridProps } from "../model/types";
 import styles from "./BentoGrid.module.scss";
 
-interface BentoGridProps {
-    onPostClick: (slug: string) => void;
-    onViewArchive: () => void;
-}
-
-export const BentoGrid: React.FC<BentoGridProps> = ({ onPostClick, onViewArchive }) => {
-    const [posts, setPosts] = useState<BlogPostMetadata[]>([]);
+export function BentoGrid({ onPostClick, onViewArchive }: IBentoGridProps) {
+    const [posts, setPosts] = useState<IPostMeta[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -49,4 +45,4 @@ export const BentoGrid: React.FC<BentoGridProps> = ({ onPostClick, onViewArchive
             />
         </div>
     );
-};
+}

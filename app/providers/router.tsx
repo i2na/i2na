@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LandingPage } from "@/pages/landing/ui/LandingPage";
 import { BlogArchivePage } from "@/pages/blogArchive/ui/BlogArchivePage";
 import { BlogPostPage } from "@/pages/blogPost/ui/BlogPostPage";
 
-const ThemeManager: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface IThemeManagerProps {
+    children: ReactNode;
+}
+
+function ThemeManager({ children }: IThemeManagerProps) {
     const location = useLocation();
 
     useEffect(() => {
@@ -24,9 +28,9 @@ const ThemeManager: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     }, [location.pathname]);
 
     return <>{children}</>;
-};
+}
 
-export const AppRouter: React.FC = () => {
+export function AppRouter() {
     return (
         <BrowserRouter>
             <ThemeManager>
@@ -38,4 +42,4 @@ export const AppRouter: React.FC = () => {
             </ThemeManager>
         </BrowserRouter>
     );
-};
+}

@@ -1,11 +1,10 @@
-import React from "react";
+import { Fragment } from "react";
 import { ABOUT } from "@/config/constants";
+import type { TTextType } from "../model/types";
 import cn from "classnames";
 import styles from "./AboutSection.module.scss";
 
-type TextType = "plain" | "highlight" | "code" | "underline";
-
-const getTextClassName = (type: TextType): string => {
+const getTextClassName = (type: TTextType): string => {
     switch (type) {
         case "highlight":
             return styles.gradient;
@@ -18,7 +17,7 @@ const getTextClassName = (type: TextType): string => {
     }
 };
 
-export const AboutSection: React.FC = () => {
+export function AboutSection() {
     return (
         <section id="about" className={styles.aboutSection}>
             <div className={cn(styles.blurCircle, styles.purple)} />
@@ -30,7 +29,7 @@ export const AboutSection: React.FC = () => {
                     {ABOUT.content.map((item, index) => {
                         const className = getTextClassName(item.type);
                         return item.type === "plain" ? (
-                            <React.Fragment key={index}>{item.text}</React.Fragment>
+                            <Fragment key={index}>{item.text}</Fragment>
                         ) : (
                             <span key={index} className={className}>
                                 {item.text}
@@ -41,4 +40,4 @@ export const AboutSection: React.FC = () => {
             </div>
         </section>
     );
-};
+}

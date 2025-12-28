@@ -1,14 +1,10 @@
-import React from "react";
 import { FOOTER } from "@/config/constants";
 import { Icons } from "@/shared/ui/icons";
+import type { IFooterProps } from "../model/types";
 import styles from "./footer.module.scss";
 import cn from "classnames";
 
-interface FooterProps {
-    theme?: "light" | "dark";
-}
-
-export const Footer: React.FC<FooterProps> = ({ theme = "dark" }) => {
+export function Footer({ theme = "dark" }: IFooterProps) {
     return (
         <footer id="contact" className={cn(styles.footer, styles[`theme-${theme}`])}>
             <div className={styles.container}>
@@ -47,4 +43,4 @@ export const Footer: React.FC<FooterProps> = ({ theme = "dark" }) => {
             </div>
         </footer>
     );
-};
+}

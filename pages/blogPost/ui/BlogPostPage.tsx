@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPostBySlug } from "@/entities/blog/api";
 import { BlogPostContent } from "@/features/blogPost/ui/BlogPostContent";
-import type { BlogPost } from "@/entities/blog/model/types";
+import type { IPost } from "@/entities/blog/model/types";
 import styles from "./BlogPostPage.module.scss";
 
-export const BlogPostPage: React.FC = () => {
+export function BlogPostPage() {
     const { slug } = useParams<{ slug: string }>();
     const navigate = useNavigate();
-    const [post, setPost] = useState<BlogPost | null>(null);
+    const [post, setPost] = useState<IPost | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -53,4 +53,4 @@ export const BlogPostPage: React.FC = () => {
     }
 
     return <BlogPostContent post={post} onBack={handleBack} />;
-};
+}

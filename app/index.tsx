@@ -1,4 +1,4 @@
-import React from "react";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { Buffer } from "buffer";
 import { AppRouter } from "./providers/router";
@@ -15,7 +15,7 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
-    <React.StrictMode>
+    <StrictMode>
         <AppRouter />
-    </React.StrictMode>
+    </StrictMode>
 );

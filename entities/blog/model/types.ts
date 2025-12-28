@@ -1,4 +1,4 @@
-export interface BlogPost {
+export interface IPost {
     slug: string;
     title: string;
     createdAt: string;
@@ -7,7 +7,7 @@ export interface BlogPost {
     fileName: string;
 }
 
-export interface BlogPostMetadata {
+export interface IPostMeta {
     slug: string;
     title: string;
     createdAt: string;

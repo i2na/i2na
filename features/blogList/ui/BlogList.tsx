@@ -1,25 +1,16 @@
-import React from "react";
 import { Icons } from "@/shared/ui/icons";
 import { BlogPostItem } from "./BlogPostItem";
-import type { BlogPostDisplay } from "../model/types";
+import type { IBlogListProps } from "../model/types";
 import styles from "./BlogList.module.scss";
 import cn from "classnames";
 
-interface BlogListProps {
-    posts?: BlogPostDisplay[];
-    theme?: "dark" | "light";
-    onPostClick: (post: BlogPostDisplay) => void;
-    className?: string;
-    onViewArchive?: () => void;
-}
-
-export const BlogList: React.FC<BlogListProps> = ({
+export function BlogList({
     posts = [],
     theme = "dark",
     onPostClick,
     className,
     onViewArchive,
-}) => {
+}: IBlogListProps) {
     return (
         <div className={cn(styles.blogList, styles[theme], className)}>
             <div className={styles.postsContainer}>
@@ -43,4 +34,4 @@ export const BlogList: React.FC<BlogListProps> = ({
             )}
         </div>
     );
-};
+}

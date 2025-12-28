@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Icons } from "@/shared/ui/icons";
 import { sendMessageToGemini } from "../api/chatService";
-import { ChatMessage } from "@/shared/types";
+import type { IChatMessage } from "../model/types";
 import styles from "./ChatWidget.module.scss";
 import cn from "classnames";
 
-export const ChatWidget: React.FC = () => {
+export function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<ChatMessage[]>([
+    const [messages, setMessages] = useState<IChatMessage[]>([
         {
             role: "model",
             text: "Hello. I am YenaAI. I am here to provide clear and structured answers about Yena Lee.",
@@ -26,7 +26,7 @@ export const ChatWidget: React.FC = () => {
     const handleSend = async () => {
         if (!input.trim() || loading) return;
 
-        const userMsg: ChatMessage = { role: "user", text: input };
+        const userMsg: IChatMessage = { role: "user", text: input };
         setMessages((prev) => [...prev, userMsg]);
         setInput("");
         setLoading(true);
@@ -99,4 +99,4 @@ export const ChatWidget: React.FC = () => {
             </button>
         </div>
     );
-};
+}

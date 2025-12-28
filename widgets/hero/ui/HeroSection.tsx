@@ -1,10 +1,9 @@
-import React from "react";
 import { Icons } from "@/shared/ui/icons";
 import { HERO } from "@/config/constants";
 import { SplineScene } from "./SplineScene";
 import styles from "./HeroSection.module.scss";
 
-export const HeroSection: React.FC = () => {
+export function HeroSection() {
     return (
         <section id="hero" className={styles.heroSection}>
             <SplineScene />
@@ -27,4 +26,4 @@ export const HeroSection: React.FC = () => {
             </div>
         </section>
     );
-};
+}

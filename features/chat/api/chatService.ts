@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { ChatMessage } from "@/shared/types";
+import type { IChatMessage } from "../model/types";
 
 const SYSTEM_INSTRUCTION = `
 You are "YenaAI", a virtual portfolio assistant for Yena Lee.
@@ -36,7 +36,7 @@ export const initializeGemini = () => {
 };
 
 export const sendMessageToGemini = async (
-    history: ChatMessage[],
+    history: IChatMessage[],
     message: string
 ): Promise<string> => {
     if (!aiClient) initializeGemini();

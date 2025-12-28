@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BLOG } from "@/config/constants";
 import { Navbar } from "@/widgets/navbar/ui/navbar";
@@ -10,7 +9,7 @@ import { BentoGrid } from "@/widgets/blogPreview/ui/BentoGrid";
 import { ChatWidget } from "@/features/chat/ui/ChatWidget";
 import styles from "./LandingPage.module.scss";
 
-export const LandingPage: React.FC = () => {
+export function LandingPage() {
     const navigate = useNavigate();
 
     const handleArchiveClick = () => {
@@ -44,4 +43,4 @@ export const LandingPage: React.FC = () => {
             <ChatWidget />
         </div>
     );
-};
+}

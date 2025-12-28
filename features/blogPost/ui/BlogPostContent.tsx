@@ -1,21 +1,15 @@
-import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import { formatDate } from "@/shared/lib/date";
-import type { BlogPost } from "@/entities/blog/model/types";
 import { BackButton } from "@/shared/ui/backButton";
 import { Footer } from "@/widgets/footer/ui/footer";
+import type { IBlogPostContentProps } from "../model/types";
 import styles from "./BlogPostContent.module.scss";
 import "highlight.js/styles/github-dark.css";
 
-interface BlogPostContentProps {
-    post: BlogPost;
-    onBack: () => void;
-}
-
-export const BlogPostContent: React.FC<BlogPostContentProps> = ({ post, onBack }) => {
+export function BlogPostContent({ post, onBack }: IBlogPostContentProps) {
     return (
         <div className={styles.blogPostContent}>
             <div className={styles.container}>
@@ -52,21 +46,11 @@ export const BlogPostContent: React.FC<BlogPostContentProps> = ({ post, onBack }
                                 ),
                                 img: ({ node, className, ...props }: any) => {
                                     // className이 있으면 그대로 사용, 없으면 기본 스타일 적용
-                                    return (
-                                        <img 
-                                            {...props} 
-                                            className={className || ''} 
-                                        />
-                                    );
+                                    return <img {...props} className={className || ""} />;
                                 },
                                 video: ({ node, className, ...props }: any) => {
                                     // className이 있으면 그대로 사용, 없으면 기본 스타일 적용
-                                    return (
-                                        <video 
-                                            {...props} 
-                                            className={className || ''} 
-                                        />
-                                    );
+                                    return <video {...props} className={className || ""} />;
                                 },
                             }}
                         >
@@ -78,4 +62,4 @@ export const BlogPostContent: React.FC<BlogPostContentProps> = ({ post, onBack }
             <Footer theme="light" />
         </div>
     );
-};
+}

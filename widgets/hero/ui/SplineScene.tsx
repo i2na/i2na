@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./SplineScene.module.scss";
 import cn from "classnames";
 
-export const SplineScene: React.FC = () => {
+export function SplineScene() {
     const [isLoading, setIsLoading] = useState(true);
 
     return (
@@ -21,4 +21,4 @@ export const SplineScene: React.FC = () => {
             />
         </div>
     );
-};
+}

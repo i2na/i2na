@@ -3,20 +3,20 @@ import { Buffer } from "buffer";
 import { generateSlugFromFileName } from "@/shared/lib/slug";
 import { parseDate } from "@/shared/lib/date";
 import { extractSummary } from "@/shared/lib/text";
-import type { BlogPost, BlogPostMetadata } from "../model/types";
+import type { IPost, IPostMeta } from "../model/types";
 
 if (typeof window !== "undefined" && !window.Buffer) {
     (window as any).Buffer = Buffer;
 }
 
-export async function getAllPosts(): Promise<BlogPost[]> {
+export async function getAllPosts(): Promise<IPost[]> {
     const modules = import.meta.glob("/config/blog/*.md", {
         query: "?raw",
         import: "default",
         eager: true,
     }) as Record<string, string>;
 
-    const posts: BlogPost[] = [];
+    const posts: IPost[] = [];
 
     for (const [path, content] of Object.entries(modules)) {
         if (path.includes("/temp/")) {
@@ -52,12 +52,12 @@ export async function getAllPosts(): Promise<BlogPost[]> {
     return posts;
 }
 
-export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+export async function getPostBySlug(slug: string): Promise<IPost | null> {
     const posts = await getAllPosts();
     return posts.find((post) => post.slug === slug) || null;
 }
 
-export async function getAllPostMetadata(): Promise<BlogPostMetadata[]> {
+export async function getAllPostMetadata(): Promise<IPostMeta[]> {
     const posts = await getAllPosts();
     return posts.map(({ slug, title, createdAt, summary, fileName }) => ({
         slug,

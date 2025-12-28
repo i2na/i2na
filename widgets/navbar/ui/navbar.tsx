@@ -1,17 +1,12 @@
-import React, { useEffect } from "react";
+import { useEffect, type MouseEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Icons } from "@/shared/ui/icons";
 import { NAV } from "@/config/constants";
+import type { INavbarProps } from "../model/types";
 import styles from "./navbar.module.scss";
 import cn from "classnames";
 
-interface NavbarProps {
-    onLogoClick?: () => void;
-    isLight?: boolean;
-    showNavLinks?: boolean;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ onLogoClick, isLight, showNavLinks = true }) => {
+export function Navbar({ onLogoClick, isLight, showNavLinks = true }: INavbarProps) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -27,7 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick, isLight, showNavLin
         }
     }, [location]);
 
-    const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    const handleScroll = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
         e.preventDefault();
         const currentPath = location.pathname;
 
@@ -92,4 +87,4 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick, isLight, showNavLin
             </div>
         </nav>
     );
-};
+}
