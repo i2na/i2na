@@ -29,17 +29,30 @@ cd i2na/archive
 # 2. 의존성 설치
 yarn install
 
-# 3. CLI 실행 권한 부여 (Mac만 필요, Windows는 건너뛰기)
-chmod +x cli/index.js
-
-# 4. 초기 설정 (Archive 경로, Git 저장소, 배포 URL)
+# 3. 초기 설정 (Archive 경로, Git 저장소, 배포 URL)
 node setup.js
 
-# 5. CLI 전역 등록
+# 4. CLI 전역 등록
 yarn link
 
-# 6. 완료
+# 5. 완료
 archive call
+```
+
+## 문제 해결
+
+### 권한 오류가 날 경우 (Mac만)
+
+```bash
+# CLI 실행 권한 부여
+chmod +x cli/index.js
+```
+
+### archive 명령어가 인식 안 될 경우 (Windows만)
+
+```powershell
+# PowerShell에서 아래 명령어를 그대로 복사해서 실행하고 PowerShell 재시작
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$(yarn global bin)", "User")
 ```
 
 ## 사용법
