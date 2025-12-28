@@ -16,10 +16,6 @@ export function MarkdownList({ files }: MarkdownListProps) {
     return (
         <div className={styles.listPage}>
             <div className={styles.container}>
-                <header className={styles.header}>
-                    <h1 className={styles.title}>Archive</h1>
-                </header>
-
                 <div className={styles.list}>
                     {files.map((file) => (
                         <div

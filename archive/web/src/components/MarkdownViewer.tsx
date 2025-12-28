@@ -23,11 +23,6 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
                 </button>
 
                 <article className={styles.article}>
-                    <header className={styles.header}>
-                        <h1 className={styles.title}>{file.title}</h1>
-                        <p className={styles.path}>{file.path}</p>
-                    </header>
-
                     <div className="markdownContent">
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
