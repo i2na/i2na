@@ -19,8 +19,7 @@ export default async function addCommand(filepath) {
 
         // slug 생성
         const slug = title
-            .toLowerCase()
-            .replace(/[^a-z0-9가-힣]+/g, "_")
+            .replace(/[^a-zA-Z0-9가-힣]+/g, "_")
             .replace(/^_|_$/g, "");
 
         // 한국 시간 생성 (KST)
