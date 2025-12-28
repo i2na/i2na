@@ -3,7 +3,7 @@
 
 .viewerPage {
     min-height: 100vh;
-    background: $gray-50;
+    background: white;
     padding: $spacing-3xl $spacing-lg;
 
     @include respond-to(md) {
@@ -22,9 +22,8 @@
     gap: $spacing-xs;
     padding: $spacing-sm $spacing-md;
     margin-bottom: $spacing-xl;
-    background: white;
-    border: 1px solid $gray-200;
-    border-radius: $radius-md;
+    background: transparent;
+    border: none;
     color: $gray-700;
     font-size: $font-size-sm;
     font-family: $font-family-mono;
@@ -32,8 +31,7 @@
     transition: all $transition-base;
 
     &:hover {
-        background: $gray-50;
-        border-color: $gray-300;
+        color: $gray-900;
     }
 
     @include respond-to(md) {
@@ -43,24 +41,23 @@
 }
 
 .article {
-    background: white;
-    border: 1px solid $gray-200;
-    border-radius: $radius-lg;
-    padding: $spacing-2xl;
+    background: transparent;
+    border: none;
+    padding: 0;
 
     @include respond-to(md) {
-        padding: $spacing-lg;
+        padding: 0;
     }
 }
 
 .header {
     margin-bottom: $spacing-2xl;
-    padding-bottom: $spacing-xl;
-    border-bottom: 1px solid $gray-200;
+    padding-bottom: 0;
+    border-bottom: none;
 
     @include respond-to(md) {
         margin-bottom: $spacing-xl;
-        padding-bottom: $spacing-lg;
+        padding-bottom: 0;
     }
 }
 
@@ -86,4 +83,3 @@
         font-size: $font-size-xs;
     }
 }
-

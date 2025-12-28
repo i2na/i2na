@@ -1,6 +1,6 @@
 import type { MarkdownFile } from "@/types";
 
-const markdownFiles: Record<string, string> = import.meta.glob("../../docs/**/*.md", {
+const markdownFiles: Record<string, string> = import.meta.glob("../../../docs/**/*.md", {
     query: "?raw",
     import: "default",
     eager: true,
@@ -11,7 +11,7 @@ export function getMarkdownFiles(): MarkdownFile[] {
 
     for (const [path, content] of Object.entries(markdownFiles)) {
         const filename = path.split("/").pop() || "";
-        const relativePath = path.replace("../../", "");
+        const relativePath = path.replace("../../../", "");
 
         const lines = (content as string).split("\n");
         const title =
