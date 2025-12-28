@@ -1,0 +1,140 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+body {
+  -ms-overflow-style: none;
+}
+
+body {
+  margin: 0;
+  font-family: "Rubik", "NanumSquare";
+}
+
+div,
+nav {
+  box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 15px;
+}
+
+p {
+  font-weight: 400;
+  word-break: keep-all;
+  margin: 15px;
+}
+
+h1 {
+  font-weight: 600;
+
+  @media (max-width: 600px) {
+    font-size: 25px;
+  }
+}
+
+.section {
+  width: 100%;
+  height: auto;
+  padding-top: 60px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 1300px;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: start;
+}
+
+.blank-container {
+  width: 100%;
+  height: 30px;
+}
+
+.underline {
+  width: 130px;
+  height: 4px;
+  background: black;
+  margin: 0 0 30px 0;
+  border-radius: 5px;
+
+  @media (max-width: 600px) {
+    width: 100px;
+  }
+}
+
+#whitesmoke {
+  background-color: whitesmoke;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("./fonts/Rubik-Light.ttf") format("ttf");
+  font-weight: 100;
+  font-style: normal;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("./fonts/Rubik-Regular.ttf") format("ttf");
+  font-weight: 200;
+  font-style: normal;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("./fonts/Rubik-Medium.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("./fonts/Rubik-SemiBold.ttf") format("ttf");
+  font-weight: 500;
+  font-style: normal;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("./fonts/Rubik-Bold.ttf") format("ttf");
+  font-weight: 700;
+  font-style: normal;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("./fonts/Rubik-ExtraBold.ttf") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+@import url("https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css");
