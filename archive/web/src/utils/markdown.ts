@@ -13,10 +13,7 @@ export function getMarkdownFiles(): MarkdownFile[] {
         const filename = path.split("/").pop() || "";
         const relativePath = path.replace("../../../", "");
 
-        const lines = (content as string).split("\n");
-        const title =
-            lines.find((line) => line.startsWith("# "))?.replace("# ", "") ||
-            filename.replace(".md", "");
+        const title = filename.replace(".md", "");
 
         files.push({
             filename,
