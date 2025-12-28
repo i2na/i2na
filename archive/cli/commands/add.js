@@ -5,7 +5,7 @@ import chalk from "chalk";
 import { getConfig } from "../config.js";
 import { commitAndPush } from "../utils/git.js";
 
-export default async function addCommand(filepath) {
+export default async function addCommand(filepath, options) {
     try {
         const config = await getConfig();
 
@@ -18,9 +18,7 @@ export default async function addCommand(filepath) {
         const title = headingMatch ? headingMatch[1].trim() : path.basename(filepath, ".md");
 
         // slug 생성
-        const slug = title
-            .replace(/[^a-zA-Z0-9가-힣]+/g, "_")
-            .replace(/^_|_$/g, "");
+        const slug = title.replace(/[^a-zA-Z0-9가-힣]+/g, "_").replace(/^_|_$/g, "");
 
         // 한국 시간 생성 (KST)
         const now = new Date();
@@ -45,9 +43,11 @@ export default async function addCommand(filepath) {
         await commitAndPush(config.archivePath, `docs: add ${slug}`);
         console.log(chalk.green("✓ Committed & pushed"));
 
-        // 원본 파일 삭제
-        await fs.unlink(filepath);
-        console.log(chalk.green("✓ Removed original file"));
+        // -d 플래그가 있을 때만 원본 파일 삭제
+        if (options.delete) {
+            await fs.unlink(filepath);
+            console.log(chalk.green("✓ Removed original file"));
+        }
 
         // URL 출력
         console.log(chalk.cyan(`→ ${config.baseUrl}/${slug}`));
