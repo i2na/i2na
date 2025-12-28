@@ -4,9 +4,9 @@
 
 건물의 벽, 문, 창문 같은 요소 하나하나는 고유한 식별자를 가집니다. Autodesk Tandem에서는 같은 요소를 두 가지 방식으로 식별하는데, 화면에서 보여주고 조작할 때는 간단한 숫자(dbId)를, 서버와 데이터를 주고받을 때는 영구적인 문자열(extId)을 사용합니다. 숫자 ID는 프로그램을 실행할 때마다 달라질 수 있어 빠르지만 저장할 수 없고, 문자열 ID는 항상 동일하게 유지되어 데이터베이스에 저장하거나 다른 시스템과 공유할 수 있습니다.
 
-# ID 타입
+## ID 타입
 
-## dbId (Database ID)
+### dbId (Database ID)
 
 **타입**: `number`  
 **크기**: 정수형  
@@ -21,7 +21,7 @@
 
 `dbId`는 세션이나 모델 로딩 순서에 따라 값이 달라질 수 있으므로, 데이터베이스나 로컬 스토리지에 영구 저장하는 용도로 사용할 수 없습니다. 저장이 필요한 경우 반드시 `extId`로 변환한 후 저장해야 합니다.
 
-## extId (External ID)
+### extId (External ID)
 
 **타입**: `string`  
 **인코딩**: Base64URL  
@@ -35,7 +35,7 @@
 -   **`HostElementID`**: CSV 데이터, 원본 파일
 -   **`elementId`**: 함수 파라미터명
 
-### extId 구조
+#### extId 구조
 
 SDK는 두 가지 형식의 extId를 처리합니다:
 
@@ -56,7 +56,7 @@ SDK는 두 가지 형식의 extId를 처리합니다:
     - Flags: 요소의 타입과 상태 정보
     - Base64URL 인코딩 시 32자
 
-### Flags 구조
+#### Flags 구조
 
 `ElementFlags`는 요소의 타입과 상태를 나타내는 32비트 비트마스크입니다. 최상위 바이트(Big-Endian의 첫 번째 바이트)로 요소의 주요 분류를 구분합니다:
 
@@ -92,11 +92,11 @@ const ElementFlagsSize = 4; // Flags 크기
 const ElementIdWithFlagsSize = 24; // Flags + Element ID
 ```
 
-# ID 변환
+## ID 변환
 
 뷰어 조작(`dbId` 기반)과 데이터 조회(`extId` 기반)를 연동하려면 두 ID 타입 간 변환이 필요합니다.
 
-## API 메서드
+### API 메서드
 
 SDK는 배치 처리를 위해 배열 기반 변환 메서드를 제공합니다:
 
@@ -110,7 +110,7 @@ const extIds = await model.getElementIdsFromDbIds([dbId1, dbId2]);
 
 두 메서드 모두 Worker와 통신하는 비동기 함수이므로 반드시 `await`를 사용해야 합니다. 여러 ID를 변환할 때는 루프 내에서 개별 호출하지 말고 배열로 한 번에 처리하는 것이 효율적입니다.
 
-## 내부 구현
+### 내부 구현
 
 SDK는 `IdMapper` 클래스로 양방향 매핑을 관리합니다. 내부적으로 extId는 packed binary string 형태로 저장되며, Base64URL 인코딩은 입출력 시에만 수행됩니다:
 
@@ -176,7 +176,7 @@ class IdMapper {
 }
 ```
 
-# ID 정규화
+## ID 정규화
 
 Tandem API 응답의 `k` 필드는 20바이트 Core Element ID를 반환하지만, 뷰어의 `getElementIdsFromDbIds`는 24바이트(flags 포함)를 반환합니다. 두 소스의 ID를 비교하거나 매칭하려면 정규화가 필요합니다:
 
@@ -198,7 +198,7 @@ function normalizeToK(anyB64u) {
 }
 ```
 
-# Revit GUID 변환
+## Revit GUID 변환
 
 SDK는 extId를 Revit GUID 형식으로 변환하는 기능도 제공합니다. Revit GUID는 `8-4-4-4-12-8` 그룹의 16진수 문자열로 구성됩니다:
 
@@ -227,9 +227,9 @@ getEncodedElementGUID(dbId) {
 }
 ```
 
-# 사용 시나리오
+## 사용 시나리오
 
-## 1. 뷰어 선택 → API 데이터 조회
+### 1. 뷰어 선택 → API 데이터 조회
 
 ```javascript
 viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, async (event) => {
@@ -244,7 +244,7 @@ viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, async (event) 
 });
 ```
 
-## 2. API 데이터 → 뷰어 시각화
+### 2. API 데이터 → 뷰어 시각화
 
 ```javascript
 // API 응답 (예: HVAC 시스템 요소 목록)
@@ -276,17 +276,17 @@ viewer.select(dbIds, model);
 
 **중요**: `dbId`는 세션마다 변경되므로 저장 시 반드시 `extId`로 변환해야 합니다.
 
-# 특수 케이스
+## 특수 케이스
 
-## Root Element
+### Root Element
 
 모델의 루트 요소는 항상 `dbId = 1`을 가지며, all-zero ID로 초기화됩니다. `getElementIdsFromDbIds([1])`은 빈 문자열 `""`을 반환합니다.
 
-## 존재하지 않는 ID
+### 존재하지 않는 ID
 
 -   `getDbIdsFromElementIds`에 존재하지 않는 extId를 전달하면 해당 위치에 `undefined`가 반환됩니다.
 -   `getElementIdsFromDbIds`에 존재하지 않는 dbId를 전달하면 해당 위치에 `null`이 반환됩니다.
 
-## ID 배열 순서
+### ID 배열 순서
 
 변환 메서드는 입력 배열의 순서를 유지합니다. `[dbId1, dbId2, dbId3]`를 변환하면 `[extId1, extId2, extId3]` 순서로 반환됩니다.

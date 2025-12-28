@@ -15,11 +15,11 @@ DtApp (세션 관리, 인증)
         └── StreamManager (IoT 데이터)
 ```
 
-# DtApp
+## DtApp
 
 애플리케이션당 하나만 생성합니다. 모든 API 호출, WebSocket 연결, Worker 관리의 진입점입니다.
 
-## 생성
+### 생성
 
 ```javascript
 const app = new Autodesk.Tandem.DtApp(options);
@@ -32,7 +32,7 @@ const app = new Autodesk.Tandem.DtApp(options);
 -   HTTP 헤더 (Session-Id, x-dt-sdk-version)
 -   Worker 풀 (모바일 2개, 데스크톱 4개)
 
-## 주요 속성
+### 주요 속성
 
 ```javascript
 app.sessionId; // 세션 고유 ID
@@ -42,7 +42,7 @@ app.currentFacility; // displayFacility() 호출 시 설정됨
 app.msgWs; // WebSocket 인스턴스
 ```
 
-## 팀과 시설
+### 팀과 시설
 
 ```javascript
 // 팀 조회
@@ -61,7 +61,7 @@ await app.loadUserFacilities();
 const sharedFacilities = app.userFacilities;
 ```
 
-## 시설 로드
+### 시설 로드
 
 ```javascript
 await app.displayFacility(facility, initialViewInfo, viewer, forceReload);
@@ -76,7 +76,7 @@ await app.displayFacility(facility, initialViewInfo, viewer, forceReload);
 
 이 함수는 모델 로드, 뷰 복원, `app.currentFacility` 설정, 이벤트 구독을 모두 처리합니다.
 
-## Worker
+### Worker
 
 속성 쿼리, ID 변환, Instance Tree 계산 등을 백그라운드에서 처리합니다.
 
@@ -86,7 +86,7 @@ const worker = app.getWorker(seqNo); // seqNo % 워커수로 라운드로빈
 
 각 Worker는 `DtPropWorker` 인스턴스이며 메시지 기반으로 통신합니다.
 
-## 이벤트 구독
+### 이벤트 구독
 
 ```javascript
 app.subscribeToEvents(target); // target: DtModel | DtFacility | DtTeam
@@ -99,13 +99,13 @@ WebSocket을 통해 실시간 변경 사항을 수신하며, 타입에 따라 �
 -   DtFacility: `onFacilityChanged()` 직접 호출
 -   DtTeam: `onTeamChanged()` 직접 호출
 
-# DtFacility
+## DtFacility
 
 Twin(건물, 시설)을 나타냅니다. 하나의 Facility는 여러 모델을 포함할 수 있습니다.
 
 **URN**: `urn:adsk.dtt:{GUID}`
 
-## 모델 조회
+### 모델 조회
 
 ```javascript
 // 모든 모델 (Default 모델 포함)
@@ -121,7 +121,7 @@ const defaultModel = facility.getDefaultModel();
 const model = facility.getModelByUrn("urn:adsk.dtm:...");
 ```
 
-## Default vs Primary
+### Default vs Primary
 
 **Default Model**:
 
@@ -138,7 +138,7 @@ const model = facility.getModelByUrn("urn:adsk.dtm:...");
 
 하나의 모델이 Default이면서 동시에 Primary일 수 없습니다 (일반적으로).
 
-## Settings
+### Settings
 
 ```javascript
 facility.settings.links = [
@@ -155,7 +155,7 @@ facility.settings.links = [
 await facility.reloadSettings();
 ```
 
-## Managers
+### Managers
 
 각 Manager는 특정 도메인을 담당합니다:
 
@@ -173,7 +173,7 @@ facility.streamMgr; // 또는 facility.getStreamManager()
 facility.hud;
 ```
 
-## 좌표 변환
+### 좌표 변환
 
 Facility는 모든 모델을 공통 좌표계로 정렬하기 위해 `globalOffset`을 관리합니다.
 
@@ -189,13 +189,13 @@ const inverseTransform = facility.getLocalToSharedSpaceTransform();
 
 원본 Revit 파일의 위치가 제각각인 경우, 이 변환을 통해 모든 모델을 정렬합니다.
 
-# DtModel
+## DtModel
 
 개별 3D 모델 파일을 나타냅니다. 지오메트리, 속성, Fragment 데이터를 포함합니다.
 
 **URN**: `urn:adsk.dtm:{GUID}`
 
-## 타입 확인
+### 타입 확인
 
 **Default Model** (`model.isDefault()`):
 
@@ -214,7 +214,7 @@ const inverseTransform = facility.getLocalToSharedSpaceTransform();
 -   로딩 우선순위: Primary(0) > Visible(1) > Hidden(2)
 -   Ghosting 모드 활성화 시 배경으로 유지
 
-## 속성 메서드
+### 속성 메서드
 
 ```javascript
 model.label(); // settings.links[].label
@@ -224,7 +224,7 @@ model.accessLevel(); // settings.links[].accessLevel
 model.getParentFacility(); // 부모 Facility 반환
 ```
 
-## 데이터 조회
+### 데이터 조회
 
 DtModel은 요소 데이터를 조회하는 메서드를 제공합니다:
 
@@ -242,11 +242,11 @@ model.getInstanceTree();
 model.getBoundingBox();
 ```
 
-# 인증
+## 인증
 
 OAuth 2.0 토큰을 사용합니다. 토큰은 만료 전에 갱신되어야 합니다.
 
-## Viewer 초기화
+### Viewer 초기화
 
 ```javascript
 Autodesk.Viewing.Initializer(
@@ -269,7 +269,7 @@ Autodesk.Viewing.Initializer(
 
 SDK는 토큰 만료 시간을 추적하여 자동으로 `getAccessToken`을 재호출합니다.
 
-## HTTP 헤더
+### HTTP 헤더
 
 모든 API 요청에 자동으로 추가되는 헤더:
 
@@ -281,7 +281,7 @@ Autodesk.Viewing.endpoint.HTTP_REQUEST_HEADERS = {
 };
 ```
 
-## 토큰 수동 갱신
+### 토큰 수동 갱신
 
 ```javascript
 // 토큰 설정
@@ -307,7 +307,7 @@ Autodesk.Viewing.endpoint.HTTP_REQUEST = async function (url, options = {}) {
 };
 ```
 
-# loadContext
+## loadContext
 
 모든 API 호출에 사용되는 설정 객체입니다. 각 계층이 부모의 context를 복사하여 확장합니다.
 
@@ -331,7 +331,7 @@ model.loadContext = facility.loadContext;
 
 이를 통해 모든 API 호출이 자동으로 세션 정보와 인증을 포함합니다.
 
-# WebSocket
+## WebSocket
 
 실시간 이벤트 수신을 위한 WebSocket 연결입니다.
 
@@ -357,7 +357,7 @@ app.msgWs.reconnect(force);
 
 이벤트는 URN 단위로 구독되며, 다른 사용자의 변경 사항을 실시간으로 반영할 수 있습니다.
 
-# API 엔드포인트
+## API 엔드포인트
 
 ```javascript
 endpoint.ENDPOINT_API_TANDEM_V1 = "dt";

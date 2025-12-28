@@ -4,9 +4,9 @@
 
 `show()`, `hide()`, `isolate()`로 요소를 보이거나 숨기고, `select()`로 요소를 선택하여 강조 표시합니다. 선택 타입(SelectionType)에 따라 테두리 강조, 색상 변경 등 표시 방식이 달라지고, 선택 모드(SelectionMode)는 계층 구조에서 어떤 레벨을 선택할지 결정합니다. 카메라는 `navigation.setView()`로 위치와 방향을 지정하고, `fitToView()`로 선택된 요소를 화면에 맞춥니다. `setThemingColor()`는 요소에 색상 오버레이를 적용하여 카테고리나 상태를 시각화하고, `enableHeatmap()`은 센서 데이터를 색상 그라데이션으로 표현합니다. 조명은 방향광과 환경광으로 구성되며 Light Preset(기본 9개 제공)에 따라 실내/실외 환경이 설정됩니다. 환경 맵은 IBL을 통해 실사적인 조명을 제공하며, WebGL 렌더러에서는 런타임에 회전하여 동적 조명 효과를 구현할 수 있습니다.
 
-# 1. Visibility 제어
+## Visibility 제어
 
-## 기본 메서드
+### 기본 메서드
 
 ```javascript
 // 특정 요소 숨김
@@ -29,7 +29,7 @@ viewer.hideAll();
 -   `dbId`: 요소 ID 또는 ID 배열
 -   `model`: (선택) DtModel 인스턴스 (기본값: `viewer.model`)
 
-## Isolation
+### Isolation
 
 특정 요소만 표시하고 나머지를 모두 숨깁니다:
 
@@ -50,7 +50,7 @@ viewer.showAll();
 -   지정된 요소와 그 부모 노드만 표시되고 나머지는 모두 숨겨집니다.
 -   `null`을 전달하면 isolation이 해제됩니다.
 
-## Aggregate Isolation (다중 모델)
+### Aggregate Isolation (다중 모델)
 
 여러 모델에 걸친 요소를 동시에 제어할 수 있습니다:
 
@@ -64,7 +64,7 @@ viewer.impl.visibilityManager.aggregateIsolate([
 viewer.impl.visibilityManager.aggregateIsolate([]);
 ```
 
-## 가시성 상태 조회
+### 가시성 상태 조회
 
 ```javascript
 // 숨겨진 요소 조회
@@ -79,7 +79,7 @@ const isolated = viewer.getIsolatedNodes(); // 단일 모델
 const aggregateIsolated = viewer.getAggregateIsolatedNodes(); // 모든 모델
 ```
 
-## 이벤트
+### 이벤트
 
 ```javascript
 viewer.addEventListener(Autodesk.Viewing.HIDE_EVENT, (event) => {
@@ -96,9 +96,9 @@ viewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, (event) => {
 });
 ```
 
-# 2. Selection 제어
+## Selection 제어
 
-## 선택 메서드
+### 선택 메서드
 
 ```javascript
 // 요소 선택
@@ -140,7 +140,7 @@ const visibility = viewer.getSelectionVisibility();
 // 반환: { hasVisible: boolean, hasHidden: boolean }
 ```
 
-## Selection Mode
+### Selection Mode
 
 요소 선택 시 계층 구조의 어떤 레벨을 선택할지 결정합니다:
 
@@ -173,7 +173,7 @@ viewer.addEventListener(Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT, (eve
 });
 ```
 
-## Selection 비활성화
+### Selection 비활성화
 
 ```javascript
 // Selection 완전 비활성화
@@ -186,9 +186,9 @@ viewer.disableSelection(false);
 viewer.disableHighlight(true);
 ```
 
-# 3. Camera 제어
+## Camera 제어
 
-## 카메라 정보 조회
+### 카메라 정보 조회
 
 ```javascript
 // 카메라 객체
@@ -214,7 +214,7 @@ const fov = viewer.navigation.getVerticalFov(); // degrees
 const pivot = viewer.navigation.getPivotPoint(); // THREE.Vector3
 ```
 
-## 카메라 설정
+### 카메라 설정
 
 ```javascript
 // 카메라 위치 및 타겟 설정
@@ -237,7 +237,7 @@ viewer.navigation.toOrthographic(); // 직교
 viewer.navigation.setPivotPoint(new THREE.Vector3(0, 0, 0));
 ```
 
-## Fit To View
+### Fit To View
 
 선택된 요소 또는 전체 모델에 카메라를 맞춥니다:
 
@@ -261,7 +261,7 @@ viewer.fitToView(null, null, true); // immediate = true
 -   `navigation.fitBounds(immediate, bounds)`를 호출하여 카메라를 이동합니다.
 -   Bounding Box가 비어있으면 전체 모델의 가시 영역을 사용합니다.
 
-## Navigation 설정
+### Navigation 설정
 
 ```javascript
 // Fit-to-View 마진 설정 (기본값: 0.05 = 5%)
@@ -281,9 +281,9 @@ viewer.navigation.setSelectionSetsPivot(true); // 선택 시 Pivot 이동
 viewer.navigation.setPivotSetFlag(true); // Pivot 마커 표시
 ```
 
-# 4. Material과 Color
+## Material과 Color
 
-## Theming Color
+### Theming Color
 
 요소에 색상 오버레이를 적용합니다:
 
@@ -319,7 +319,7 @@ const rgbToColor = (r, g, b, intensity) => new THREE.Vector4(r / 255, g / 255, b
 const orange = rgbToColor(255, 165, 0, 0.8);
 ```
 
-## Theming Color 제거
+### Theming Color 제거
 
 ```javascript
 // 모든 Theming Color 제거
@@ -329,7 +329,7 @@ viewer.clearThemingColors(model);
 viewer.clearThemingColors(model1);
 ```
 
-## 다중 모델 Theming
+### 다중 모델 Theming
 
 ```javascript
 // 여러 모델에 걸친 색상 적용
@@ -341,7 +341,7 @@ facility.getModels().forEach((model) => {
 });
 ```
 
-## Heatmap 시각화 (Tandem)
+### Heatmap 시각화 (Tandem)
 
 StreamManager를 통해 센서 데이터를 Heatmap으로 시각화할 수 있습니다:
 
@@ -370,9 +370,9 @@ streamMgr.disableHeatmap();
 -   `colorStops` 범위에 따라 색상을 계산합니다.
 -   `setThemingColor()`를 사용하여 색상을 적용합니다.
 
-# 5. Lighting 제어
+## Lighting 제어
 
-## Light 초기화
+### Light 초기화
 
 Viewer는 생성 시 자동으로 조명을 초기화합니다:
 
@@ -385,7 +385,7 @@ viewer.impl.initLights();
 -   `viewer.impl.dir_light1`: `THREE.DirectionalLight` (방향성 광원)
 -   `viewer.impl.amb_light`: `THREE.AmbientLight` (환경광)
 
-## Light 배열
+### Light 배열
 
 ```javascript
 // 조명이 활성화된 배열
@@ -398,7 +398,7 @@ viewer.impl.no_lights; // []
 const isOn = viewer.impl.lightsOn; // boolean
 ```
 
-## Light 제어
+### Light 제어
 
 ```javascript
 // 조명 켜기/끄기
@@ -415,7 +415,7 @@ viewer.impl.toggleLights(true, true); // isForOverlay = true
 -   `state = false`: 조명 비활성화 (환경광만 유지)
 -   `isForOverlay = true`: Overlay 렌더링 시 특수 처리
 
-## Directional Light
+### Directional Light
 
 방향성 광원은 카메라에 부착되어 항상 뷰 방향을 따릅니다:
 
@@ -441,7 +441,7 @@ dirLight.target.position.set(0, 0, 0);
 -   Light의 target도 카메라에 부착되어 있어 카메라 위치에 영향받지 않습니다.
 -   Light Preset을 변경하면 조명 색상과 강도가 Preset 값으로 재설정됩니다.
 
-## Ambient Light
+### Ambient Light
 
 환경광은 모든 방향에서 균등하게 비춥니다:
 
@@ -452,7 +452,7 @@ const ambLight = viewer.impl.amb_light;
 ambLight.color.setRGB(0.8, 0.9, 1.0);
 ```
 
-## Light Preset
+### Light Preset
 
 Light Preset은 조명 색상을 자동으로 설정합니다:
 
@@ -478,7 +478,7 @@ console.log("Directional Color:", preset.directLightColor); // [r, g, b]
 console.log("Light Multiplier:", preset.lightMultiplier); // 강도 배율
 ```
 
-### 기본 제공 Light Preset 목록
+#### 기본 제공 Light Preset 목록
 
 LMV는 기본적으로 다음 9개의 Light Preset을 제공합니다:
 
@@ -518,7 +518,7 @@ LMV는 기본적으로 다음 9개의 Light Preset을 제공합니다:
 }
 ```
 
-### Debug 전용 Light Preset (기본 비활성화)
+#### Debug 전용 Light Preset (기본 비활성화)
 
 LMV 소스 코드에는 추가로 **27개의 Debug용 Preset**이 정의되어 있으나, 기본적으로 비활성화되어 있습니다:
 
@@ -545,11 +545,11 @@ if (getGlobal().ENABLE_DEBUG) {
 
 Debug 모드가 활성화된 경우에만 자동으로 추가됩니다.
 
-## IBL (Image-Based Lighting)
+### IBL (Image-Based Lighting)
 
 Image-Based Lighting은 환경 맵(HDRI)을 사용한 조명입니다.
 
-### IBL 설정
+#### IBL 설정
 
 ```javascript
 // IBL 환경 맵 로드 (Light Preset 변경 시 자동)
@@ -562,7 +562,7 @@ viewer.setEnvMapBackground(true);
 viewer.impl.setEnvExposure(1.0); // 기본값: 1.0
 ```
 
-### 환경 맵 회전
+#### 환경 맵 회전
 
 환경 맵은 런타임에 회전할 수 있으며, 이는 조명 방향을 동적으로 변경하는 데 유용합니다:
 
@@ -576,14 +576,14 @@ const rotation = viewer.impl.renderer().getEnvRotation();
 
 **WebGPU 제한사항**: WebGPU 렌더러를 사용하는 경우, `setEnvRotation`은 현재 구현되지 않았습니다 (TODO 상태). WebGL 렌더러에서만 정상 작동합니다.
 
-### IBL 특징
+#### IBL 특징
 
 -   실사적인 조명과 반사 제공
 -   HDR (High Dynamic Range) 데이터 사용
 -   톤맵핑(Tone Mapping)으로 밝기 조정
 -   환경 맵의 회전 지원 (WebGL만)
 
-## 조명 디버깅
+### 조명 디버깅
 
 ```javascript
 // 조명 정보 출력
@@ -597,9 +597,9 @@ console.log("Dir Light Position:", viewer.impl.dir_light1.position);
 console.log("Dir Light Target:", viewer.impl.dir_light1.target.position);
 ```
 
-# 6. 고급 렌더링 커스터마이징
+## 고급 렌더링 커스터마이징
 
-## WebGPU 셰이더 후킹 (Edge/Outline 색상 변경)
+### WebGPU 셰이더 후킹 (Edge/Outline 색상 변경)
 
 WebGPU 렌더러를 사용하는 경우, 셰이더 코드를 런타임에 수정하여 아웃라인(엣지) 색상을 변경할 수 있습니다.
 
@@ -709,9 +709,9 @@ viewer.setThemingColor(dbId, new THREE.Vector4(r, g, b, intensity), model);
 // MY_CUSTOM_EDGE_COLOR를 변경한 후 Viewer를 다시 초기화
 ```
 
-# 7. 실용적인 패턴
+## 실용적인 패턴
 
-## 패턴 1: 선택 요소 하이라이트
+### 패턴 1: 선택 요소 하이라이트
 
 ```javascript
 viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, (event) => {
@@ -729,7 +729,7 @@ viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, (event) => {
 });
 ```
 
-## 패턴 2: 카테고리별 색상 적용
+### 패턴 2: 카테고리별 색상 적용
 
 ```javascript
 // 카테고리별 색상 매핑
@@ -757,7 +757,7 @@ allData.forEach((item, index) => {
 });
 ```
 
-## 패턴 3: Level별 가시성 제어
+### 패턴 3: Level별 가시성 제어
 
 ```javascript
 // FacetsManager를 통한 Level 필터링
@@ -785,7 +785,7 @@ function showLevel(levelId) {
 
 **설명**: `FacetsManager.setVisibilityById`는 다중 모델 환경에서 자동으로 모든 모델의 해당 Level 요소를 처리합니다. 단일 모델인 경우 `viewer.isolate`를 직접 사용할 수 있습니다.
 
-## 패턴 4: 부드러운 카메라 이동
+### 패턴 4: 부드러운 카메라 이동
 
 ```javascript
 // 목표 위치 설정
@@ -808,7 +808,7 @@ viewer.autocam.goToView(eyePosition, targetPosition);
 
 **설명**: `setRequestTransition`은 현재 카메라 위치에서 목표 위치로 부드럽게 이동합니다. `autocam.goToView`는 내부적으로 최적의 경로를 계산하여 이동합니다.
 
-## 패턴 5: 동적 조명 시뮬레이션 (태양의 움직임)
+### 패턴 5: 동적 조명 시뮬레이션 (태양의 움직임)
 
 방향광과 환경 맵을 동기화하여 태양의 일주 운동을 시뮬레이션합니다:
 
@@ -858,9 +858,9 @@ function simulateSunMovement() {
 -   환경 맵을 동일한 각도로 회전시켜 조명 방향을 동기화합니다.
 -   WebGPU에서는 환경 맵 회전이 지원되지 않습니다.
 
-# 8. 정리
+## 정리
 
-## API 요약
+### API 요약
 
 | 기능             | API                                         | 용도                 |
 | ---------------- | ------------------------------------------- | -------------------- |

@@ -16,12 +16,21 @@
     margin: 0 auto;
 }
 
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-xl;
+
+    @include respond-to(md) {
+        margin-bottom: $spacing-lg;
+    }
+}
+
 .backButton {
     display: inline-flex;
     align-items: center;
     gap: $spacing-xs;
-    padding: $spacing-sm $spacing-md;
-    margin-bottom: $spacing-xl;
     background: transparent;
     border: none;
     color: $gray-700;
@@ -34,9 +43,38 @@
         color: $gray-900;
     }
 
+    svg {
+        font-size: 1.1em;
+    }
+
     @include respond-to(md) {
-        margin-bottom: $spacing-lg;
         font-size: $font-size-xs;
+    }
+}
+
+.shareButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: $gray-700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all $transition-base;
+    border-radius: 4px;
+
+    &:hover {
+        color: $gray-900;
+        background: $gray-100;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    @include respond-to(md) {
+        font-size: 1.1rem;
     }
 }
 

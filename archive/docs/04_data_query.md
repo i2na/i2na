@@ -4,7 +4,7 @@
 
 모델 데이터는 칼럼 패밀리(Column Family) 방식으로 구성되어 지오메트리, 속성, 관계 정보를 분류합니다. `query()`는 조건에 맞는 요소만 필터링하여 검색합니다. `getPropertiesDt()`는 여러 요소의 속성을 조회합니다. Facets는 층(Level), 공간(Room), 카테고리(Category) 등으로 요소를 분류하고 `FacetsManager`로 필터링과 가시성을 제어합니다. Instance Tree는 요소 간 부모-자식 계층 구조를 나타내고, Fragment는 실제 렌더링되는 단위로 위치와 크기 정보를 가집니다. StreamManager는 센서의 최신 측정값과 시간별 데이터 이력을 조회합니다.
 
-# 1. Column Families
+## Column Families
 
 Tandem의 데이터는 HBase 스타일의 Column Family로 구성됩니다. 각 Family는 특정 유형의 데이터를 저장합니다.
 
@@ -39,7 +39,7 @@ const result = await model.query({
 });
 ```
 
-## 필터 연산자
+### 필터 연산자
 
 | 연산자    | 설명        | 예시                                                                            |
 | --------- | ----------- | ------------------------------------------------------------------------------- |
@@ -65,11 +65,11 @@ const result = await model.query({
 ];
 ```
 
-# 3. Property 조회
+## Property 조회
 
 특정 요소의 속성을 조회합니다.
 
-## getPropertiesDt()
+### getPropertiesDt()
 
 여러 요소의 속성을 한 번에 가져옵니다 (Tandem 전용):
 
@@ -128,7 +128,7 @@ const props = await model.getPropertiesDt([dbId1, dbId2, dbId3], {
 }
 ```
 
-# 4. Schema API
+## Schema API
 
 모델의 속성 정의를 조회합니다.
 
@@ -154,11 +154,11 @@ const attributes = await model.getHash2Attr();
 
 Schema는 커스텀 속성 정의를 확인할 때 사용합니다.
 
-# 5. Facets 시스템
+## Facets 시스템
 
 Facets는 요소를 계층적으로 분류하는 시스템입니다. UI에서 필터링, 테마, 가시성 제어에 사용됩니다.
 
-## Facet 타입
+### Facet 타입
 
 | 타입           | ID             | 설명                                     |
 | -------------- | -------------- | ---------------------------------------- |
@@ -195,7 +195,7 @@ const facetDefs = facility.facetsManager.getFacetDefs();
 }
 ```
 
-### 특정 Facet 조회
+#### 특정 Facet 조회
 
 ```javascript
 const levelFacet = facility.facetsManager.getFacet("levels");
@@ -224,7 +224,7 @@ const levelFacet = facility.facetsManager.getFacet("levels");
 }
 ```
 
-### 가시성 제어
+#### 가시성 제어
 
 ```javascript
 // 특정 Facet 항목만 표시
@@ -249,7 +249,7 @@ facility.facetsManager.setVisibilityById(1, ["level-1"], true);
 facility.facetsManager.resetVisibility();
 ```
 
-## 커스텀 Facet
+### 커스텀 Facet
 
 속성 기반 Facet을 동적으로 생성할 수 있습니다:
 
@@ -259,9 +259,9 @@ const customFacet = await model.getCustomFacets({
 });
 ```
 
-# 6. Level과 Room
+## Level과 Room
 
-## Level 구조
+### Level 구조
 
 ```javascript
 const levels = model.getLevels();
@@ -287,7 +287,7 @@ const levels = model.getLevels();
 }
 ```
 
-## Level 요소 조회
+### Level 요소 조회
 
 특정 Level에 속한 모든 요소의 dbId를 가져옵니다:
 
@@ -296,7 +296,7 @@ const dbIds = model.getElementsForLevel(levelDbId);
 // 반환: number[]
 ```
 
-## Room 요소 조회
+### Room 요소 조회
 
 특정 Room(Space) 내부의 모든 요소를 **모든 모델**에서 검색합니다:
 
@@ -326,11 +326,11 @@ const result = await facility.getElementsInRoom(modelUrn, roomDbId);
 -   모든 로드된 모델을 순회하며 해당 영역 내 요소를 검색합니다.
 -   공간 쿼리는 Fragment의 Bounding Box 교집합으로 수행됩니다.
 
-# 7. Instance Tree
+## Instance Tree
 
 Instance Tree는 요소의 계층 구조를 나타냅니다 (Parent-Child 관계).
 
-## 가져오기
+### 가져오기
 
 ```javascript
 const instanceTree = model.getInstanceTree();
@@ -363,7 +363,7 @@ const isHidden = instanceTree.isNodeHidden(dbId);
 const isOff = instanceTree.isNodeOff(dbId);
 ```
 
-## 계층 탐색
+### 계층 탐색
 
 ```javascript
 // 모든 자손 노드 재귀 탐색
@@ -381,11 +381,11 @@ function getAllDescendants(dbId, instanceTree) {
 }
 ```
 
-# 8. Fragment
+## Fragment
 
 Fragment는 렌더링 단위입니다. 하나의 요소(dbId)가 여러 Fragment를 가질 수 있습니다.
 
-## FragmentList
+### FragmentList
 
 ```javascript
 const fragList = model.getFragmentList();
@@ -422,18 +422,18 @@ instanceTree.enumNodeFragments(
 );
 ```
 
-## 모델 Bounding Box
+### 모델 Bounding Box
 
 ```javascript
 const bbox = model.getBoundingBox();
 // THREE.Box3: 모델 전체의 AABB
 ```
 
-# 9. Streams (IoT 데이터)
+## Streams (IoT 데이터)
 
 StreamManager는 센서 데이터와 시계열 정보를 관리합니다.
 
-## StreamManager 접근
+### StreamManager 접근
 
 ```javascript
 const streamMgr = facility.getStreamManager();
@@ -441,7 +441,7 @@ const streamMgr = facility.getStreamManager();
 const streamMgr = facility.streamMgr;
 ```
 
-## 최신 데이터 조회
+### 최신 데이터 조회
 
 ```javascript
 const lastReadings = await streamMgr.getLastReadings([dbId1, dbId2]);
@@ -462,7 +462,7 @@ const lastReadings = await streamMgr.getLastReadings([dbId1, dbId2]);
 ];
 ```
 
-## 시계열 데이터 조회
+### 시계열 데이터 조회
 
 특정 시간 범위의 데이터를 가져옵니다:
 
@@ -489,7 +489,7 @@ const telemetryData = await streamMgr.getStreamData(
 }
 ```
 
-## Stream 요소 확인
+### Stream 요소 확인
 
 ```javascript
 // dbId가 Stream 요소인지 확인
@@ -499,9 +499,9 @@ const isStream = flags?.[dbId] === ElementFlags.Stream;
 
 **Stream 요소**는 Default 모델에만 존재하며, `createStream()` 메서드로 생성됩니다.
 
-# 10. 조회 패턴
+## 조회 패턴
 
-## 패턴 1: 초기 데이터 로드
+### 패턴 1: 초기 데이터 로드
 
 ```javascript
 // 모델 로드 후 전체 데이터 쿼리
@@ -518,7 +518,7 @@ allData.forEach((item) => {
 
 이 패턴은 초기 로딩 시 모든 데이터를 한 번에 가져와 로컬 캐시를 구축할 때 유용합니다.
 
-## 패턴 2: 선택 요소 속성 조회
+### 패턴 2: 선택 요소 속성 조회
 
 ```javascript
 viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, async () => {
@@ -533,7 +533,7 @@ viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, async () => {
 });
 ```
 
-## 패턴 3: 카테고리 필터링
+### 패턴 3: 카테고리 필터링
 
 ```javascript
 // Query API로 특정 카테고리 검색
@@ -550,7 +550,7 @@ const dbIds = await model.getDbIdsFromElementIds(extIds);
 viewer.isolate(dbIds, model);
 ```
 
-## 패턴 4: Level별 필터링
+### 패턴 4: Level별 필터링
 
 ```javascript
 // FacetsManager를 통한 Level 필터링
@@ -578,7 +578,7 @@ function showLevel(levelId) {
 
 `FacetsManager.setVisibilityById`는 다중 모델 환경에서 자동으로 모든 모델의 해당 Level 요소를 처리합니다.
 
-# 정리
+## 정리
 
 | API                     | 용도               | 반환 형식                         |
 | ----------------------- | ------------------ | --------------------------------- |

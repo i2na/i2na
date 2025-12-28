@@ -4,11 +4,11 @@
 
 Fragment는 화면에 그려지는 최소 단위로, 각 Fragment는 위치, 회전, 크기를 나타내는 변환 행렬을 배열 형태로 저장합니다. `fragmentList.transforms`로 직접 수정하거나 `setTransform()`으로 변환 행렬을 적용하며, 변경 후 `viewer.impl.invalidate()`를 호출해야 화면이 갱신됩니다. `requestAnimationFrame`과 TWEEN.js를 사용하여 부드러운 움직임을 만들고, Easing 함수로 가속과 감속 효과를 추가합니다. `getWorldBounds()`는 Fragment의 경계 박스를, `getCenter()`는 중심 좌표를 반환합니다. Worker는 ID 변환, 속성 조회, 계층 구조 계산을 백그라운드에서 처리하고, EventDispatcher는 이벤트 리스너를 등록하고 커스텀 이벤트를 발생시킵니다.
 
-# 1. Fragment Transform 시스템
+## Fragment Transform 시스템
 
 Fragment는 렌더링의 최소 단위이며, 각 Fragment는 Transform 매트릭스를 통해 3D 공간에서의 위치, 회전, 스케일을 관리합니다.
 
-## Fragment 기본 개념
+### Fragment 기본 개념
 
 하나의 요소(dbId)는 여러 개의 Fragment를 가질 수 있습니다. Fragment ID를 가져오는 방법:
 
@@ -23,7 +23,7 @@ model.getInstanceTree().enumNodeFragments(
 );
 ```
 
-## Transform 배열 구조
+### Transform 배열 구조
 
 FragmentList는 모든 Fragment의 Transform을 **Float32Array**로 저장합니다. 각 Fragment는 **12개의 float 값**(4x3 매트릭스)을 사용합니다.
 
@@ -97,7 +97,7 @@ const matrix = new THREE.Matrix4();
 getTransformFromArray(fragmentList.transforms, fragId, matrix);
 ```
 
-## Transform 쓰기
+### Transform 쓰기
 
 ```javascript
 // 위치 변경
@@ -122,7 +122,7 @@ viewer.impl.invalidate(true, true, true);
 -   두 번째: Overlay 렌더링 무효화
 -   세 번째: 즉시 재렌더링 (false: 다음 프레임)
 
-## 위치 추출
+### 위치 추출
 
 Matrix4에서 위치 벡터를 추출합니다.
 
@@ -133,11 +133,11 @@ position.setFromMatrixPosition(matrix);
 console.log(position.x, position.y, position.z);
 ```
 
-# 2. Matrix4 변환
+## Matrix4 변환
 
 THREE.Matrix4는 4x4 동차 좌표계 매트릭스로, 위치, 회전, 스케일을 모두 표현합니다.
 
-## 기본 변환 생성
+### 기본 변환 생성
 
 ```javascript
 // 단위 행렬 (변환 없음)
@@ -162,7 +162,7 @@ const scale = new THREE.Matrix4();
 scale.makeScale(sx, sy, sz);
 ```
 
-## 변환 합성
+### 변환 합성
 
 여러 변환을 결합할 때는 순서가 중요합니다 (오른쪽에서 왼쪽으로 적용).
 
@@ -180,7 +180,7 @@ const result = new THREE.Matrix4();
 result.multiplyMatrices(matrixA, matrixB); // A * B
 ```
 
-## 변환 분해
+### 변환 분해
 
 Matrix4에서 위치, 회전, 스케일을 개별로 추출합니다.
 
@@ -200,7 +200,7 @@ console.log("Rotation (rad):", euler.x, euler.y, euler.z);
 console.log("Scale:", scale);
 ```
 
-## 역행렬
+### 역행렬
 
 Transform을 되돌릴 때 사용합니다.
 
@@ -212,11 +212,11 @@ inverse.copy(matrix).invert();
 composed.multiplyMatrices(inverse, matrix); // 단위 행렬
 ```
 
-# 3. Fragment 애니메이션
+## Fragment 애니메이션
 
 Fragment의 Transform을 시간에 따라 변경하여 부드러운 애니메이션을 구현합니다.
 
-## requestAnimationFrame 기반 애니메이션
+### requestAnimationFrame 기반 애니메이션
 
 브라우저의 렌더링 주기(일반적으로 60fps)에 맞춰 애니메이션을 실행합니다.
 
@@ -257,7 +257,7 @@ function animate(currentTime) {
 requestAnimationFrame(animate);
 ```
 
-## TWEEN.js를 활용한 애니메이션
+### TWEEN.js를 활용한 애니메이션
 
 Easing 함수를 사용하여 더 자연스러운 애니메이션을 구현합니다.
 
@@ -377,7 +377,7 @@ tween.start();
 requestAnimationFrame(animate);
 ```
 
-## 애니메이션 중단
+### 애니메이션 중단
 
 ```javascript
 let animationFrameId = null;
@@ -398,9 +398,9 @@ function stopAnimation() {
 stopAnimation(); // 실행 중인 애니메이션 중단
 ```
 
-# 4. Geometry 심화
+## Geometry 심화
 
-## Centerline
+### Centerline
 
 일부 요소(파이프, 덕트 등)는 중심선 정보를 포함합니다.
 
@@ -424,7 +424,7 @@ if (centerline) {
 
 각 3개의 값이 하나의 3D 점을 나타냅니다.
 
-## 중심 좌표 계산
+### 중심 좌표 계산
 
 Fragment의 Bounding Box 중심을 계산합니다.
 
@@ -445,7 +445,7 @@ bbox.getSize(size);
 console.log("Size:", size.x, size.y, size.z);
 ```
 
-## Bounding Box 합집합
+### Bounding Box 합집합
 
 여러 Fragment의 Bounding Box를 합칩니다.
 
@@ -462,7 +462,7 @@ console.log("Combined min:", combinedBBox.min);
 console.log("Combined max:", combinedBBox.max);
 ```
 
-## 거리 계산
+### 거리 계산
 
 두 Fragment 간의 거리를 계산합니다.
 
@@ -484,11 +484,11 @@ const distance = center1.distanceTo(center2);
 console.log("Distance:", distance);
 ```
 
-# 5. Worker 시스템
+## Worker 시스템
 
 Tandem SDK는 백그라운드 Worker를 사용하여 무거운 연산을 메인 스레드에서 분리합니다.
 
-## Worker 풀
+### Worker 풀
 
 DtApp은 Worker 풀을 자동으로 생성합니다.
 
@@ -500,7 +500,7 @@ const workerCount = app.getWorkerCount();
 const worker = app.getWorker(seqNo); // seqNo % workerCount
 ```
 
-## Worker가 처리하는 작업
+### Worker가 처리하는 작업
 
 1. **ID 변환**:
 
@@ -521,7 +521,7 @@ const worker = app.getWorker(seqNo); // seqNo % workerCount
 4. **Facet 생성**:
     - Level, Room, Category 등의 Facet 트리 계산
 
-## Worker 메시지 구조
+### Worker 메시지 구조
 
 Worker와 메인 스레드는 메시지 기반으로 통신합니다.
 
@@ -543,7 +543,7 @@ Worker와 메인 스레드는 메시지 기반으로 통신합니다.
 }
 ```
 
-## 콜백 ID
+### 콜백 ID
 
 각 Worker 호출은 고유한 콜백 ID를 할당받습니다.
 
@@ -556,11 +556,11 @@ app.loadContext.cbId--; // -2, -3, -4, ...
 
 음수를 사용하여 메인 스레드 ID와 충돌을 방지합니다.
 
-# 6. EventDispatcher
+## EventDispatcher
 
 Tandem SDK의 모든 주요 객체는 EventDispatcher를 상속합니다.
 
-## 이벤트 등록
+### 이벤트 등록
 
 ```javascript
 viewer.addEventListener(eventType, callback);
@@ -571,7 +571,7 @@ viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, (event) => {
 });
 ```
 
-## 이벤트 제거
+### 이벤트 제거
 
 ```javascript
 const callback = (event) => {
@@ -597,7 +597,7 @@ viewer.addEventListener("event", handler);
 viewer.removeEventListener("event", handler);
 ```
 
-## 커스텀 이벤트 발생
+### 커스텀 이벤트 발생
 
 ```javascript
 viewer.fireEvent({
@@ -612,7 +612,7 @@ viewer.addEventListener("myCustomEvent", (event) => {
 });
 ```
 
-## 일회성 이벤트
+### 일회성 이벤트
 
 한 번만 실행되는 이벤트 리스너:
 
@@ -625,7 +625,7 @@ function onceHandler(event) {
 viewer.addEventListener("myEvent", onceHandler);
 ```
 
-## 이벤트 버블링 방지
+### 이벤트 버블링 방지
 
 일부 이벤트는 `stopPropagation`을 지원하지 않으므로 플래그로 제어합니다.
 
@@ -646,9 +646,9 @@ viewer.addEventListener("someEvent", (event) => {
 });
 ```
 
-# 7. 실용 패턴
+## 실용 패턴
 
-## 패턴 1: DbId로부터 모든 Fragment 이동
+### 패턴 1: DbId로부터 모든 Fragment 이동
 
 ```javascript
 async function moveElement(model, dbId, offsetX, offsetY, offsetZ) {
@@ -685,7 +685,7 @@ async function moveElement(model, dbId, offsetX, offsetY, offsetZ) {
 await moveElement(model, dbId, 100, 0, 0); // X축으로 100 이동
 ```
 
-## 패턴 2: 요소 회전
+### 패턴 2: 요소 회전
 
 ```javascript
 function rotateElement(model, dbId, angleRad, axis = "z") {
@@ -728,7 +728,7 @@ function rotateElement(model, dbId, angleRad, axis = "z") {
 rotateElement(model, dbId, Math.PI / 4, "z"); // Z축 45도 회전
 ```
 
-## 패턴 3: 원점으로 초기화
+### 패턴 3: 원점으로 초기화
 
 ```javascript
 function resetTransform(model, fragId) {
@@ -745,7 +745,7 @@ function resetTransform(model, fragId) {
 }
 ```
 
-## 패턴 4: 애니메이션 관리 클래스
+### 패턴 4: 애니메이션 관리 클래스
 
 ```javascript
 class AnimationManager {
@@ -804,7 +804,7 @@ animMgr.start("anim-1", tween);
 animMgr.stop("anim-1");
 ```
 
-# 정리
+## 정리
 
 | 기능               | API                                  | 용도                    |
 | ------------------ | ------------------------------------ | ----------------------- |

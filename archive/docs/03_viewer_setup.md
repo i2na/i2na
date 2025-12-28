@@ -4,9 +4,9 @@
 
 Viewer는 웹 브라우저에서 3D 모델을 렌더링하는 컴포넌트입니다. `Autodesk.Viewing.Initializer()`로 서버 환경, API 주소, 인증 토큰을 설정하고, `GuiViewer3D` 인스턴스를 생성하여 HTML 요소에 연결합니다. `viewer.start()`는 3D 렌더링에 필요한 카메라, 씬, 도구 컨트롤러를 초기화하고 확장 기능을 불러옵니다. Light Preset은 실내, 실외, 스튜디오 등 16가지 조명 환경을 제공하며, 배경색, 모서리 라인, 바닥 그림자 같은 시각 요소를 설정할 수 있습니다. 측정, 단면, 워크스루 같은 확장 기능은 생성 시 자동으로 불러오거나 나중에 추가할 수 있습니다.
 
-# 1. 초기화 프로세스
+## 초기화 프로세스
 
-## Initializer
+### Initializer
 
 `Autodesk.Viewing.Initializer(options, callback)`는 Viewer SDK를 사용하기 전에 반드시 호출해야 하는 전역 초기화 함수입니다.
 
@@ -35,7 +35,7 @@ Viewer는 웹 브라우저에서 3D 모델을 렌더링하는 컴포넌트입니
 
 `Initializer`는 Promise 기반으로 작동하며, 모든 초기화가 완료된 후 `callback`이 호출됩니다.
 
-## Viewer3D 생성
+### Viewer3D 생성
 
 ```javascript
 const viewer = new Autodesk.Viewing.GuiViewer3D(container, config);
@@ -62,7 +62,7 @@ const viewer = new Autodesk.Viewing.GuiViewer3D(container, config);
 -   Preferences 객체 생성
 -   고유 Viewer ID 할당 (`viewer.id`)
 
-## start()
+### start()
 
 ```javascript
 viewer.start(url, options, onSuccess, onError, initOptions);
@@ -95,9 +95,9 @@ viewer.start(url, options, onSuccess, onError, initOptions);
 
 `start()`가 호출되면 `viewer.started = true`로 설정되며, 중복 호출이 방지됩니다.
 
-# 2. Extension 관리
+## Extension 관리
 
-## Extension 등록
+### Extension 등록
 
 커스텀 Extension을 사용하려면 먼저 등록해야 합니다:
 
@@ -105,7 +105,7 @@ viewer.start(url, options, onSuccess, onError, initOptions);
 Autodesk.Viewing.theExtensionManager.registerExtension("MyExtension", MyExtensionClass);
 ```
 
-## Extension 로드
+### Extension 로드
 
 **자동 로드** (Viewer 생성 시):
 
@@ -128,7 +128,7 @@ await viewer.loadExtension("Autodesk.BimWalk", options);
 viewer.unloadExtension("Autodesk.BimWalk");
 ```
 
-## 기본 제공 Extensions
+### 기본 제공 Extensions
 
 | Extension ID            | 기능                |
 | ----------------------- | ------------------- |
@@ -150,9 +150,9 @@ const config = {
 };
 ```
 
-# 3. 초기 시각 설정
+## 초기 시각 설정
 
-## Light Preset
+### Light Preset
 
 16가지 사전 정의된 조명 환경을 제공합니다:
 
@@ -183,7 +183,7 @@ viewer.setLightPreset(15); // 또는 인덱스
 
 **참고**: 2D 모델에서는 Light Preset이 적용되지 않습니다. `setLightPreset`은 내부적으로 `is2d()` 체크 후 경고 로그를 출력합니다.
 
-## 배경색
+### 배경색
 
 그라데이션 배경색을 설정합니다 (상단 → 하단):
 
@@ -194,7 +194,7 @@ viewer.setBackgroundColor(red, green, blue, red2, green2, blue2);
 
 각 RGB 값은 0-255 범위입니다.
 
-## Edge Rendering
+### Edge Rendering
 
 지오메트리의 모서리 라인 표시를 제어합니다:
 
@@ -208,7 +208,7 @@ viewer.setDisplayEdges(false); // 모서리 숨김
 -   3D 모델에만 적용 (2D 모델은 무시)
 -   모델이 Edge Topology 데이터를 포함해야 함
 
-## Ground Shadow
+### Ground Shadow
 
 바닥 그림자 표시를 제어합니다:
 
@@ -232,7 +232,7 @@ viewer.setGroundShadowAlpha(0.5);
 -   3D 모델에만 적용
 -   Shadow Map이 활성화되어야 함
 
-## 기타 시각 설정
+### 기타 시각 설정
 
 ```javascript
 // 고스팅 (투명 처리) 활성화/비활성화
@@ -248,7 +248,7 @@ viewer.setGroundReflection(true);
 viewer.setEnvMapBackground(true);
 ```
 
-# 4. 기본 선택 설정
+## 기본 선택 설정
 
 Viewer 생성 시 선택 동작의 기본값을 설정할 수 있습니다.
 
@@ -270,7 +270,7 @@ const config = {
 viewer.setSelectionColor(new THREE.Color(0xff6600), Autodesk.Viewing.SelectionType.MIXED);
 ```
 
-# 5. 설정 저장 (Preferences)
+## 설정 저장 (Preferences)
 
 Viewer는 사용자 설정을 localStorage에 자동 저장합니다.
 
@@ -299,7 +299,7 @@ viewer.prefs.get("lightPreset"); // 현재 값
 
 설정은 `localStoragePrefix` (기본값: `'Autodesk.Viewing.Private.GuiViewer3D.SavedSettings.'`) 접두사로 저장됩니다.
 
-# 6. 초기화 완료 이벤트
+## 초기화 완료 이벤트
 
 ```javascript
 viewer.addEventListener(Autodesk.Viewing.VIEWER_INITIALIZED, () => {
