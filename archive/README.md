@@ -274,8 +274,8 @@ program.parse();
 ### 5. 초기 설정 (setup.js)
 
 -   inquirer로 대화형 입력 받기
-    -   Archive 프로젝트 경로 (기본: `~/dev/archive`)
-    -   Git 저장소 URL (기본: `https://github.com/i2na/archive.git`)
+    -   Archive 프로젝트 경로 (기본: `~/dev/i2na/archive`)
+    -   Git 저장소 URL (기본: `https://github.com/i2na/i2na.git`)
     -   배포 URL (기본: `https://archive.yena.io.kr`)
 -   `~/.archive-config.json`에 저장
 
@@ -287,7 +287,7 @@ export default {
     description: "Personal knowledge base",
     themeConfig: {
         nav: [{ text: "Home", link: "/" }],
-        socialLinks: [{ icon: "github", link: "https://github.com/i2na/archive" }],
+        socialLinks: [{ icon: "github", link: "https://github.com/i2na/i2na/tree/main/archive" }],
     },
 };
 ```
@@ -313,16 +313,16 @@ export default {
 ```bash
 # 1. GitHub에서 프로젝트 클론
 cd ~/dev
-git clone https://github.com/i2na/archive.git
-cd archive
+git clone https://github.com/i2na/i2na.git
+cd i2na/archive
 
 # 2. 의존성 설치
 yarn install
 
 # 3. 초기 설정 실행
 node setup.js
-# → 경로 (기본: ~/dev/archive)
-# → Git URL (기본: https://github.com/i2na/archive.git)
+# → 경로 (기본: ~/dev/i2na/archive)
+# → Git URL (기본: https://github.com/i2na/i2na.git)
 # → 배포 URL (기본: https://archive.yena.io.kr)
 
 # 4. CLI 전역 등록

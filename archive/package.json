@@ -1,0 +1,29 @@
+{
+    "name": "archive",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Personal knowledge archive CLI",
+    "bin": {
+        "archive": "./cli/index.js"
+    },
+    "scripts": {
+        "dev": "vitepress dev docs",
+        "build": "vitepress build docs",
+        "preview": "vitepress preview docs",
+        "setup": "node setup.js",
+        "link": "yarn link"
+    },
+    "dependencies": {
+        "chalk": "^5.3.0",
+        "clipboardy": "^4.0.0",
+        "gray-matter": "^4.0.3",
+        "simple-git": "^3.22.0",
+        "commander": "^11.1.0",
+        "inquirer": "^9.2.12"
+    },
+    "devDependencies": {
+        "vitepress": "^1.0.0",
+        "vue": "^3.4.0"
+    }
+}
+
