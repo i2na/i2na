@@ -29,7 +29,7 @@ git add project2/ && git commit -m "feat: update"
 
 ### Root Files Exception
 
-루트 파일(`README.md`, `package.json` 등)은 prefix 없이 커밋됩니다.
+루트 파일(`README.md`, `.gitignore` 등)은 prefix 없이 커밋됩니다.
 
 ```bash
 git add README.md
@@ -61,16 +61,16 @@ git diff HEAD^ HEAD --quiet -- <project>/
 
 ## Troubleshooting
 
-### Hook Permission Issue
+### Hook Not Working
+
+Git hooks는 `.git/hooks/`에 위치하며 실행 권한이 필요합니다.
 
 ```bash
-chmod +x .husky/pre-commit .husky/prepare-commit-msg .husky/commit-msg
+chmod +x .git/hooks/pre-commit .git/hooks/prepare-commit-msg .git/hooks/commit-msg
 ```
 
 ### Bypass Validation
 
 ```bash
-HUSKY=0 git commit -m "message"
-# or
 git commit --no-verify -m "message"
 ```
