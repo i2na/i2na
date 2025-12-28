@@ -1,4 +1,4 @@
-# Yena Lee
+# YENA
 
 #### I am a Front-End Developer 🔥
 
