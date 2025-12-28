@@ -306,58 +306,139 @@ export default {
 
 ---
 
-## 설치 및 사용
+## 시작하기
 
-### 초기 설정
+### 1. 프로젝트 가져오기
 
 ```bash
-# 1. GitHub에서 프로젝트 클론
+# GitHub에서 클론 (또는 fork)
 cd ~/dev
 git clone https://github.com/i2na/i2na.git
 cd i2na/archive
-
-# 2. 의존성 설치
-yarn install
-
-# 3. 초기 설정 실행
-node setup.js
-# → 경로 (기본: ~/dev/i2na/archive)
-# → Git URL (기본: https://github.com/i2na/i2na.git)
-# → 배포 URL (기본: https://archive.yena.io.kr)
-
-# 4. CLI 전역 등록
-yarn link
-
-# 5. Vercel 배포 (최초 1회)
-# Vercel CLI 설치 및 배포
-yarn global add vercel
-vercel
-# → 커스텀 도메인 archive.yena.io.kr 연결
 ```
 
-### 실제 사용 예시
+### 2. 의존성 설치
 
 ```bash
-# React 프로젝트에서 작업 중
+yarn install
+```
+
+### 3. CLI 실행 권한 부여
+
+```bash
+chmod +x cli/index.js
+```
+
+CLI 파일이 `#!/usr/bin/env node`로 시작하는 실행 파일이므로 실행 권한이 필요합니다.
+
+### 4. 초기 설정
+
+```bash
+node setup.js
+```
+
+대화형으로 3가지 정보를 입력합니다 (기본값 사용 시 엔터):
+
+-   **Archive project path**: 아카이브 프로젝트가 있는 절대 경로 (기본: `~/dev/i2na/archive`)
+-   **Git repository URL**: Git 저장소 주소 (기본: `https://github.com/i2na/i2na.git`)
+-   **Deployment URL**: 배포될 사이트 주소 (기본: `https://archive.yena.io.kr`)
+
+설정은 `~/.archive-config.json`에 저장됩니다.
+
+### 5. CLI 전역 등록
+
+```bash
+yarn link
+```
+
+이제 터미널 어디서든 `archive` 명령어를 사용할 수 있습니다.
+
+**문제 해결**: `permission denied` 에러가 발생하면:
+
+```bash
+# 기존 링크 해제 후 재링크
+yarn unlink && yarn link
+```
+
+### 6. VitePress 로컬 개발 서버 실행 (선택사항)
+
+```bash
+yarn dev
+```
+
+`http://localhost:5173`에서 아카이브 사이트를 미리 볼 수 있습니다.
+
+### 7. Vercel 배포 (최초 1회)
+
+```bash
+# Vercel CLI 설치
+yarn global add vercel
+
+# 프로젝트 배포
+vercel
+
+# 커스텀 도메인 연결 (Vercel 대시보드에서 설정)
+# 예: archive.yena.io.kr
+```
+
+이후 Git 푸시마다 Vercel이 자동으로 재배포합니다.
+
+---
+
+## 사용 방법
+
+### 일반적인 워크플로우
+
+```bash
+# 1. 다른 프로젝트에서 작업 중
 cd ~/dev/my-react-app
 
 # Cursor가 HOOKS_GUIDE.md 생성함
 
-# 1. 아카이브 프롬프트 복사
+# 2. 아카이브 프롬프트 복사
 archive call
-# → Cursor에 붙여넣기
+# ✓ Prompt copied to clipboard
+
+# 3. Cursor에 붙여넣기
 # → Cursor가 HOOKS_GUIDE.archive.md 생성
 
-# 2. 아카이브에 추가
-archive add /Users/me/dev/my-react-app/docs/HOOKS_GUIDE.archive.md
+# 4. 아카이브에 추가
+archive add /Users/leeyena/dev/my-react-app/HOOKS_GUIDE.archive.md
 # ✓ Saved → docs/react_hooks_guide.md
 # ✓ Committed & pushed
 # ✓ Removed original file
 # → https://archive.yena.io.kr/react_hooks_guide
 
-# 3. 주말에 중복 검토
+# 5. 주말에 아카이브 프로젝트 열어서 정리
 archive open
-# Cursor 열림 → templates/duplicate_check.md 복사해서 사용
+# Cursor 열림 → templates/duplicate_check.md 복사해서 중복 검토
+```
+
+### CLI 명령어
+
+```bash
+# 프롬프트 복사
+archive call
+
+# 문서 추가 (절대 경로 필요)
+archive add /absolute/path/to/file.archive.md
+
+# 아카이브 프로젝트 열기
+archive open
+```
+
+---
+
+## 설정 변경
+
+설정을 변경하려면 `~/.archive-config.json` 파일을 직접 수정하거나 `node setup.js`를 다시 실행하세요.
+
+```json
+{
+    "archivePath": "/Users/leeyena/dev/i2na/archive",
+    "gitRemote": "https://github.com/i2na/i2na.git",
+    "baseUrl": "https://archive.yena.io.kr"
+}
 ```
 
 ---
