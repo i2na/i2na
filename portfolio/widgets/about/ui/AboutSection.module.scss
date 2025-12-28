@@ -1,0 +1,112 @@
+@use "@/shared/styles/variables" as *;
+@use "@/shared/styles/mixins" as *;
+
+.aboutSection {
+    padding: $spacing-3xl 0;
+    padding-left: $spacing-xl;
+    padding-right: $spacing-xl;
+    background: $brand-black;
+    position: relative;
+    overflow: hidden;
+
+    @include respond-to(md) {
+        padding: $spacing-2xl 0;
+        padding-left: $spacing-md;
+        padding-right: $spacing-md;
+    }
+}
+
+.blurCircle {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: $radius-full;
+    pointer-events: none;
+
+    @include respond-to(md) {
+        width: 300px;
+        height: 300px;
+    }
+
+    &.purple {
+        top: 0;
+        right: 0;
+        background: rgba(139, 92, 246, 0.1);
+        filter: blur(120px);
+
+        @include respond-to(md) {
+            filter: blur(80px);
+        }
+    }
+
+    &.green {
+        bottom: 0;
+        left: 0;
+        background: rgba(16, 185, 129, 0.1);
+        filter: blur(120px);
+
+        @include respond-to(md) {
+            filter: blur(80px);
+        }
+    }
+}
+
+.container {
+    max-width: 64rem;
+    margin: 0 auto;
+    text-align: left;
+    position: relative;
+    z-index: 10;
+}
+
+.label {
+    @include section-label($brand-purple);
+    display: block;
+}
+
+.content {
+    font-size: $font-size-3xl;
+    font-weight: 500;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.9);
+
+    @include respond-to(md) {
+        font-size: $font-size-lg;
+        line-height: 1.9;
+    }
+
+    .gradient {
+        @include text-gradient($brand-purple, $brand-pink);
+    }
+
+        .highlight {
+        display: inline;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: $radius-full;
+        padding: $spacing-sm $spacing-md;
+        margin: 0 $spacing-xs 0 $spacing-sm;
+        font-style: italic;
+        transition: background-color $transition-base;
+        cursor: default;
+        font-size: inherit;
+        line-height: inherit;
+        vertical-align: baseline;
+
+        @include respond-to(md) {
+            padding: $spacing-xs $spacing-sm;
+            margin: 0 $spacing-xs;
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    .underline {
+        color: $white;
+        font-weight: 700;
+        text-decoration: underline;
+        text-decoration-color: $brand-green;
+        text-underline-offset: 4px;
+    }
+}

@@ -1,0 +1,54 @@
+@use "@/shared/styles/variables" as *;
+@use "@/shared/styles/mixins" as *;
+
+.splineContainer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.loadingOverlay {
+    position: absolute;
+    inset: 0;
+    background: $brand-black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: opacity $transition-slower;
+
+    .loadingText {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        color: $brand-purple;
+        font-family: $font-family-mono;
+        font-size: $font-size-xl;
+    }
+}
+
+.iframe {
+    width: 100%;
+    height: 100%;
+    transition: opacity $transition-slower;
+    border: none;
+
+    &.loading {
+        opacity: 0;
+    }
+
+    &.loaded {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}

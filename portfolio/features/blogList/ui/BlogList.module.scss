@@ -1,0 +1,94 @@
+@use "@/shared/styles/variables" as *;
+@use "@/shared/styles/mixins" as *;
+
+.blogList {
+    width: 100%;
+
+    &.dark {
+        max-width: 72rem;
+        margin: 0 auto;
+    }
+
+    &.light {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-md;
+    }
+}
+
+.postsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+}
+
+.archiveButton {
+    margin-top: $spacing-2xl;
+    display: flex;
+    justify-content: center;
+
+    @include respond-to(md) {
+        margin-top: $spacing-xl;
+    }
+
+        button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        padding: $spacing-md $spacing-xl;
+        border-radius: $radius-full;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+        transition: all $transition-slower;
+        cursor: pointer;
+
+        @include respond-to(md) {
+            padding: $spacing-sm $spacing-lg;
+            gap: $spacing-sm;
+        }
+
+        &:hover {
+            background: $white;
+            color: $brand-black;
+            border-color: transparent;
+        }
+
+        span {
+            position: relative;
+            z-index: 10;
+            font-family: $font-family-mono;
+            font-size: $font-size-sm;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color $transition-base;
+
+            @include respond-to(md) {
+                font-size: $font-size-xs;
+            }
+        }
+
+        &:hover span {
+            color: $brand-black;
+        }
+
+        svg {
+            position: relative;
+            z-index: 10;
+            width: 16px;
+            height: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            transition: all $transition-base;
+
+            @include respond-to(md) {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        &:hover svg {
+            color: $brand-black;
+            transform: translateX(4px);
+        }
+    }
+}

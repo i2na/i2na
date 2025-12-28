@@ -1,0 +1,24 @@
+@use "@/shared/styles/variables" as *;
+@use "@/shared/styles/mixins" as *;
+
+.loading {
+    min-height: 100vh;
+    background: $gray-50;
+    padding-top: 6rem;
+    padding-bottom: $spacing-3xl;
+    padding-left: $spacing-xl;
+    padding-right: $spacing-xl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include respond-to(md) {
+        padding-top: 5rem;
+        padding-left: $spacing-md;
+        padding-right: $spacing-md;
+    }
+
+    div {
+        color: $gray-500;
+    }
+}
