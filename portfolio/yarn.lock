@@ -553,6 +553,24 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.54.0.tgz#beacb356412eef5dc0164e9edfee51c563732054"
   integrity sha512-hYT5d3YNdSh3mbCU1gwQyPgQd3T2ne0A3KG8KSBdav5TiBg6eInVmV+TeR5uHufiIgSFg0XsOWGW5/RhNcSvPg==
 
+"@splinetool/react-spline@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@splinetool/react-spline/-/react-spline-4.1.0.tgz#115cde5ec0d91dfb7a1388aacb617c452fbbba09"
+  integrity sha512-Y379gm17gw+1nxT/YXTCJnVIWuu7tsUH1tp/YxsYb0pZnc9Gljk7Om4Kpq7WPq0bZ4zidVCxf6xn6jgDcbHifQ==
+  dependencies:
+    blurhash "2.0.5"
+    lodash.debounce "4.0.8"
+    react-merge-refs "2.1.1"
+    thumbhash "0.1.1"
+
+"@splinetool/runtime@^1.12.28":
+  version "1.12.28"
+  resolved "https://registry.yarnpkg.com/@splinetool/runtime/-/runtime-1.12.28.tgz#7a6b919f19ff7cfeb5cfcb08812192c4a08681ff"
+  integrity sha512-6G+m+JxHnhO8HygIllNkkA98ogY2O0pyzYEbDiEJzC2SeOwSmPk4sSP0TKjKOZhwmLrgHzVupgoHW++rXHYI8g==
+  dependencies:
+    on-change "^4.0.0"
+    semver-compare "^1.0.0"
+
 "@types/babel__core@^7.20.5":
   version "7.20.5"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.20.5.tgz#3df15f27ba85319caa07ba08d0721889bb39c017"
@@ -735,6 +753,11 @@ bignumber.js@^9.0.0:
   version "9.3.1"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.3.1.tgz#759c5aaddf2ffdc4f154f7b493e1c8770f88c4d7"
   integrity sha512-Ko0uX15oIUS7wJ3Rb30Fs6SkVbLmPBAKdlm7q9+ak9bbIeFf0MwuBsQV6z7+X768/cHsfg+WlysDWJcmthjsjQ==
+
+blurhash@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/blurhash/-/blurhash-2.0.5.tgz#efde729fc14a2f03571a6aa91b49cba80d1abe4b"
+  integrity sha512-cRygWd7kGBQO3VEhPiTgq4Wc43ctsM+o46urrmPOiuAe+07fzlSB9OJVdpgDL0jPqXUVQ9ht7aq7kxOeJHRK+w==
 
 brace-expansion@^2.0.1:
   version "2.0.2"
@@ -1369,6 +1392,11 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
+lodash.debounce@4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
+
 longest-streak@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/longest-streak/-/longest-streak-3.1.0.tgz#62fa67cd958742a1574af9f39866364102d90cd4"
@@ -1907,6 +1935,11 @@ node-releases@^2.0.27:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.27.tgz#eedca519205cf20f650f61d56b070db111231e4e"
   integrity sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==
 
+on-change@^4.0.0:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/on-change/-/on-change-4.0.2.tgz#838129790f09dc2ed04284944bda6e82b92c10b8"
+  integrity sha512-cMtCyuJmTx/bg2HCpHo3ZLeF7FZnBOapLqZHr2AlLeJ5Ul0Zu2mUJJz051Fdwu/Et2YW04ZD+TtU+gVy0ACNCA==
+
 package-json-from-dist@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/package-json-from-dist/-/package-json-from-dist-1.0.1.tgz#4f1471a010827a86f94cfd9b0727e36d267de505"
@@ -2002,6 +2035,11 @@ react-markdown@^10.1.0:
     unified "^11.0.0"
     unist-util-visit "^5.0.0"
     vfile "^6.0.0"
+
+react-merge-refs@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-2.1.1.tgz#e46763f8f1b881c0226ee54a1a2a10ffefba0233"
+  integrity sha512-jLQXJ/URln51zskhgppGJ2ub7b2WFKGq3cl3NYKtlHoTG+dN2q7EzWrn3hN3EgPsTMvpR9tpq5ijdp7YwFZkag==
 
 react-refresh@^0.18.0:
   version "0.18.0"
@@ -2162,6 +2200,11 @@ section-matter@^1.0.0:
     extend-shallow "^2.0.1"
     kind-of "^6.0.0"
 
+semver-compare@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/semver-compare/-/semver-compare-1.0.0.tgz#0dee216a1c941ab37e9efb1788f6afc5ff5537fc"
+  integrity sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==
+
 semver@^6.3.1:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.1.tgz#556d2ef8689146e46dcea4bfdd095f3434dffcb4"
@@ -2278,6 +2321,11 @@ style-to-object@1.0.14:
   integrity sha512-LIN7rULI0jBscWQYaSswptyderlarFkjQ+t79nzty8tcIAceVomEVlLzH5VP4Cmsv6MtKhs7qaAiwlcp+Mgaxw==
   dependencies:
     inline-style-parser "0.2.7"
+
+thumbhash@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/thumbhash/-/thumbhash-0.1.1.tgz#bd2b8616fc043f2b17151dfce0cce1408e0ebbeb"
+  integrity sha512-kH5pKeIIBPQXAOni2AiY/Cu/NKdkFREdpH+TLdM0g6WA7RriCv0kPLgP731ady67MhTAqrVG/4mnEeibVuCJcg==
 
 tinyglobby@^0.2.13:
   version "0.2.15"
