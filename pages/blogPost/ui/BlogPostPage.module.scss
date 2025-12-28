@@ -4,18 +4,18 @@
 .loading {
     min-height: 100vh;
     background: $gray-50;
-    padding-top: 5rem;
+    padding-top: 6rem;
     padding-bottom: $spacing-3xl;
-    padding-left: $spacing-md;
-    padding-right: $spacing-md;
+    padding-left: $spacing-xl;
+    padding-right: $spacing-xl;
     display: flex;
     align-items: center;
     justify-content: center;
 
     @include respond-to(md) {
-        padding-top: 6rem;
-        padding-left: $spacing-xl;
-        padding-right: $spacing-xl;
+        padding-top: 5rem;
+        padding-left: $spacing-md;
+        padding-right: $spacing-md;
     }
 
     div {

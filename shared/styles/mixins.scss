@@ -3,23 +3,23 @@
 
 @mixin respond-to($breakpoint) {
     @if $breakpoint == sm {
-        @media (min-width: $breakpoint-sm) {
+        @media (max-width: $breakpoint-sm) {
             @content;
         }
     } @else if $breakpoint == md {
-        @media (min-width: $breakpoint-md) {
+        @media (max-width: $breakpoint-md) {
             @content;
         }
     } @else if $breakpoint == lg {
-        @media (min-width: $breakpoint-lg) {
+        @media (max-width: $breakpoint-lg) {
             @content;
         }
     } @else if $breakpoint == xl {
-        @media (min-width: $breakpoint-xl) {
+        @media (max-width: $breakpoint-xl) {
             @content;
         }
     } @else if $breakpoint == 2xl {
-        @media (min-width: $breakpoint-2xl) {
+        @media (max-width: $breakpoint-2xl) {
             @content;
         }
     }
@@ -114,13 +114,13 @@
 ) {
     font-family: $font-family-mono;
     color: $color;
-    margin-bottom: $margin-bottom-mobile;
+    margin-bottom: $margin-bottom-desktop;
     font-size: $font-size-sm;
     letter-spacing: 0.1em;
     text-transform: uppercase;
 
     @include respond-to(md) {
-        margin-bottom: $margin-bottom-desktop;
+        margin-bottom: $margin-bottom-mobile;
         font-size: $font-size-sm;
     }
 }

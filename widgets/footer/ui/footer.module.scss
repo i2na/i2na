@@ -2,17 +2,17 @@
 @use "@/shared/styles/mixins" as *;
 
 .footer {
-    padding: $spacing-2xl 0;
-    padding-left: $spacing-md;
-    padding-right: $spacing-md;
+    padding: $spacing-3xl 0;
+    padding-left: $spacing-xl;
+    padding-right: $spacing-xl;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     background: #050505;
     transition: background-color $transition-base, border-color $transition-base;
 
     @include respond-to(md) {
-        padding: $spacing-3xl 0;
-        padding-left: $spacing-xl;
-        padding-right: $spacing-xl;
+        padding: $spacing-2xl 0;
+        padding-left: $spacing-md;
+        padding-right: $spacing-md;
     }
 
     &.theme-light {
@@ -30,43 +30,43 @@
     max-width: 80rem;
     margin: 0 auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: $spacing-xl;
+    align-items: flex-end;
+    gap: $spacing-2xl;
 
     @include respond-to(md) {
-        flex-direction: row;
-        align-items: flex-end;
-        gap: $spacing-2xl;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $spacing-xl;
     }
 }
 
 .left {
     .content {
-        font-size: $font-size-2xl;
+        font-size: $font-size-4xl;
         font-weight: 700;
-        margin-bottom: $spacing-md;
+        margin-bottom: $spacing-xl;
         letter-spacing: -0.05em;
         line-height: 1.2;
 
         @include respond-to(md) {
-            font-size: $font-size-4xl;
-            margin-bottom: $spacing-xl;
+            font-size: $font-size-2xl;
+            margin-bottom: $spacing-md;
         }
     }
 }
 
 .social {
     display: flex;
-    gap: $spacing-sm;
+    gap: $spacing-md;
 
     @include respond-to(md) {
-        gap: $spacing-md;
+        gap: $spacing-sm;
     }
 
     a {
-        padding: $spacing-sm;
+        padding: $spacing-md;
         border-radius: $radius-full;
         background: rgba(255, 255, 255, 0.05);
         transition: all $transition-base;
@@ -74,7 +74,7 @@
         text-decoration: none;
 
         @include respond-to(md) {
-            padding: $spacing-md;
+            padding: $spacing-sm;
         }
 
         &:hover {
@@ -97,12 +97,12 @@
         }
 
         svg {
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
 
             @include respond-to(md) {
-                width: 1.5rem;
-                height: 1.5rem;
+                width: 1.25rem;
+                height: 1.25rem;
             }
         }
     }
@@ -136,26 +136,26 @@
 
 .right {
     text-align: right;
-    width: 100%;
+    width: auto;
 
     @include respond-to(md) {
-        width: auto;
+        width: 100%;
     }
 }
 
 .meta {
     display: flex;
     flex-direction: column;
-    gap: $spacing-xs;
+    gap: $spacing-sm;
     font-family: $font-family-mono;
-    font-size: $font-size-xs;
+    font-size: $font-size-sm;
     color: rgba(255, 255, 255, 0.5);
-    margin-bottom: $spacing-md;
+    margin-bottom: $spacing-xl;
 
     @include respond-to(md) {
-        font-size: $font-size-sm;
-        margin-bottom: $spacing-xl;
-        gap: $spacing-sm;
+        font-size: $font-size-xs;
+        margin-bottom: $spacing-md;
+        gap: $spacing-xs;
     }
 }
 

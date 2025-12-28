@@ -75,8 +75,13 @@ export const ABOUT = {
     ],
 } as const;
 
+export const BLOG = {
+    label: "{ INSIGHTS }",
+    content: "Simple words, clear ideas.",
+} as const;
+
 export const TECH_STACK = {
-    label: "{ MY STACK }",
+    label: "{ TECH STACK }",
     contents: [
         "JavaScript",
         "TypeScript",
@@ -94,11 +99,6 @@ export const TECH_STACK = {
         "Docker",
         "Cloudflare",
     ],
-} as const;
-
-export const BLOG = {
-    label: "{ INSIGHTS }",
-    content: "Simple words, clear ideas.",
 } as const;
 
 export const FOOTER = {

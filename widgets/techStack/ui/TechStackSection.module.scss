@@ -2,14 +2,14 @@
 @use "@/shared/styles/mixins" as *;
 
 .techStackSection {
-    padding: $spacing-2xl 0;
+    padding: $spacing-3xl 0;
     background: $brand-black;
     cursor: default;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
     @include respond-to(md) {
-        padding: $spacing-3xl 0;
+        padding: $spacing-2xl 0;
     }
 
     &:hover {
@@ -41,19 +41,19 @@
     display: flex;
     flex-shrink: 0;
     align-items: center;
-    gap: $spacing-xl;
-    padding: $spacing-sm $spacing-xl $spacing-sm 0;
+    gap: $spacing-2xl;
+    padding: $spacing-md $spacing-2xl $spacing-md 0;
     animation: loop-scroll 40s linear infinite;
     animation-play-state: paused;
 
     @include respond-to(md) {
-        gap: $spacing-2xl;
-        padding: $spacing-md $spacing-2xl $spacing-md 0;
+        gap: $spacing-xl;
+        padding: $spacing-sm $spacing-xl $spacing-sm 0;
     }
 }
 
 .content {
-    font-size: $font-size-2xl;
+    font-size: 5rem;
     font-weight: 700;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
     background-clip: text;
@@ -63,7 +63,7 @@
     cursor: default;
 
     @include respond-to(md) {
-        font-size: 5rem;
+        font-size: $font-size-2xl;
     }
 
     &:hover {

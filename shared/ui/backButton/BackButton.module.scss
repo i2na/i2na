@@ -4,9 +4,9 @@
 .backButton {
     display: flex;
     align-items: center;
-    gap: $spacing-xs;
+    gap: $spacing-sm;
     color: $gray-500;
-    margin-bottom: $spacing-lg;
+    margin-bottom: $spacing-xl;
     transition: color $transition-base;
     background: none;
     border: none;
@@ -15,8 +15,8 @@
     padding: 0;
 
     @include respond-to(md) {
-        gap: $spacing-sm;
-        margin-bottom: $spacing-xl;
+        gap: $spacing-xs;
+        margin-bottom: $spacing-lg;
     }
 
     &:hover {
@@ -46,10 +46,10 @@
 
     .backText {
         font-family: $font-family-mono;
-        font-size: $font-size-xs;
+        font-size: $font-size-sm;
 
         @include respond-to(md) {
-            font-size: $font-size-sm;
+            font-size: $font-size-xs;
         }
     }
 }

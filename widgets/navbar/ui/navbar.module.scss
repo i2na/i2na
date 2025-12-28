@@ -50,16 +50,16 @@ $nav-button-font-size: $font-size-base;
     backdrop-filter: blur(12px);
     padding: $nav-button-padding;
     border-radius: $radius-full;
-    display: none;
-    gap: $spacing-lg;
+    display: flex;
+    gap: $spacing-xl;
     font-size: $nav-button-font-size;
     font-weight: 500;
     border: 1px solid;
     transition: all $transition-slower;
 
     @include respond-to(md) {
-        display: flex;
-        gap: $spacing-xl;
+        display: none;
+        gap: $spacing-lg;
     }
 
     &.light {
@@ -89,7 +89,7 @@ $nav-button-font-size: $font-size-base;
     pointer-events: auto;
     display: flex;
     align-items: center;
-    gap: $spacing-xs;
+    gap: $spacing-sm;
     padding: $nav-button-padding;
     border-radius: $radius-full;
     font-weight: 700;
@@ -99,14 +99,14 @@ $nav-button-font-size: $font-size-base;
     text-decoration: none;
 
     @include respond-to(md) {
-        gap: $spacing-sm;
+        gap: $spacing-xs;
     }
 
     .label {
-        display: none;
+        display: inline;
 
         @include respond-to(sm) {
-            display: inline;
+            display: none;
         }
     }
 

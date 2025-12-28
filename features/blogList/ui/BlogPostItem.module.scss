@@ -4,17 +4,17 @@
 .blogPostItem {
     position: relative;
     display: flex;
-    flex-direction: column;
-    gap: $spacing-sm;
-    padding: $spacing-md;
+    flex-direction: row;
+    gap: $spacing-lg;
+    padding: $spacing-lg;
     transition: all $transition-slower;
     cursor: pointer;
     border-radius: $radius-lg;
 
     @include respond-to(md) {
-        flex-direction: row;
-        gap: $spacing-lg;
-        padding: $spacing-lg;
+        flex-direction: column;
+        gap: $spacing-sm;
+        padding: $spacing-md;
     }
 
     &.dark {
@@ -37,21 +37,21 @@
 }
 
 .date {
-    width: 100%;
+    width: 8rem;
     flex-shrink: 0;
     padding-top: 4px;
 
     @include respond-to(md) {
-        width: 8rem;
+        width: 100%;
     }
 
     span {
         font-family: $font-family-mono;
-        font-size: $font-size-xs;
+        font-size: $font-size-sm;
         transition: color $transition-base;
 
         @include respond-to(md) {
-            font-size: $font-size-sm;
+            font-size: $font-size-xs;
         }
 
         .dark & {
@@ -77,14 +77,14 @@
 }
 
 .title {
-    font-size: $font-size-lg;
+    font-size: $font-size-xl;
     font-weight: 700;
-    margin-bottom: $spacing-xs;
+    margin-bottom: $spacing-sm;
     transition: color $transition-base;
 
     @include respond-to(md) {
-        font-size: $font-size-xl;
-        margin-bottom: $spacing-sm;
+        font-size: $font-size-lg;
+        margin-bottom: $spacing-xs;
     }
 
     .dark & {
@@ -105,13 +105,13 @@
 }
 
 .excerpt {
-    font-size: $font-size-xs;
+    font-size: $font-size-sm;
     line-height: 1.6;
-    margin-bottom: $spacing-sm;
+    margin-bottom: $spacing-md;
 
     @include respond-to(md) {
-        font-size: $font-size-sm;
-        margin-bottom: $spacing-md;
+        font-size: $font-size-xs;
+        margin-bottom: $spacing-sm;
     }
 
     .dark & {
@@ -130,9 +130,9 @@
 }
 
 .tag {
-    padding: $spacing-xs $spacing-sm;
+    padding: $spacing-xs $spacing-md;
     border-radius: $radius-full;
-    font-size: 10px;
+    font-size: $font-size-xs;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -140,8 +140,8 @@
     transition: all $transition-base;
 
     @include respond-to(md) {
-        padding: $spacing-xs $spacing-md;
-        font-size: $font-size-xs;
+        padding: $spacing-xs $spacing-sm;
+        font-size: 10px;
     }
 
     .dark & {
@@ -172,16 +172,17 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-top: $spacing-sm;
+    align-self: center;
+    margin-top: 0;
 
     @include respond-to(md) {
-        align-self: center;
-        margin-top: 0;
+        justify-content: flex-end;
+        margin-top: $spacing-sm;
     }
 
-    div {
-        width: 2rem;
-        height: 2rem;
+        div {
+        width: 2.5rem;
+        height: 2.5rem;
         border-radius: $radius-full;
         display: flex;
         align-items: center;
@@ -190,8 +191,8 @@
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
         @include respond-to(md) {
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 2rem;
+            height: 2rem;
         }
 
         &:hover {
@@ -222,14 +223,14 @@
         }
 
         svg {
-            width: 1rem;
-            height: 1rem;
+            width: 1.25rem;
+            height: 1.25rem;
             transform: rotate(-45deg);
             transition: transform $transition-base;
 
             @include respond-to(md) {
-                width: 1.25rem;
-                height: 1.25rem;
+                width: 1rem;
+                height: 1rem;
             }
 
             .blogPostItem:hover & {
