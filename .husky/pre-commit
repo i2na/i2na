@@ -1,0 +1,46 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+CHANGED_FILES=$(git diff --cached --name-only)
+
+if [ -z "$CHANGED_FILES" ]; then
+  exit 0
+fi
+
+PROJECT_FILES=$(echo "$CHANGED_FILES" | grep "/")
+
+if [ -z "$PROJECT_FILES" ]; then
+  exit 0
+fi
+
+CHANGED_DIRS=$(echo "$PROJECT_FILES" | cut -d'/' -f1 | sort -u)
+CHANGED_DIRS=$(echo "$CHANGED_DIRS" | grep -v "^\." | grep -v "^node_modules$")
+
+PROJECTS_CHANGED=$(echo "$CHANGED_DIRS" | wc -l | tr -d ' ')
+
+if [ -z "$CHANGED_DIRS" ] || [ "$PROJECTS_CHANGED" -eq 0 ]; then
+  exit 0
+fi
+
+if [ "$PROJECTS_CHANGED" -gt 1 ]; then
+  echo ""
+  echo "커밋 거부: 여러 프로젝트가 동시에 변경되었습니다."
+  echo ""
+  echo "변경된 프로젝트:"
+  echo "$CHANGED_DIRS" | sed 's/^/  - /'
+  echo ""
+  echo "각 프로젝트를 개별적으로 커밋해주세요:"
+  echo ""
+  echo "  git reset"
+  
+  for dir in $CHANGED_DIRS; do
+    echo "  git add $dir/"
+    echo "  git commit -m \"feat: 변경 내용 설명\""
+    echo ""
+  done
+  
+  exit 1
+fi
+
+exit 0
+
