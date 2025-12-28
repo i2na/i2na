@@ -2,5 +2,11 @@
     "buildCommand": "cd web && yarn install && yarn build",
     "outputDirectory": "web/dist",
     "installCommand": "yarn install",
-    "framework": null
+    "framework": null,
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
 }
