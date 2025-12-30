@@ -18,15 +18,22 @@
 
 .toolbar {
     position: sticky;
+    position: -webkit-sticky;
     top: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: $spacing-lg 0;
     background: white;
-    z-index: 100;
+    z-index: 1000;
     border-bottom: 1px solid transparent;
     transition: border-color $transition-base;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
 
     @include respond-to(md) {
         padding: $spacing-md 0;
