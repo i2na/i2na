@@ -37,9 +37,8 @@ async function setup() {
 
     console.log(chalk.green("\n✓ Configuration saved to ~/.archive-config.json"));
     console.log(chalk.dim("\nNext steps:"));
-    console.log(chalk.dim("  1. yarn install"));
-    console.log(chalk.dim("  2. yarn link"));
-    console.log(chalk.dim("  3. archive call"));
+    console.log(chalk.dim("  1. yarn link"));
+    console.log(chalk.dim("  2. archive call"));
 }
 
 setup().catch((error) => {
