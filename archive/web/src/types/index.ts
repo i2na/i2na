@@ -4,3 +4,9 @@ export interface MarkdownFile {
     content: string;
     path: string;
 }
+
+export interface TocItem {
+    level: number;
+    text: string;
+    id: string;
+}

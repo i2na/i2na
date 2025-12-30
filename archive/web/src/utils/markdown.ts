@@ -1,4 +1,4 @@
-import type { MarkdownFile } from "@/types";
+import type { MarkdownFile, TocItem } from "@/types";
 
 const markdownFiles: Record<string, string> = import.meta.glob("../../../docs/**/*.md", {
     query: "?raw",
@@ -29,4 +29,27 @@ export function getMarkdownFiles(): MarkdownFile[] {
 export function getMarkdownFileByFilename(filename: string): MarkdownFile | null {
     const files = getMarkdownFiles();
     return files.find((f) => f.filename === filename) || null;
+}
+
+export function extractTableOfContents(markdown: string): TocItem[] {
+    const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+    const toc: TocItem[] = [];
+    let match;
+    let index = 0;
+
+    while ((match = headingRegex.exec(markdown)) !== null) {
+        const level = match[1].length;
+        const text = match[2].trim();
+        const id = `section-${index}`;
+
+        toc.push({
+            level,
+            text,
+            id,
+        });
+        
+        index++;
+    }
+
+    return toc;
 }

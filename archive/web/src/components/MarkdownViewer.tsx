@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -7,6 +8,9 @@ import { IoArrowBack } from "react-icons/io5";
 import { BsShare } from "react-icons/bs";
 import toast from "react-hot-toast";
 import type { MarkdownFile } from "@/types";
+import { extractTableOfContents } from "@/utils/markdown";
+import { TableOfContents } from "./TableOfContents";
+import { HeaderLink } from "./HeaderLink";
 import styles from "./MarkdownViewer.module.scss";
 import "@/styles/markdown.scss";
 import "highlight.js/styles/github-dark.css";
@@ -17,9 +21,40 @@ interface MarkdownViewerProps {
 
 export function MarkdownViewer({ file }: MarkdownViewerProps) {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const tocItems = extractTableOfContents(file.content);
+
+    const headerIndexMap = useMemo(() => {
+        const map = new Map<string, number>();
+        const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+        let index = 0;
+        let match;
+
+        while ((match = headingRegex.exec(file.content)) !== null) {
+            const text = match[2].trim();
+            map.set(text, index);
+            index++;
+        }
+
+        return map;
+    }, [file.content]);
+
+    useEffect(() => {
+        const sectionParam = searchParams.get("section");
+        if (sectionParam) {
+            setTimeout(() => {
+                const element = document.getElementById(`section-${sectionParam}`);
+                if (element) {
+                    const yOffset = -100;
+                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: "smooth" });
+                }
+            }, 100);
+        }
+    }, [searchParams]);
 
     const handleShare = async () => {
-        const url = window.location.href;
+        const url = window.location.href.split("?")[0];
         try {
             await navigator.clipboard.writeText(url);
             toast.success("URL이 복사되었습니다");
@@ -37,9 +72,12 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
                         <span>목록으로</span>
                     </button>
 
-                    <button className={styles.shareButton} onClick={handleShare}>
-                        <BsShare />
-                    </button>
+                    <div className={styles.toolbarActions}>
+                        <TableOfContents items={tocItems} />
+                        <button className={styles.shareButton} onClick={handleShare}>
+                            <BsShare />
+                        </button>
+                    </div>
                 </div>
 
                 <article className={styles.article}>
@@ -56,6 +94,28 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
                                         <table {...props} />
                                     </div>
                                 ),
+                                h2: ({ node, children, ...props }) => {
+                                    const text = String(children);
+                                    const index = headerIndexMap.get(text);
+                                    const id = `section-${index}`;
+                                    return (
+                                        <h2 id={id} {...props}>
+                                            {children}
+                                            <HeaderLink sectionId={id} />
+                                        </h2>
+                                    );
+                                },
+                                h3: ({ node, children, ...props }) => {
+                                    const text = String(children);
+                                    const index = headerIndexMap.get(text);
+                                    const id = `section-${index}`;
+                                    return (
+                                        <h3 id={id} {...props}>
+                                            {children}
+                                            <HeaderLink sectionId={id} />
+                                        </h3>
+                                    );
+                                },
                             }}
                         >
                             {file.content}

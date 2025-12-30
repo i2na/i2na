@@ -4,10 +4,10 @@
 .viewerPage {
     min-height: 100vh;
     background: white;
-    padding: $spacing-3xl $spacing-lg;
+    padding: 0 $spacing-lg $spacing-3xl;
 
     @include respond-to(md) {
-        padding: $spacing-xl $spacing-md;
+        padding: 0 $spacing-md $spacing-xl;
     }
 }
 
@@ -17,14 +17,26 @@
 }
 
 .toolbar {
+    position: sticky;
+    top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacing-xl;
+    padding: $spacing-lg 0;
+    background: white;
+    z-index: 100;
+    border-bottom: 1px solid transparent;
+    transition: border-color $transition-base;
 
     @include respond-to(md) {
-        margin-bottom: $spacing-lg;
+        padding: $spacing-md 0;
     }
+}
+
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
 }
 
 .backButton {
@@ -82,9 +94,11 @@
     background: transparent;
     border: none;
     padding: 0;
+    padding-top: $spacing-md;
 
     @include respond-to(md) {
         padding: 0;
+        padding-top: $spacing-sm;
     }
 }
 
