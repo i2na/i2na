@@ -52,11 +52,13 @@
     gap: $spacing-xs;
     background: transparent;
     border: none;
+    color: $gray-700;
     font-size: $font-size-sm;
     cursor: pointer;
     transition: all $transition-base;
     border-radius: 4px;
     padding: 2px;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
         color: $gray-900;
