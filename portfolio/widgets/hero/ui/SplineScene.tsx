@@ -4,6 +4,8 @@ import type { Application, SPEObject } from "@splinetool/runtime";
 import styles from "./SplineScene.module.scss";
 import cn from "classnames";
 
+const isDevelopment = import.meta.env.DEV;
+
 export function SplineScene() {
     const [isLoading, setIsLoading] = useState(true);
     const splineRef = useRef<Application | null>(null);
@@ -143,6 +145,12 @@ export function SplineScene() {
             {isLoading && (
                 <div className={styles.loadingOverlay}>
                     <div className={styles.loadingText}>Initializing 3D Environment...</div>
+                </div>
+            )}
+
+            {!isDevelopment && !isLoading && (
+                <div className={styles.developmentOverlay}>
+                    <div className={styles.loadingText}>Website under development...</div>
                 </div>
             )}
 

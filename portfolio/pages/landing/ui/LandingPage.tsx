@@ -9,6 +9,8 @@ import { BentoGrid } from "@/widgets/blogPreview/ui/BentoGrid";
 import { ChatWidget } from "@/features/chat/ui/ChatWidget";
 import styles from "./LandingPage.module.scss";
 
+const isDevelopment = import.meta.env.DEV;
+
 export function LandingPage() {
     const navigate = useNavigate();
 
@@ -26,21 +28,28 @@ export function LandingPage() {
 
             <HeroSection />
 
-            <AboutSection />
+            {isDevelopment && (
+                <>
+                    <AboutSection />
 
-            <section id="blog" className={styles.blogSection}>
-                <div className={styles.sectionHeader}>
-                    <div className={styles.label}>{BLOG.label}</div>
-                    <h2 className={styles.content}>{BLOG.content}</h2>
-                </div>
-                <BentoGrid onPostClick={handlePostClick} onViewArchive={handleArchiveClick} />
-            </section>
+                    <section id="blog" className={styles.blogSection}>
+                        <div className={styles.sectionHeader}>
+                            <div className={styles.label}>{BLOG.label}</div>
+                            <h2 className={styles.content}>{BLOG.content}</h2>
+                        </div>
+                        <BentoGrid
+                            onPostClick={handlePostClick}
+                            onViewArchive={handleArchiveClick}
+                        />
+                    </section>
 
-            <TechStackSection />
+                    <TechStackSection />
 
-            <Footer />
+                    <Footer />
 
-            <ChatWidget />
+                    <ChatWidget />
+                </>
+            )}
         </div>
     );
 }
