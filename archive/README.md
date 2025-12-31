@@ -90,10 +90,9 @@ archive/
 │   ├── prompt/            # 프롬프트 템플릿
 │   └── config.js          # 설정 관리
 ├── docs/                  # 마크다운 문서들
-├── web/
-│   ├── frontend/          # React + Vite 소스
-│   └── backend/           # Vercel Serverless API
-├── package.json           # 모든 의존성 (CLI + Frontend + Backend)
+├── client/                # React + Vite (Frontend)
+├── api/                   # Vercel Serverless Functions (Backend)
+├── package.json           # Root dependencies
 └── setup.js               # 초기 설정
 ```
 
@@ -114,36 +113,77 @@ archive/
 ```bash
 cd archive
 
-# 모든 의존성 한 번에 설치
+# 모든 의존성 한 번에 설치 (Yarn Workspaces)
 yarn install
 
-# 심볼릭 링크 생성 (최초 1회만)
-ln -s web/backend api
-cd web/frontend && ln -s ../../node_modules node_modules && cd ../..
+# Vercel 로그인 (최초 1회만)
+yarn vercel login
 
-# Frontend 실행
-yarn dev:frontend
+# Vercel 개발용 프로젝트에 연결 (최초 1회만)
+yarn vercel link
+
+# 개발 서버 실행 (Vercel Dev + Vite)
+yarn start
+# → Frontend: http://localhost:5173
+# → Backend API: http://localhost:3000 (Vercel Dev가 자동으로 실행)
 
 # 빌드
-yarn build:frontend
+yarn build
+
+# 프리뷰
+yarn preview
 ```
 
-**Backend API 테스트가 필요하면:**
+**Vercel Dev 실행:**
 
-1. `.env.local` 파일 생성 (루트):
+-   `yarn start`는 내부적으로 `vercel dev`와 `vite`를 동시에 실행
+-   Vercel CLI가 로컬에서 프로덕션 환경을 시뮬레이션
+-   API 함수(`/api/*`)를 서버리스 함수로 실행
+
+## 환경 변수 설정
+
+### 로컬 개발
+
+`.env` 파일을 루트에 생성:
 
 ```bash
-GOOGLE_CLIENT_ID=your_client_id
-GOOGLE_CLIENT_SECRET=your_client_secret
-BACKEND_URL=http://localhost:8080
-FRONTEND_URL=http://localhost:5173
-VITE_GOOGLE_CLIENT_ID=your_client_id
-VITE_BACKEND_URL=http://localhost:8080
+VITE_GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-your_client_secret
+
+VITE_BASE_URL=http://localhost:5173
+BASE_URL=http://localhost:5173
 ```
 
-2. 별도 터미널에서 백엔드 실행:
+### Vercel 배포
+
+Vercel Dashboard → Settings → Environment Variables:
 
 ```bash
-vercel login        # 최초 1회만
-yarn dev:backend
+VITE_GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-your_client_secret
+
+VITE_BASE_URL=https://archive.yena.io.kr
+BASE_URL=https://archive.yena.io.kr
+```
+
+## Google OAuth 설정
+
+Google Cloud Console (https://console.cloud.google.com/):
+
+1. OAuth 클라이언트 ID 생성
+2. **승인된 JavaScript 원본**:
+    - `https://archive.yena.io.kr`
+    - `http://localhost:5173`
+3. **승인된 리디렉션 URI**:
+    - `https://archive.yena.io.kr/api/auth/google`
+    - `http://localhost:5173/api/auth/google`
+
+## 배포
+
+```bash
+git add .
+git commit -m "feat: update"
+git push origin main
 ```

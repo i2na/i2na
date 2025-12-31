@@ -1,6 +1,6 @@
 {
-    "buildCommand": "yarn build:frontend",
-    "outputDirectory": "web/frontend/dist",
+    "buildCommand": "yarn build",
+    "outputDirectory": "client/dist",
     "installCommand": "yarn install",
     "framework": null,
     "ignoreCommand": "git diff HEAD^ HEAD --quiet .",

@@ -9,13 +9,22 @@ export default defineConfig({
         react(),
         nodePolyfills({
             include: ["buffer"],
-        }),
+        }) as unknown as import("vite").PluginOption, // Workaround for Plugin type incompatibility
     ],
-    envDir: "../../",
+    envDir: "../",
+    server: {
+        port: 5173,
+        proxy: {
+            "/api": {
+                target: "http://localhost:3000",
+                changeOrigin: true,
+            },
+        },
+    },
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),
-            "/docs": path.resolve(__dirname, "../../docs"),
+            "/docs": path.resolve(__dirname, "../docs"),
         },
     },
     css: {

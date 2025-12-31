@@ -7,20 +7,24 @@ archive/
   cli/                   # CLI (archive 명령어)
     prompt/              # Prompt 템플릿
     command/             # CLI 명령어
-  web/
-    frontend/            # React + Vite 소스 코드
-    backend/             # Vercel Serverless Functions
-  api/                   # web/backend 심볼릭 링크 (Vercel용)
+  client/                # React + Vite (Frontend)
+    src/
+      pages/             # ListPage, ViewPage, AuthCallbackPage
+      components/        # MarkdownViewer, TableOfContents
+      utils/             # auth.ts, markdown.ts, scroll.ts
+      styles/            # SCSS 스타일
+  api/                   # Vercel Serverless Functions (Backend)
+    auth/
+      google.ts          # Google OAuth 콜백
   docs/                  # 마크다운 문서
-  package.json           # 모든 의존성 통합 관리
-  .env.local             # 로컬 환경변수
+  package.json           # Root + Yarn Workspaces
+  vercel.json            # Vercel 배포 설정
 ```
 
-**단일 package.json:**
+**Yarn Workspaces:**
 
--   CLI + Frontend + Backend 모든 의존성 하나로 관리
--   `yarn install` 한 번으로 모든 패키지 설치
--   간단하고 명확한 구조
+-   Root: CLI dependencies + Vercel CLI
+-   Client: React, Vite, Frontend dependencies
 
 ---
 
@@ -36,13 +40,13 @@ Google Cloud Console에서 OAuth 앱 생성:
 4. 웹 애플리케이션 선택 후:
 
     ```
-    승인된 자바스크립트 원본:
+    승인된 JavaScript 원본:
       https://archive.yena.io.kr
       http://localhost:5173
 
     승인된 리디렉션 URI:
       https://archive.yena.io.kr/api/auth/google
-      http://localhost:8080/api/auth/google
+      http://localhost:5173/api/auth/google
     ```
 
 5. **Client ID**와 **Client Secret** 복사
@@ -53,34 +57,33 @@ Google Cloud Console에서 OAuth 앱 생성:
 
 #### 로컬 개발
 
-`.env.local` (루트에 생성)
+`.env` (루트에 생성)
 
 ```bash
+# Frontend
+VITE_GOOGLE_CLIENT_ID=123456789-abcdefg.apps.googleusercontent.com
+VITE_BASE_URL=http://localhost:5173
+
 # Backend
 GOOGLE_CLIENT_ID=123456789-abcdefg.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-abcdefghijklmnop
-BACKEND_URL=http://localhost:8080
-FRONTEND_URL=http://localhost:5173
-
-# Frontend
-VITE_GOOGLE_CLIENT_ID=123456789-abcdefg.apps.googleusercontent.com
-VITE_BACKEND_URL=http://localhost:8080
+BASE_URL=http://localhost:5173
 ```
-
-**하나의 파일로 Frontend + Backend 환경변수 모두 관리**
 
 #### Vercel (프로덕션)
 
-대시보드 → Settings → Environment Variables:
+대시보드 → i2na-archive → Settings → Environment Variables:
 
 ```bash
+VITE_GOOGLE_CLIENT_ID=123456789-abcdefg.apps.googleusercontent.com
+VITE_BASE_URL=https://archive.yena.io.kr
+
 GOOGLE_CLIENT_ID=123456789-abcdefg.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-abcdefghijklmnop
-BACKEND_URL=https://archive.yena.io.kr
-FRONTEND_URL=https://archive.yena.io.kr
-VITE_GOOGLE_CLIENT_ID=123456789-abcdefg.apps.googleusercontent.com
-VITE_BACKEND_URL=https://archive.yena.io.kr
+BASE_URL=https://archive.yena.io.kr
 ```
+
+**Environment**: Production & Preview 모두 체크
 
 ---
 
@@ -90,32 +93,32 @@ VITE_BACKEND_URL=https://archive.yena.io.kr
 # 루트에서 한 번에 설치
 yarn install
 
-# 심볼릭 링크 생성 (최초 1회만)
-ln -s web/backend api
-cd web/frontend && ln -s ../../node_modules node_modules && cd ../..
+# Vercel 로그인 (최초 1회만)
+yarn vercel login
 
-# 프론트엔드 실행
-yarn dev:frontend
+# Vercel 프로젝트 연결 (최초 1회만)
+yarn vercel link
+# → 개발용 프로젝트 선택: i2na-archive-dev
+# → Root Directory는 비워두기
 
-# 백엔드 테스트 필요 시 (별도 터미널)
-vercel login        # 최초 1회만
-yarn dev:backend
+# 개발 서버 실행
+yarn start
 ```
 
 **개발 서버:**
 
--   Frontend: http://localhost:5173
--   Backend API: http://localhost:8080 (별도 터미널에서 실행)
+-   Frontend: http://localhost:5173 (Vite)
+-   Backend API: http://localhost:3000 (Vercel Dev)
+-   Vite가 `/api/*` 요청을 자동으로 3000 포트로 프록시
 
-**Backend 테스트 시:**
+**Vercel Dev:**
+- `yarn start`는 `vercel dev`와 `vite`를 동시에 실행
+- Vercel CLI가 `/api` 폴더의 서버리스 함수를 로컬에서 실행
+- 프로덕션 환경과 동일한 방식으로 API 테스트 가능
 
-```bash
-# Vercel 로그인 (최초 1회)
-yarn vercel login
-
-# Frontend + Backend 실행
-yarn dev:full
-```
+**프로젝트 구분:**
+- **i2na-archive-dev**: 로컬 개발용 (Root Directory 비움)
+- **i2na-archive**: 배포용 (Root Directory: `archive`)
 
 ---
 
@@ -159,17 +162,17 @@ createdAt: 2025.12.31 14:30
 
 ## 🎯 동작 방식
 
-### Public 탭 (기본)
+### 메인 페이지
 
--   로그인 불필요
--   `visibility: public`인 게시물만 표시
--   누구나 URL 공유 가능
+-   **비로그인**: Public 문서만 표시
+-   **로그인**: Public + 자신에게 공유된 Private 문서 표시
+-   Private 문서에는 "Shared" 배지 표시
 
-### Shared 탭
+### 로그인
 
--   **비로그인**: 클릭 시 Google 로그인 요청
--   **로그인**: `sharedWith`에 내 이메일이 포함된 게시물만 표시
--   탭에 개수 표시: `Shared (3)`
+-   상단 우측 Login 버튼 → Google OAuth
+-   로그인 후 30일간 세션 유지
+-   로그인하면 이메일과 Logout 버튼 표시
 
 ### 직접 URL 접근
 
@@ -188,86 +191,75 @@ createdAt: 2025.12.31 14:30
   │
   └─ 로그인
       ├─ sharedWith에 포함 → 콘텐츠 표시
-      └─ sharedWith에 없음 → 에러 메시지 + 2초 후 홈으로
-```
-
-### 세션 관리
-
--   로그인 후 30일간 유지
--   로그아웃 버튼으로 수동 해제
-
----
-
-## 📁 파일 구조
-
-### 새로 추가된 파일
-
-```
-web/backend/auth/google.ts        # Google OAuth API
-web/frontend/src/
-  utils/auth.ts                   # 로그인 상태 관리
-  pages/
-    ListPage.tsx                  # Public/Shared 탭 UI
-    ListPage.module.scss          # 스타일
-    ViewPage.tsx                  # 권한 체크
-    ViewPage.module.scss          # 스타일
-docs/
-  EXAMPLE_PUBLIC.md               # Public 예시
-  EXAMPLE_PRIVATE.md              # Private 예시
-cli/prompt/                       # Prompt 템플릿 (이전 templates)
-```
-
-### 수정된 파일
-
-```
-web/frontend/src/
-  types/index.ts                  # PostMetadata, UserInfo 타입
-  utils/markdown.ts               # Frontmatter 파싱 + 권한 체크
-package.json                      # @vercel/node 추가, 경로 수정
-vercel.json                       # 빌드 경로 수정
+      └─ sharedWith에 없음 → Toast 알림 + 홈으로 리다이렉트
 ```
 
 ---
 
-## 📦 의존성 관리
+## 🏗️ 주요 기능
 
-### 단일 package.json
+### Google OAuth
 
-모든 의존성이 루트 `package.json`에 통합되어 있습니다.
+-   **frontend**: `client/src/utils/auth.ts` - 로그인 상태 관리
+-   **backend**: `api/auth/google.ts` - OAuth 콜백 처리
+-   **callback**: `client/src/pages/AuthCallbackPage.tsx` - localStorage 저장
 
-### 패키지 추가
+### 권한 체크
+
+-   `client/src/utils/markdown.ts`
+    -   `canAccessPost()`: 개별 게시물 접근 권한
+    -   `filterPostsByVisibility()`: 리스트 필터링
+
+### UI/UX
+
+-   **단일 리스트**: Public/Private 통합 표시
+-   **Shared 배지**: Private 문서 식별
+-   **Toast 알림**: 권한 없을 때 사용자 피드백
+-   **자동 리다이렉트**: 권한 없으면 홈으로
+
+---
+
+## 📦 스크립트
 
 ```bash
-# 프로덕션 의존성
-yarn add 패키지명
-
-# 개발 의존성
-yarn add -D 패키지명
+yarn start       # 개발 서버 (Frontend + Backend)
+yarn build       # 프로덕션 빌드
+yarn preview     # 빌드 결과 프리뷰
 ```
 
 ---
 
-## 🧪 테스트
+## 🚀 배포
 
-### 확인 사항
+### Vercel 프로젝트 설정
 
-1. **Public 탭**
+**i2na-archive (프로덕션용)**
 
-    - `EXAMPLE_PUBLIC.md` 보임
-    - 로그인 없이 접근 가능
+```
+Root Directory: archive
+Framework Preset: Other
 
-2. **Shared 탭**
+Build Command: (Override 끄기 - vercel.json 사용)
+Output Directory: (Override 끄기 - vercel.json 사용)
+Install Command: (Override 끄기 - vercel.json 사용)
+Development Command: None (Override 끄기)
+```
 
-    - 비로그인: 클릭 시 Google 로그인 화면
-    - 로그인: `EXAMPLE_PRIVATE.md` 보임 (sharedWith에 이메일 추가 후)
+### 배포 과정
 
-3. **직접 URL**
-    ```
-    /view/EXAMPLE_PRIVATE.md
-      → 로그인 요청
-      → 권한 확인
-      → 콘텐츠 표시 or 접근 거부
-    ```
+```bash
+git add .
+git commit -m "feat: update"
+git push origin main
+```
+
+Vercel이 자동으로:
+
+1. `archive` 폴더로 이동
+2. `yarn install` 실행
+3. `yarn build` 실행
+4. `client/dist` 배포
+5. `api/` 폴더를 서버리스 함수로 배포
 
 ---
 
@@ -290,27 +282,44 @@ sharedWith: []
 sharedWith: [friend@gmail.com, coworker@company.com]
 ```
 
-### 탭 URL 쿼리
+### 개발 팁
 
-```
-/?tab=public   → Public 탭
-/?tab=shared   → Shared 탭 (로그인 필요)
-```
-
-### 배포 시
-
-1. `docs/` 폴더에 `.md` 추가/수정
-2. Frontmatter 설정
-3. Git push → Vercel 자동 배포
+-   환경 변수 수정 후 서버 재시작 필요
+-   Google OAuth 에러 시 새로고침으로 해결
+-   콘솔에서 redirect URI 확인 가능 (DEV 모드)
 
 ---
 
 ## 🔍 주요 코드
 
-| 기능        | 파일                                  | 함수                |
-| ----------- | ------------------------------------- | ------------------- |
-| 로그인 상태 | `web/frontend/src/utils/auth.ts`      | `isAuthenticated()` |
-| 권한 체크   | `web/frontend/src/utils/markdown.ts`  | `canAccessPost()`   |
-| 탭 UI       | `web/frontend/src/pages/ListPage.tsx` | -                   |
-| 접근 제어   | `web/frontend/src/pages/ViewPage.tsx` | -                   |
-| OAuth API   | `web/backend/auth/google.ts`          | -                   |
+| 기능        | 파일                                    | 함수                      |
+| ----------- | --------------------------------------- | ------------------------- |
+| 로그인 상태 | `client/src/utils/auth.ts`              | `isAuthenticated()`       |
+| 로그인 시작 | `client/src/utils/auth.ts`              | `startGoogleLogin()`      |
+| 권한 체크   | `client/src/utils/markdown.ts`          | `canAccessPost()`         |
+| 리스트 UI   | `client/src/pages/ListPage.tsx`         | -                         |
+| 접근 제어   | `client/src/pages/ViewPage.tsx`         | -                         |
+| OAuth 콜백  | `api/auth/google.ts`                    | `handler()`               |
+| 콜백 처리   | `client/src/pages/AuthCallbackPage.tsx` | -                         |
+| 스크롤      | `client/src/utils/scroll.ts`            | `smoothScrollToElement()` |
+
+---
+
+## 🐛 문제 해결
+
+### redirect_uri_mismatch 에러
+
+-   Google Cloud Console에서 URI 확인
+-   `http://localhost:5173/api/auth/google` 등록 확인
+-   개발자 도구 콘솔에서 실제 URI 확인
+
+### 로그인 후 버튼 안 사라짐
+
+-   브라우저 창 포커스 변경 시 자동 갱신
+-   또는 새로고침
+
+### 게시물 안 나옴
+
+-   `docs/` 폴더 경로 확인
+-   Frontmatter 형식 확인
+-   콘솔 에러 확인

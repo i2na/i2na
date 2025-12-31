@@ -3,8 +3,7 @@ import { randomBytes } from "crypto";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+const BASE_URL = process.env.BASE_URL;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { code, state } = req.query;
@@ -25,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 code: code as string,
                 client_id: GOOGLE_CLIENT_ID!,
                 client_secret: GOOGLE_CLIENT_SECRET!,
-                redirect_uri: `${BACKEND_URL}/api/auth/google`,
+                redirect_uri: `${BASE_URL}/api/auth/google`,
                 grant_type: "authorization_code",
             }),
         });
@@ -54,7 +53,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             expires: expires,
         };
 
-        const callbackUrl = `${FRONTEND_URL}/auth/callback?data=${encodeURIComponent(
+        const callbackUrl = `${BASE_URL}/auth/callback?data=${encodeURIComponent(
             JSON.stringify(authData)
         )}&redirect=${encodeURIComponent(redirectPath)}`;
 

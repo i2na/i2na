@@ -4,14 +4,16 @@
     "private": true,
     "type": "module",
     "description": "archive CLI & Web",
+    "workspaces": [
+        "client"
+    ],
     "bin": {
         "archive": "./cli/index.js"
     },
     "scripts": {
-        "dev:frontend": "rm -rf web/frontend/node_modules/.vite && vite -c web/frontend/vite.config.ts",
-        "dev:backend": "vercel dev --listen 8080 --yes",
-        "build:frontend": "vite build -c web/frontend/vite.config.ts",
-        "preview:frontend": "vite preview -c web/frontend/vite.config.ts",
+        "start": "concurrently \"vercel dev --listen 3000\" \"cd client && yarn dev\"",
+        "build": "yarn workspace archive-client build",
+        "preview": "yarn workspace archive-client preview",
         "setup": "node setup.js"
     },
     "dependencies": {
@@ -19,30 +21,11 @@
         "chalk": "^5.3.0",
         "clipboardy": "^4.0.0",
         "commander": "^11.1.0",
-        "gray-matter": "^4.0.3",
         "inquirer": "^9.2.12",
-        "react": "^19.2.3",
-        "react-dom": "^19.2.3",
-        "react-hot-toast": "^2.6.0",
-        "react-icons": "^5.5.0",
-        "react-markdown": "^10.1.0",
-        "react-router-dom": "^7.11.0",
-        "rehype-highlight": "^7.0.2",
-        "rehype-raw": "^7.0.0",
-        "remark-gfm": "^4.0.1",
         "simple-git": "^3.22.0"
     },
     "devDependencies": {
-        "@types/node": "^22.14.0",
-        "@types/react": "^19.2.7",
-        "@types/react-dom": "^19.2.3",
-        "@vitejs/plugin-react": "^5.0.0",
-        "buffer": "^6.0.3",
         "concurrently": "^8.2.2",
-        "sass": "^1.97.1",
-        "typescript": "~5.8.2",
-        "vercel": "^33.0.0",
-        "vite": "^6.2.0",
-        "vite-plugin-node-polyfills": "^0.24.0"
+        "vercel": "^33.0.0"
     }
 }

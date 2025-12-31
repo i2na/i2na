@@ -49,8 +49,8 @@ export function startGoogleLogin(returnPath?: string): void {
     }
 
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
-    const redirectUri = `${backendUrl}/api/auth/google`;
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+    const redirectUri = `${baseUrl}/api/auth/google`;
     const scope = "email profile";
 
     const currentPath = returnPath || window.location.pathname + window.location.search;
