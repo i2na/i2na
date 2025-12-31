@@ -1,10 +1,14 @@
 {
-    "buildCommand": "cd web && yarn install && yarn build",
-    "outputDirectory": "web/dist",
+    "buildCommand": "yarn build:frontend",
+    "outputDirectory": "web/frontend/dist",
     "installCommand": "yarn install",
     "framework": null,
     "ignoreCommand": "git diff HEAD^ HEAD --quiet .",
     "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api/$1"
+        },
         {
             "source": "/(.*)",
             "destination": "/index.html"

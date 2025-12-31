@@ -1,0 +1,137 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.listPage {
+    min-height: 100vh;
+    background: $gray-50;
+    padding: $spacing-3xl $spacing-xl;
+
+    @include respond-to(md) {
+        padding: $spacing-2xl $spacing-md;
+    }
+}
+
+.container {
+    max-width: 42rem;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+
+    @include respond-to(md) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $spacing-md;
+    }
+}
+
+.title {
+    font-size: $font-size-3xl;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: $gray-900;
+    font-family: $font-family-mono;
+    letter-spacing: -0.025em;
+
+    @include respond-to(md) {
+        font-size: $font-size-2xl;
+    }
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-size-sm;
+}
+
+.userEmail {
+    color: $gray-600;
+}
+
+.loginButton {
+    padding: $spacing-xs $spacing-md;
+    background: $gray-900;
+    border: 1px solid $gray-900;
+    border-radius: 4px;
+    color: white;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background: $gray-800;
+        border-color: $gray-800;
+    }
+}
+
+.logoutButton {
+    padding: $spacing-xs $spacing-sm;
+    background: none;
+    border: 1px solid $gray-300;
+    border-radius: 4px;
+    color: $gray-600;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background: $gray-100;
+        border-color: $gray-400;
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.item {
+    padding: $spacing-md 0;
+    border-bottom: 1px solid $gray-200;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    transition: background 0.2s;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.02);
+    }
+}
+
+.itemTitle {
+    font-size: $font-size-lg;
+    font-weight: 400;
+    color: $gray-800;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex: 1;
+
+    @include respond-to(md) {
+        font-size: $font-size-base;
+    }
+}
+
+.sharedBadge {
+    font-size: $font-size-xs;
+    color: $gray-500;
+    background: $gray-100;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.empty {
+    padding: $spacing-3xl 0;
+    text-align: center;
+    color: $gray-500;
+    font-size: $font-size-base;
+}

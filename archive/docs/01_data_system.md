@@ -1,4 +1,22 @@
-<sub>2025.12.30 23:47</sub>
+---
+visibility: private
+sharedWith:
+    [
+        yena@moss.land,
+        wooram.son@moss.land,
+        mu@moss.land,
+        yd@moss.land,
+        alex@moss.land,
+        jhkim@moss.land,
+        chohyuntae@moss.land,
+        akasimp@moss.land,
+        sangminlee79@moss.land,
+        jeong@moss.land,
+        pks0303@moss.land,
+        dosl1025@moss.land,
+    ]
+createdAt: 2025.12.30 23:47
+---
 
 # 데이터 시스템
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import callCommand from "./commands/call.js";
-import addCommand from "./commands/add.js";
-import openCommand from "./commands/open.js";
+import callCommand from "./command/call.js";
+import addCommand from "./command/add.js";
+import openCommand from "./command/open.js";
 
 const program = new Command();
 

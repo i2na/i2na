@@ -4,6 +4,13 @@ dist/
 .cache/
 .temp/
 *.log
-docs/.vitepress/cache/
-docs/.vitepress/dist/
 
+.env
+.env.local
+.env*.local
+
+# 심볼릭 링크
+api/
+web/frontend/node_modules/
+.vercel/
+.vercel

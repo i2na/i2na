@@ -9,6 +9,7 @@ import { BsShare } from "react-icons/bs";
 import toast from "react-hot-toast";
 import type { MarkdownFile } from "@/types";
 import { extractTableOfContents } from "@/utils/markdown";
+import { smoothScrollToElement } from "@/utils/scroll";
 import { TableOfContents } from "./TableOfContents";
 import { HeaderLink } from "./HeaderLink";
 import styles from "./MarkdownViewer.module.scss";
@@ -42,14 +43,7 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
     useEffect(() => {
         const sectionParam = searchParams.get("section");
         if (sectionParam) {
-            setTimeout(() => {
-                const element = document.getElementById(`section-${sectionParam}`);
-                if (element) {
-                    const yOffset = -100;
-                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                    window.scrollTo({ top: y, behavior: "smooth" });
-                }
-            }, 100);
+            smoothScrollToElement(`section-${sectionParam}`);
         }
     }, [searchParams]);
 
@@ -69,7 +63,7 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
                 <div className={styles.toolbar}>
                     <button className={styles.backButton} onClick={() => navigate("/")}>
                         <IoArrowBack />
-                        <span>목록으로</span>
+                        <span>Back to List</span>
                     </button>
 
                     <div className={styles.toolbarActions}>
@@ -82,6 +76,12 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
 
                 <article className={styles.article}>
                     <div className="markdownContent">
+                        {file.metadata.createdAt && (
+                            <>
+                                <sub>{file.metadata.createdAt}</sub>
+                                {"\n\n"}
+                            </>
+                        )}
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[rehypeRaw, rehypeHighlight]}

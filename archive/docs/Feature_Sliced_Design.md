@@ -1,4 +1,8 @@
-<sub>2025.12.28 19:10</sub>
+---
+visibility: public
+sharedWith: []
+createdAt: 2025.12.28 19:10
+---
 
 # Feature-Sliced Design
 

@@ -11,7 +11,8 @@ export default async function addCommand(filepath, options) {
 
         // 파일 읽기
         const content = await fs.readFile(filepath, "utf-8");
-        const { content: body } = matter(content);
+        const parsed = matter(content);
+        const body = parsed.content;
 
         // 원본 파일명을 그대로 사용 (확장자 제거)
         const slug = path.basename(filepath, ".md");
@@ -26,8 +27,15 @@ export default async function addCommand(filepath, options) {
         const minutes = String(kstTime.getUTCMinutes()).padStart(2, "0");
         const timestamp = `${year}.${month}.${day} ${hours}:${minutes}`;
 
-        // 파일 내용 생성 (frontmatter 제거, 타임스탬프 추가)
-        const finalContent = `<sub>${timestamp}</sub>\n\n${body.trim()}\n`;
+        // Frontmatter 생성
+        const frontmatter = {
+            visibility: parsed.data.visibility || "private",
+            sharedWith: parsed.data.sharedWith || ["yena@moss.land"],
+            createdAt: parsed.data.createdAt || timestamp,
+        };
+
+        // 파일 내용 생성 (frontmatter 추가)
+        const finalContent = matter.stringify(body.trim(), frontmatter);
 
         // 파일 저장
         const targetPath = path.join(config.archivePath, "docs", `${slug}.md`);

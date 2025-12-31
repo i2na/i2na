@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { ListPage } from "./pages/ListPage";
 import { ViewPage } from "./pages/ViewPage";
+import { AuthCallbackPage } from "./pages/AuthCallbackPage";
 
 function AppContent() {
     useEffect(() => {
@@ -37,6 +38,7 @@ function AppContent() {
             <Routes>
                 <Route path="/" element={<ListPage />} />
                 <Route path="/view/:filename" element={<ViewPage />} />
+                <Route path="/auth/callback" element={<AuthCallbackPage />} />
             </Routes>
         </>
     );

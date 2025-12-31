@@ -83,16 +83,17 @@ $ archive open
 ```
 archive/
 ├── cli/                   # CLI 명령어
-│   ├── commands/
+│   ├── command/
 │   │   ├── call.js        # 프롬프트 복사
 │   │   ├── add.js         # 문서 추가
 │   │   └── open.js        # 프로젝트 열기
+│   ├── prompt/            # 프롬프트 템플릿
 │   └── config.js          # 설정 관리
 ├── docs/                  # 마크다운 문서들
-├── templates/             # 프롬프트 템플릿
-│   ├── archive_prompt.md
-│   └── duplicate_check.md
-├── web/                   # React 웹 뷰어
+├── web/
+│   ├── frontend/          # React + Vite 소스
+│   └── backend/           # Vercel Serverless API
+├── package.json           # 모든 의존성 (CLI + Frontend + Backend)
 └── setup.js               # 초기 설정
 ```
 
@@ -111,12 +112,38 @@ archive/
 ## 웹 뷰어 개발
 
 ```bash
-# 웹 의존성 설치
-cd web && yarn install
+cd archive
 
-# 로컬 개발 서버
-yarn dev
+# 모든 의존성 한 번에 설치
+yarn install
+
+# 심볼릭 링크 생성 (최초 1회만)
+ln -s web/backend api
+cd web/frontend && ln -s ../../node_modules node_modules && cd ../..
+
+# Frontend 실행
+yarn dev:frontend
 
 # 빌드
-yarn build
+yarn build:frontend
+```
+
+**Backend API 테스트가 필요하면:**
+
+1. `.env.local` 파일 생성 (루트):
+
+```bash
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+BACKEND_URL=http://localhost:8080
+FRONTEND_URL=http://localhost:5173
+VITE_GOOGLE_CLIENT_ID=your_client_id
+VITE_BACKEND_URL=http://localhost:8080
+```
+
+2. 별도 터미널에서 백엔드 실행:
+
+```bash
+vercel login        # 최초 1회만
+yarn dev:backend
 ```

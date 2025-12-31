@@ -52,18 +52,15 @@
     gap: $spacing-xs;
     background: transparent;
     border: none;
-    color: $gray-700;
     font-size: $font-size-sm;
-    font-family: $font-family-mono;
     cursor: pointer;
     transition: all $transition-base;
+    border-radius: 4px;
+    padding: 2px;
 
     &:hover {
         color: $gray-900;
-    }
-
-    svg {
-        font-size: 1.1em;
+        background: $gray-100;
     }
 
     @include respond-to(md) {
@@ -78,22 +75,19 @@
     background: transparent;
     border: none;
     color: $gray-700;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     cursor: pointer;
     transition: all $transition-base;
     border-radius: 4px;
+    padding: 2px;
 
     &:hover {
         color: $gray-900;
         background: $gray-100;
     }
 
-    &:active {
-        transform: scale(0.95);
-    }
-
     @include respond-to(md) {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
     }
 }
 

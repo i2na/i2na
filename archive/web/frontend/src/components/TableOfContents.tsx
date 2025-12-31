@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { GoListUnordered } from "react-icons/go";
 import type { TocItem } from "@/types";
+import { smoothScrollToElement } from "@/utils/scroll";
 import styles from "./TableOfContents.module.scss";
 
 interface TableOfContentsProps {
@@ -34,12 +35,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
     }, [isOpen]);
 
     const handleItemClick = (id: string) => {
-        const element = document.getElementById(id);
-        if (element) {
-            const yOffset = -100;
-            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({ top: y, behavior: "smooth" });
-        }
+        smoothScrollToElement(id, 0);
         setIsOpen(false);
     };
 
