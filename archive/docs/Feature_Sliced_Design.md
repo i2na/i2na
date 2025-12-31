@@ -1,6 +1,6 @@
 ---
-visibility: private
-sharedWith: [yena@moss.land]
+visibility: public
+sharedWith: []
 createdAt: 2025.12.28 19:10
 ---
 

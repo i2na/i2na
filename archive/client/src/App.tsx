@@ -37,7 +37,7 @@ function AppContent() {
             />
             <Routes>
                 <Route path="/" element={<ListPage />} />
-                <Route path="/view/:filename" element={<ViewPage />} />
+                <Route path="/:filename" element={<ViewPage />} />
                 <Route path="/auth/callback" element={<AuthCallbackPage />} />
             </Routes>
         </>

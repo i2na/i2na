@@ -27,7 +27,7 @@ export function ListPage() {
     const visibleFiles = filterPostsByVisibility(allFiles, user?.email || null);
 
     const handleFileClick = (filename: string) => {
-        navigate(`/view/${filename}`);
+        navigate(`/${filename}`);
     };
 
     const handleLogin = () => {
