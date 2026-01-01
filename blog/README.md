@@ -1,5 +1,7 @@
 # Yena.Lee Blog
 
+> Blog project - Work in Progress
+
 Cursor로 작성한 마크다운 문서를 CLI로 빠르게 저장하고 웹에서 보는 개인 블로그 시스템
 
 **Production**: https://blog.yena.io.kr
