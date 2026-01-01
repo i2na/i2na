@@ -55,13 +55,27 @@ git commit -m "docs: update profile"
 git commit --no-verify -m "message"
 ```
 
-## Vercel Build Optimization
+## Vercel Deployment
 
-각 프로젝트는 변경 감지 시에만 빌드됩니다.
+각 프로젝트는 Vercel에 독립적으로 배포됩니다:
 
-### Configuration
+| 프로젝트 | Vercel 프로젝트명 | Root Directory |
+| -------- | ----------------- | -------------- |
+| project1 | i2na-project1     | `project1`     |
+| project2 | i2na-project2     | `project2`     |
 
-`<project>/vercel.json`:
+**Root Directory 설정:**
+
+```
+Settings → General → Root Directory
+→ 해당 프로젝트 폴더명 입력 (예: project1, project2)
+```
+
+Vercel이 해당 폴더를 프로젝트 루트로 인식하여 빌드합니다.
+
+**빌드 최적화:**
+
+각 프로젝트는 변경이 있을 때만 빌드됩니다. `<project>/vercel.json`:
 
 ```json
 {
