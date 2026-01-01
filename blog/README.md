@@ -1,22 +1,22 @@
-# Archive
+# Blog
 
-Cursor로 생성한 마크다운 문서를 CLI로 빠르게 저장하고 웹에서 보는 개인 아카이브 시스템
+Cursor로 생성한 마크다운 문서를 CLI로 빠르게 저장하고 웹에서 보는 개인 블로그 시스템
 
-**웹 뷰어**: https://archive.yena.io.kr
+**웹 뷰어**: https://blog.yena.io.kr
 
 ## CLI 명령어
 
 ```bash
 # 문서 작성용 프롬프트를 클립보드에 복사
-archive call
+blog call
 
-# 문서를 아카이브에 추가 (절대 경로 필요)
-archive add <filepath>              # 원본 파일 유지
-archive add <filepath> --delete     # 원본 파일 삭제
-archive add <filepath> -d           # 원본 파일 삭제 (단축)
+# 문서를 블로그에 추가 (절대 경로 필요)
+blog add <filepath>              # 원본 파일 유지
+blog add <filepath> --delete     # 원본 파일 삭제
+blog add <filepath> -d           # 원본 파일 삭제 (단축)
 
-# 아카이브 프로젝트를 Cursor로 열기
-archive open
+# 블로그 프로젝트를 Cursor로 열기
+blog open
 ```
 
 ## 설치
@@ -24,19 +24,19 @@ archive open
 ```bash
 # 1. 프로젝트 클론
 git clone https://github.com/i2na/i2na.git
-cd i2na/archive
+cd i2na/blog
 
 # 2. 의존성 설치
 yarn install
 
-# 3. 초기 설정 (Archive 경로, Git 저장소, 배포 URL)
+# 3. 초기 설정 (Blog 경로, Git 저장소, 배포 URL)
 node setup.js
 
 # 4. CLI 전역 등록
 yarn link
 
 # 5. 완료
-archive call
+blog call
 ```
 
 ## 문제 해결
@@ -48,7 +48,7 @@ archive call
 chmod +x cli/index.js
 ```
 
-### archive 명령어가 인식 안 될 경우 (Windows만)
+### blog 명령어가 인식 안 될 경우 (Windows만)
 
 ```powershell
 # PowerShell에서 아래 명령어를 그대로 복사해서 실행하고 PowerShell 재시작
@@ -59,29 +59,29 @@ chmod +x cli/index.js
 
 ```bash
 # 1. Cursor에서 문서 작성 프롬프트 복사
-$ archive call
+$ blog call
 ✓ Prompt copied to clipboard
 
-# 2. Cursor에 붙여넣기 → .archive.md 파일 생성됨
+# 2. Cursor에 붙여넣기 → .blog.md 파일 생성됨
 
-# 3. 아카이브에 추가
-$ archive add /Users/leeyena/dev/project/doc.archive.md
+# 3. 블로그에 추가
+$ blog add /Users/leeyena/dev/project/doc.blog.md
 ✓ Saved → docs/react_hooks_guide.md
 ✓ Committed & pushed
-→ https://archive.yena.io.kr
+→ https://blog.yena.io.kr
 
 # 원본 파일도 삭제하려면
-$ archive add /Users/leeyena/dev/project/doc.archive.md --delete
+$ blog add /Users/leeyena/dev/project/doc.blog.md --delete
 ✓ Removed original file
 
-# 4. 아카이브 프로젝트 열기
-$ archive open
+# 4. 블로그 프로젝트 열기
+$ blog open
 ```
 
 ## 구조
 
 ```
-archive/
+blog/
 ├── cli/                   # CLI 명령어
 │   ├── command/
 │   │   ├── call.js        # 프롬프트 복사
@@ -98,20 +98,20 @@ archive/
 
 ## 설정 파일
 
-`~/.archive-config.json` (각 컴퓨터마다 독립적)
+`~/.blog-config.json` (각 컴퓨터마다 독립적)
 
 ```json
 {
-    "archivePath": "/현재/프로젝트/경로", // setup.js 실행 시 자동 인식
+    "blogPath": "/현재/프로젝트/경로", // setup.js 실행 시 자동 인식
     "gitRemote": "https://github.com/i2na/i2na.git",
-    "baseUrl": "https://archive.yena.io.kr"
+    "baseUrl": "https://blog.yena.io.kr"
 }
 ```
 
 ## 웹 뷰어 개발
 
 ```bash
-cd archive
+cd blog
 
 # 모든 의존성 한 번에 설치 (Yarn Workspaces)
 yarn install
@@ -164,8 +164,8 @@ VITE_GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
 GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-your_client_secret
 
-VITE_BASE_URL=https://archive.yena.io.kr
-BASE_URL=https://archive.yena.io.kr
+VITE_BASE_URL=https://blog.yena.io.kr
+BASE_URL=https://blog.yena.io.kr
 ```
 
 ## Google OAuth 설정
@@ -174,10 +174,10 @@ Google Cloud Console (https://console.cloud.google.com/):
 
 1. OAuth 클라이언트 ID 생성
 2. **승인된 JavaScript 원본**:
-    - `https://archive.yena.io.kr`
+    - `https://blog.yena.io.kr`
     - `http://localhost:5173`
 3. **승인된 리디렉션 URI**:
-    - `https://archive.yena.io.kr/api/auth/google`
+    - `https://blog.yena.io.kr/api/auth/google`
     - `http://localhost:5173/api/auth/google`
 
 ## 배포

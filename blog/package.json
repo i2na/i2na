@@ -1,19 +1,19 @@
 {
-    "name": "archive",
+    "name": "blog",
     "version": "1.0.0",
     "private": true,
     "type": "module",
-    "description": "archive CLI & Web",
+    "description": "blog CLI & Web",
     "workspaces": [
         "client"
     ],
     "bin": {
-        "archive": "./cli/index.js"
+        "blog": "./cli/index.js"
     },
     "scripts": {
         "start": "concurrently \"vercel dev --listen 3000\" \"cd client && yarn dev\"",
-        "build": "yarn workspace archive-client build",
-        "preview": "yarn workspace archive-client preview",
+        "build": "yarn workspace blog-client build",
+        "preview": "yarn workspace blog-client preview",
         "setup": "node setup.js"
     },
     "dependencies": {

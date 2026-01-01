@@ -45,7 +45,7 @@ export function ListPage() {
         <div className={styles.listPage}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>Archive</h1>
+                    <h1 className={styles.title}>Blog</h1>
 
                     {authenticated && user ? (
                         <div className={styles.userInfo}>

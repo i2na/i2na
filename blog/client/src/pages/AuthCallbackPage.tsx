@@ -13,10 +13,10 @@ export function AuthCallbackPage() {
             try {
                 const authData = JSON.parse(decodeURIComponent(authDataStr));
 
-                localStorage.setItem("archive_auth_token", authData.token);
-                localStorage.setItem("archive_user_email", authData.email);
-                localStorage.setItem("archive_user_name", authData.name);
-                localStorage.setItem("archive_expires", authData.expires.toString());
+                localStorage.setItem("blog_auth_token", authData.token);
+                localStorage.setItem("blog_user_email", authData.email);
+                localStorage.setItem("blog_user_name", authData.name);
+                localStorage.setItem("blog_expires", authData.expires.toString());
 
                 localStorage.removeItem("auth_return_path");
                 localStorage.removeItem("auth_in_progress");

@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default async function callCommand() {
     try {
-        const templatePath = path.join(__dirname, '../../templates/archive_prompt.md');
+        const templatePath = path.join(__dirname, '../../templates/blog_prompt.md');
         const content = await fs.readFile(templatePath, 'utf-8');
         
         await clipboardy.write(content);

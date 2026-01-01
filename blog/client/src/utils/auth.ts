@@ -1,10 +1,10 @@
 import type { UserInfo } from "@/types";
 
 const STORAGE_KEYS = {
-    TOKEN: "archive_auth_token",
-    EMAIL: "archive_user_email",
-    NAME: "archive_user_name",
-    EXPIRES: "archive_expires",
+    TOKEN: "blog_auth_token",
+    EMAIL: "blog_user_email",
+    NAME: "blog_user_name",
+    EXPIRES: "blog_expires",
 } as const;
 
 export function isAuthenticated(): boolean {

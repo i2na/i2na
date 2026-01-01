@@ -9,10 +9,10 @@ export default async function openCommand() {
     try {
         const config = await getConfig();
         
-        console.log(chalk.dim('Opening archive project in Cursor...'));
-        await execAsync(`cursor "${config.archivePath}"`);
+        console.log(chalk.dim('Opening blog project in Cursor...'));
+        await execAsync(`cursor "${config.blogPath}"`);
         
-        console.log(chalk.green('✓ Opening archive project in Cursor...'));
+        console.log(chalk.green('✓ Opening blog project in Cursor...'));
     } catch (error) {
         console.error(chalk.red('✗ Failed to open project'));
         console.error(chalk.dim(error.message));

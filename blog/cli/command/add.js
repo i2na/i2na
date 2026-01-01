@@ -38,13 +38,13 @@ export default async function addCommand(filepath, options) {
         const finalContent = matter.stringify(body.trim(), frontmatter);
 
         // 파일 저장
-        const targetPath = path.join(config.archivePath, "docs", `${slug}.md`);
+        const targetPath = path.join(config.blogPath, "docs", `${slug}.md`);
         await fs.writeFile(targetPath, finalContent, "utf-8");
 
         console.log(chalk.green(`✓ Saved → docs/${slug}.md`));
 
         // Git 커밋 & 푸시
-        await commitAndPush(config.archivePath, `docs: add ${slug}`);
+        await commitAndPush(config.blogPath, `docs: add ${slug}`);
         console.log(chalk.green("✓ Committed & pushed"));
 
         // -d 플래그가 있을 때만 원본 파일 삭제

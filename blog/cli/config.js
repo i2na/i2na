@@ -3,7 +3,7 @@ import path from 'path';
 import os from 'os';
 import chalk from 'chalk';
 
-const CONFIG_PATH = path.join(os.homedir(), '.archive-config.json');
+const CONFIG_PATH = path.join(os.homedir(), '.blog-config.json');
 
 export async function getConfig() {
     try {
@@ -11,7 +11,7 @@ export async function getConfig() {
         const config = JSON.parse(content);
         
         return {
-            archivePath: config.archivePath,
+            blogPath: config.blogPath,
             gitRemote: config.gitRemote,
             baseUrl: config.baseUrl
         };

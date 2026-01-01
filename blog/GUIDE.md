@@ -1,10 +1,10 @@
-# Archive Guide
+# Blog Guide
 
 ## 📁 프로젝트 구조
 
 ```
-archive/
-  cli/                   # CLI (archive 명령어)
+blog/
+  cli/                   # CLI (blog 명령어)
     prompt/              # Prompt 템플릿
     command/             # CLI 명령어
   client/                # React + Vite (Frontend)
@@ -41,11 +41,11 @@ Google Cloud Console에서 OAuth 앱 생성:
 
     ```
     승인된 JavaScript 원본:
-      https://archive.yena.io.kr
+      https://blog.yena.io.kr
       http://localhost:5173
 
     승인된 리디렉션 URI:
-      https://archive.yena.io.kr/api/auth/google
+      https://blog.yena.io.kr/api/auth/google
       http://localhost:5173/api/auth/google
     ```
 
@@ -72,15 +72,15 @@ BASE_URL=http://localhost:5173
 
 #### Vercel (프로덕션)
 
-대시보드 → i2na-archive → Settings → Environment Variables:
+대시보드 → i2na-blog → Settings → Environment Variables:
 
 ```bash
 VITE_GOOGLE_CLIENT_ID=123456789-abcdefg.apps.googleusercontent.com
-VITE_BASE_URL=https://archive.yena.io.kr
+VITE_BASE_URL=https://blog.yena.io.kr
 
 GOOGLE_CLIENT_ID=123456789-abcdefg.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-abcdefghijklmnop
-BASE_URL=https://archive.yena.io.kr
+BASE_URL=https://blog.yena.io.kr
 ```
 
 **Environment**: Production & Preview 모두 체크
@@ -98,7 +98,7 @@ yarn vercel login
 
 # Vercel 프로젝트 연결 (최초 1회만)
 yarn vercel link
-# → 개발용 프로젝트 선택: i2na-archive-dev
+# → 개발용 프로젝트 선택: i2na-blog-dev
 # → Root Directory는 비워두기
 
 # 개발 서버 실행
@@ -117,8 +117,8 @@ yarn start
 - 프로덕션 환경과 동일한 방식으로 API 테스트 가능
 
 **프로젝트 구분:**
-- **i2na-archive-dev**: 로컬 개발용 (Root Directory 비움)
-- **i2na-archive**: 배포용 (Root Directory: `archive`)
+- **i2na-blog-dev**: 로컬 개발용 (Root Directory 비움)
+- **i2na-blog**: 배포용 (Root Directory: `blog`)
 
 ---
 
@@ -233,10 +233,10 @@ yarn preview     # 빌드 결과 프리뷰
 
 ### Vercel 프로젝트 설정
 
-**i2na-archive (프로덕션용)**
+**i2na-blog (프로덕션용)**
 
 ```
-Root Directory: archive
+Root Directory: blog
 Framework Preset: Other
 
 Build Command: (Override 끄기 - vercel.json 사용)
@@ -255,7 +255,7 @@ git push origin main
 
 Vercel이 자동으로:
 
-1. `archive` 폴더로 이동
+1. `blog` 폴더로 이동
 2. `yarn install` 실행
 3. `yarn build` 실행
 4. `client/dist` 배포
@@ -265,7 +265,7 @@ Vercel이 자동으로:
 
 ## 💡 팁
 
-### CLI로 추가 시 (`archive add`)
+### CLI로 추가 시 (`blog add`)
 
 -   `visibility: private` (기본값)
 -   `sharedWith: [yena@moss.land]` (기본값)

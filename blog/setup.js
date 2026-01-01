@@ -3,7 +3,7 @@ import { saveConfig } from "./cli/config.js";
 import chalk from "chalk";
 
 async function setup() {
-    console.log(chalk.bold("\n🗂️  Archive Setup\n"));
+    console.log(chalk.bold("\n🗂️  Blog Setup\n"));
 
     // 현재 프로젝트 경로 자동 인식
     const currentPath = process.cwd();
@@ -11,8 +11,8 @@ async function setup() {
     const answers = await inquirer.prompt([
         {
             type: "input",
-            name: "archivePath",
-            message: "Archive project path:",
+            name: "blogPath",
+            message: "Blog project path:",
             default: currentPath,
         },
         {
@@ -25,20 +25,20 @@ async function setup() {
             type: "input",
             name: "baseUrl",
             message: "Deployment URL:",
-            default: "https://archive.yena.io.kr",
+            default: "https://blog.yena.io.kr",
         },
     ]);
 
     await saveConfig({
-        archivePath: answers.archivePath,
+        blogPath: answers.blogPath,
         gitRemote: answers.gitRemote,
         baseUrl: answers.baseUrl,
     });
 
-    console.log(chalk.green("\n✓ Configuration saved to ~/.archive-config.json"));
+    console.log(chalk.green("\n✓ Configuration saved to ~/.blog-config.json"));
     console.log(chalk.dim("\nNext steps:"));
     console.log(chalk.dim("  1. yarn link"));
-    console.log(chalk.dim("  2. archive call"));
+    console.log(chalk.dim("  2. blog call"));
 }
 
 setup().catch((error) => {
