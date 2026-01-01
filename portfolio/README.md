@@ -1,4 +1,4 @@
-# i2na.github.io
+# Yena.Lee Portfolio
 
 > Portfolio project - Work in Progress
 
@@ -21,20 +21,11 @@
 -   **Contact Section**
 -   **AI 챗봇**: Gemini API 기반 포트폴리오 정보 제공
 
-## Development
+## Installation
 
 ```bash
-# Install dependencies
 yarn install
-
-# Run development server
 yarn dev
-
-# Build for production
-yarn build
-
-# Preview production build
-yarn preview
 ```
 
 ## Environment Variables
