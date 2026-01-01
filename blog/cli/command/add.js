@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import chalk from "chalk";
 import { getConfig } from "../config.js";
-import { commitAndPush } from "../utils/git.js";
+import { commitAndPush } from "../util/git.js";
 
 export default async function addCommand(filepath, options) {
     try {
@@ -38,13 +38,13 @@ export default async function addCommand(filepath, options) {
         const finalContent = matter.stringify(body.trim(), frontmatter);
 
         // 파일 저장
-        const targetPath = path.join(config.blogPath, "docs", `${slug}.md`);
+        const targetPath = path.join(config.blogPath, "post", `${slug}.md`);
         await fs.writeFile(targetPath, finalContent, "utf-8");
 
-        console.log(chalk.green(`✓ Saved → docs/${slug}.md`));
+        console.log(chalk.green(`✓ Saved → post/${slug}.md`));
 
         // Git 커밋 & 푸시
-        await commitAndPush(config.blogPath, `docs: add ${slug}`);
+        await commitAndPush(config.blogPath, `post: add ${slug}`);
         console.log(chalk.green("✓ Committed & pushed"));
 
         // -d 플래그가 있을 때만 원본 파일 삭제

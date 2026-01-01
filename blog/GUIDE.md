@@ -16,7 +16,7 @@ blog/
   api/                   # Vercel Serverless Functions (Backend)
     auth/
       google.ts          # Google OAuth 콜백
-  docs/                  # 마크다운 문서
+  post/                  # 마크다운 문서
   package.json           # Root + Yarn Workspaces
   vercel.json            # Vercel 배포 설정
 ```
@@ -320,6 +320,6 @@ sharedWith: [friend@gmail.com, coworker@company.com]
 
 ### 게시물 안 나옴
 
--   `docs/` 폴더 경로 확인
+-   `post/` 폴더 경로 확인
 -   Frontmatter 형식 확인
 -   콘솔 에러 확인

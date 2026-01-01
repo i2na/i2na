@@ -66,7 +66,7 @@ $ blog call
 
 # 3. 블로그에 추가
 $ blog add /Users/leeyena/dev/project/doc.blog.md
-✓ Saved → docs/react_hooks_guide.md
+✓ Saved → post/react_hooks_guide.md
 ✓ Committed & pushed
 → https://blog.yena.io.kr
 
@@ -89,7 +89,7 @@ blog/
 │   │   └── open.js        # 프로젝트 열기
 │   ├── prompt/            # 프롬프트 템플릿
 │   └── config.js          # 설정 관리
-├── docs/                  # 마크다운 문서들
+├── post/                  # 마크다운 문서들
 ├── client/                # React + Vite (Frontend)
 ├── api/                   # Vercel Serverless Functions (Backend)
 ├── package.json           # Root dependencies

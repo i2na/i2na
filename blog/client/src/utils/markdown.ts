@@ -1,7 +1,7 @@
 import matter from "gray-matter";
 import type { MarkdownFile, TocItem, PostMetadata } from "@/types";
 
-const markdownFiles: Record<string, string> = import.meta.glob("../../../docs/**/*.md", {
+const markdownFiles: Record<string, string> = import.meta.glob("../../../post/**/*.md", {
     query: "?raw",
     import: "default",
     eager: true,

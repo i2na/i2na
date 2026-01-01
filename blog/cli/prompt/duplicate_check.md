@@ -10,8 +10,8 @@
 
 ## 중복 문서 그룹 1
 
--   docs/hooks_basic.md (생성일: 2025-01-15)
--   docs/react_hooks_intro.md (생성일: 2025-02-03)
+-   post/hooks_basic.md (생성일: 2025-01-15)
+-   post/react_hooks_intro.md (생성일: 2025-02-03)
 -   유사도: 85%
 -   제안: 두 문서를 "React Hooks Fundamentals"로 통합
 -   이유: 거의 동일한 내용을 다루고 있으며, 두 번째 문서가 더 최신이고 자세함
