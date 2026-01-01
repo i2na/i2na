@@ -3,11 +3,16 @@ import path from "path";
 import matter from "gray-matter";
 import chalk from "chalk";
 import { getConfig } from "../config.js";
-import { commitAndPush } from "../util/git.js";
+import { commitAndPush, ensureLatest } from "../util/git.js";
 
 export default async function addCommand(filepath, options) {
     try {
         const config = await getConfig();
+
+        // 최신 상태로 동기화
+        console.log(chalk.blue("→ Syncing with remote..."));
+        await ensureLatest(config.blogPath);
+        console.log(chalk.green("✓ Up to date"));
 
         // 파일 읽기
         const content = await fs.readFile(filepath, "utf-8");
