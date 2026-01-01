@@ -1,0 +1,16 @@
+#!/bin/sh
+
+COMMIT_MSG=$(cat "$1")
+
+if ! echo "$COMMIT_MSG" | grep -qE "^[a-zA-Z0-9_-]+: .+"; then
+  echo ""
+  echo "커밋 메시지 형식 오류"
+  echo ""
+  echo "올바른 형식: <scope>: <type>: <description>"
+  echo "예시: portfolio: feat: 새로운 기능 추가"
+  echo ""
+  exit 1
+fi
+
+exit 0
+
