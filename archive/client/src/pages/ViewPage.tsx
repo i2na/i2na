@@ -2,7 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { MarkdownViewer } from "@/components/MarkdownViewer";
-import { MarkdownViewer2026 } from "@/components/MarkdownViewer2026";
 import { getMarkdownFileByFilename, canAccessPost } from "@/utils/markdown";
 import { isAuthenticated, getUserInfo, startGoogleLogin } from "@/utils/auth";
 
@@ -47,7 +46,5 @@ export function ViewPage() {
         return null;
     }
 
-    const is2026Page = filename === "2026.md";
-
-    return is2026Page ? <MarkdownViewer2026 file={file} /> : <MarkdownViewer file={file} />;
+    return <MarkdownViewer file={file} />;
 }
