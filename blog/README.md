@@ -13,15 +13,23 @@ blog/
 ├── cli/                   # CLI 명령어
 │   ├── command/
 │   │   ├── call.js        # 프롬프트 복사
-│   │   ├── add.js         # 문서 추가
+│   │   ├── add.js         # 문서 추가 (Private repo에 push)
 │   │   └── open.js        # 프로젝트 열기
 │   ├── prompt/            # 프롬프트 템플릿
 │   └── config.js          # 설정 관리
-├── post/                  # 마크다운 문서들
 ├── client/                # React + Vite (Frontend)
 ├── api/                   # Vercel Serverless Functions (Backend)
+│   └── posts/            # GitHub Private Repo에서 MD 파일 읽기
+│       ├── index.ts       # 포스트 목록 API
+│       └── [filename].ts  # 개별 포스트 API
 ├── package.json           # Root dependencies
 └── setup.js               # 초기 설정
+
+Separate Private Repository:
+posts/              # GitHub Private Repository
+├── doc1.md      # 마크다운 파일들
+├── doc2.md
+└── ...
 ```
 
 ## Setup
@@ -44,7 +52,7 @@ yarn install
 ```bash
 cd blog
 
-# 초기 설정 (Blog 경로, Git 저장소, 배포 URL)
+# 초기 설정 (Blog 경로, Posts Repo 경로, Git 저장소, 배포 URL)
 node setup.js
 
 # CLI 전역 등록
@@ -58,10 +66,31 @@ blog call
 
 ```json
 {
-    "blogPath": "/현재/프로젝트/경로", // setup.js 실행 시 자동 인식
+    "blogPath": "/Users/leeyena/dev/i2na/blog",
+    "postsRepoPath": "/Users/leeyena/dev/i2na-blog-md",
     "gitRemote": "https://github.com/i2na/i2na.git",
+    "postsGitRemote": "https://github.com/i2na/i2na-blog-md.git",
     "baseUrl": "https://blog.yena.io.kr"
 }
+```
+
+**Private Repo Setup:**
+
+```bash
+# 1. GitHub에서 Private Repo 생성
+# Repository: i2na/i2na-blog-md
+# Visibility: Private
+
+# 2. 로컬에 클론
+cd /Users/leeyena/dev
+git clone https://github.com/i2na/i2na-blog-md.git
+
+# 3. 기존 포스트 복사 (있다면)
+cp /Users/leeyena/dev/i2na/blog/post/*.md /Users/leeyena/dev/i2na-blog-md/
+cd i2na-blog-md
+git add .
+git commit -m "Initial posts"
+git push
 ```
 
 #### Web Development Setup
@@ -85,6 +114,12 @@ yarn build
 
 # 프리뷰
 yarn preview
+```
+
+```bash
+# .vercel 삭제 후 재연결 (프로젝트명 지정 시)
+rm -rf .vercel
+yarn vercel link --yes --project <project_name>
 ```
 
 **About Vercel Dev**
@@ -115,10 +150,17 @@ VITE_GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
 GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-your_client_secret
 
+# GitHub Private Repository Access Token
+# Settings → Developer settings → Personal access tokens → Tokens (classic)
+# Scopes: repo (Full control of private repositories)
+BLOG_POSTS_GITHUB_TOKEN=ghp_your_github_personal_access_token
+
 # 애플리케이션 Base URL
 VITE_BASE_URL=base-url
 BASE_URL=base-url
 ```
+
+**Important:** Vercel Dashboard에도 환경 변수를 동일하게 설정해야 합니다.
 
 ## Usage
 
@@ -151,16 +193,16 @@ $ blog call
 $ blog add /Users/leeyena/dev/project/doc.blog.md
 → Syncing with remote...
 ✓ Up to date
-✓ Saved → post/doc.blog.md
-✓ Committed & pushed
+✓ Saved → doc.blog.md
+✓ Committed & pushed to private repo
 → https://blog.yena.io.kr/doc.blog.md
 
 # 원본 파일도 삭제하려면
 $ blog add /Users/leeyena/dev/project/doc.blog.md -d
 → Syncing with remote...
 ✓ Up to date
-✓ Saved → post/doc.blog.md
-✓ Committed & pushed
+✓ Saved → doc.blog.md
+✓ Committed & pushed to private repo
 ✓ Removed original file
 → https://blog.yena.io.kr/doc.blog.md
 

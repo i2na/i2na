@@ -1,9 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { randomBytes } from "crypto";
+import { ENV_VARS, URLS, DEFAULTS } from "../../constants.js";
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const BASE_URL = process.env.BASE_URL;
+const GOOGLE_CLIENT_ID = ENV_VARS.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = ENV_VARS.GOOGLE_CLIENT_SECRET;
+const BASE_URL = ENV_VARS.BASE_URL;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { code, state } = req.query;
@@ -15,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const redirectPath = state ? decodeURIComponent(state as string) : "/";
 
     try {
-        const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+        const tokenResponse = await fetch(URLS.GOOGLE_TOKEN_ENDPOINT, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -36,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(401).json({ error: "Authentication failed" });
         }
 
-        const userResponse = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
+        const userResponse = await fetch(URLS.GOOGLE_USERINFO_ENDPOINT, {
             headers: {
                 Authorization: `Bearer ${tokenData.access_token}`,
             },
@@ -44,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         const user = await userResponse.json();
         const authToken = randomBytes(32).toString("hex");
-        const expires = Date.now() + 30 * 24 * 60 * 60 * 1000;
+        const expires = Date.now() + DEFAULTS.AUTH_TOKEN_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
 
         const authData = {
             token: authToken,

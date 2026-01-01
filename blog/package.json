@@ -25,7 +25,9 @@
         "simple-git": "^3.22.0"
     },
     "devDependencies": {
+        "@types/node": "^25.0.3",
         "concurrently": "^8.2.2",
+        "typescript": "^5.9.3",
         "vercel": "^33.0.0"
     }
 }

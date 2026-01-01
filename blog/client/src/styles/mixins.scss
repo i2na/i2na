@@ -31,3 +31,50 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+@mixin loading-spinner($size: 10px, $color: $gray-400) {
+    @include flex-center;
+    width: 100%;
+    min-height: 200px;
+    gap: 10px;
+
+    &::before,
+    &::after {
+        content: "";
+        width: $size;
+        height: $size;
+        border-radius: 50%;
+        background-color: $color;
+        animation: loading-fade 1.4s ease-in-out infinite;
+    }
+
+    &::before {
+        animation-delay: -0.32s;
+    }
+
+    span {
+        width: $size;
+        height: $size;
+        border-radius: 50%;
+        background-color: $color;
+        animation: loading-fade 1.4s ease-in-out infinite;
+        animation-delay: -0.16s;
+    }
+
+    &::after {
+        animation-delay: 0s;
+    }
+
+    @keyframes loading-fade {
+        0%,
+        80%,
+        100% {
+            opacity: 0.3;
+            transform: scale(0.8);
+        }
+        40% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}

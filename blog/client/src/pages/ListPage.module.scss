@@ -132,3 +132,8 @@
     color: $gray-500;
     font-size: $font-size-base;
 }
+
+.loading {
+    @include loading-spinner(0.8rem, $gray-400);
+    padding: $spacing-3xl 0;
+}

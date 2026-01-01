@@ -1,44 +1,35 @@
-import matter from "gray-matter";
-import type { MarkdownFile, TocItem, PostMetadata } from "@/types";
+import type { MarkdownFile, TocItem } from "@/types";
+import { fetchPosts, fetchPost } from "./api";
 
-const markdownFiles: Record<string, string> = import.meta.glob("../../../post/**/*.md", {
-    query: "?raw",
-    import: "default",
-    eager: true,
-});
+export async function getMarkdownFiles(userEmail: string | null = null): Promise<MarkdownFile[]> {
+    try {
+        const data = await fetchPosts({ userEmail });
 
-export function getMarkdownFiles(): MarkdownFile[] {
-    const files: MarkdownFile[] = [];
+        const files: MarkdownFile[] = (data.posts || []).map((post: any) => ({
+            filename: post.filename,
+            title: post.title,
+            content: "",
+            path: post.path,
+            metadata: post.metadata,
+        }));
 
-    for (const [path, content] of Object.entries(markdownFiles)) {
-        const filename = path.split("/").pop() || "";
-        const relativePath = path.replace("../../../", "");
-
-        const { data, content: markdownContent } = matter(content as string);
-
-        const metadata: PostMetadata = {
-            visibility: data.visibility || "public",
-            sharedWith: data.sharedWith || [],
-            createdAt: data.createdAt,
-        };
-
-        const title = filename.replace(".md", "");
-
-        files.push({
-            filename,
-            title,
-            content: markdownContent,
-            path: relativePath,
-            metadata,
-        });
+        return files.sort((a, b) => a.filename.localeCompare(b.filename));
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        return [];
     }
-
-    return files.sort((a, b) => a.filename.localeCompare(b.filename));
 }
 
-export function getMarkdownFileByFilename(filename: string): MarkdownFile | null {
-    const files = getMarkdownFiles();
-    return files.find((f) => f.filename === filename) || null;
+export async function getMarkdownFileByFilename(
+    filename: string,
+    userEmail: string | null = null
+): Promise<MarkdownFile | null> {
+    try {
+        return await fetchPost(filename, { userEmail });
+    } catch (error) {
+        console.error("Error fetching post:", error);
+        return null;
+    }
 }
 
 export function extractTableOfContents(markdown: string): TocItem[] {
@@ -67,7 +58,13 @@ export function extractTableOfContents(markdown: string): TocItem[] {
 export function canAccessPost(file: MarkdownFile, userEmail: string | null): boolean {
     if (file.metadata.visibility === "public") return true;
     if (!userEmail) return false;
-    return file.metadata.sharedWith.includes(userEmail);
+    
+    const sharedWith = file.metadata.sharedWith;
+    if (!Array.isArray(sharedWith)) {
+        return false;
+    }
+    
+    return sharedWith.includes(userEmail);
 }
 
 export function filterPostsByVisibility(

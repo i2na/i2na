@@ -2,17 +2,35 @@ import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
 import chalk from "chalk";
+import { execSync } from "child_process";
 import { getConfig } from "../config.js";
-import { commitAndPush, ensureLatest } from "../util/git.js";
+import { DEFAULTS, GIT, FILE } from "../../constants.js";
+
+function createFrontmatter(visibility, sharedWith, createdAt) {
+    return `---
+visibility: ${visibility}
+sharedWith: [${sharedWith.join(", ")}]
+createdAt: ${createdAt}
+---
+
+`;
+}
 
 export default async function addCommand(filepath, options) {
     try {
         const config = await getConfig();
 
-        // 최신 상태로 동기화
+        // Private repo 최신 상태로 동기화
         console.log(chalk.blue("→ Syncing with remote..."));
-        await ensureLatest(config.blogPath);
-        console.log(chalk.green("✓ Up to date"));
+        try {
+            execSync("git pull --rebase", {
+                cwd: config.postsRepoPath,
+                stdio: "pipe",
+            });
+            console.log(chalk.green("✓ Up to date"));
+        } catch (error) {
+            console.log(chalk.yellow("⚠ No remote changes"));
+        }
 
         // 파일 읽기
         const content = await fs.readFile(filepath, "utf-8");
@@ -20,7 +38,7 @@ export default async function addCommand(filepath, options) {
         const body = parsed.content;
 
         // 원본 파일명을 그대로 사용 (확장자 제거)
-        const slug = path.basename(filepath, ".md");
+        const slug = path.basename(filepath, FILE.MD_EXTENSION);
 
         // 한국 시간 생성 (KST)
         const now = new Date();
@@ -32,25 +50,48 @@ export default async function addCommand(filepath, options) {
         const minutes = String(kstTime.getUTCMinutes()).padStart(2, "0");
         const timestamp = `${year}.${month}.${day} ${hours}:${minutes}`;
 
-        // Frontmatter 생성
-        const frontmatter = {
-            visibility: parsed.data.visibility || "private",
-            sharedWith: parsed.data.sharedWith || ["yena@moss.land"],
-            createdAt: parsed.data.createdAt || timestamp,
-        };
+        // Frontmatter 데이터
+        const visibility = parsed.data.visibility || DEFAULTS.DEFAULT_VISIBILITY;
+        const sharedWith = parsed.data.sharedWith || [DEFAULTS.DEFAULT_AUTHOR_EMAIL];
+        const createdAt = parsed.data.createdAt || timestamp;
 
-        // 파일 내용 생성 (frontmatter 추가)
-        const finalContent = matter.stringify(body.trim(), frontmatter);
+        // 배열 형식의 frontmatter 생성
+        const frontmatterText = createFrontmatter(visibility, sharedWith, createdAt);
+        const finalContent = frontmatterText + body.trim();
 
-        // 파일 저장
-        const targetPath = path.join(config.blogPath, "post", `${slug}.md`);
+        // Private repo에 파일 저장
+        const targetPath = path.join(config.postsRepoPath, `${slug}${FILE.MD_EXTENSION}`);
         await fs.writeFile(targetPath, finalContent, "utf-8");
 
-        console.log(chalk.green(`✓ Saved → post/${slug}.md`));
+        console.log(chalk.green(`✓ Saved → ${slug}${FILE.MD_EXTENSION}`));
 
-        // Git 커밋 & 푸시
-        await commitAndPush(config.blogPath, `post: add ${slug}`);
-        console.log(chalk.green("✓ Committed & pushed"));
+        // Prettier 포맷팅 적용
+        try {
+            execSync(`npx prettier --write "${slug}${FILE.MD_EXTENSION}"`, {
+                cwd: config.postsRepoPath,
+                stdio: "pipe",
+            });
+            console.log(chalk.green("✓ Formatted with Prettier"));
+        } catch (error) {
+            console.log(chalk.yellow("⚠ Prettier formatting skipped"));
+        }
+
+        // Git commit & push to private repo
+        try {
+            execSync(`git add "${slug}${FILE.MD_EXTENSION}"`, {
+                cwd: config.postsRepoPath,
+                stdio: "pipe",
+            });
+            execSync(`git commit -m "${GIT.COMMIT_MESSAGE_PREFIX} ${slug}"`, {
+                cwd: config.postsRepoPath,
+                stdio: "pipe",
+            });
+            execSync("git push", { cwd: config.postsRepoPath, stdio: "inherit" });
+            console.log(chalk.green("✓ Committed & pushed to private repo"));
+        } catch (error) {
+            console.error(chalk.red("✗ Git operation failed"));
+            throw error;
+        }
 
         // -d 플래그가 있을 때만 원본 파일 삭제
         if (options.delete) {

@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getMarkdownFiles, filterPostsByVisibility } from "@/utils/markdown";
+import { getMarkdownFiles } from "@/utils/markdown";
 import { isAuthenticated, getUserInfo, startGoogleLogin, clearAuth } from "@/utils/auth";
+import type { MarkdownFile } from "@/types";
 import styles from "./ListPage.module.scss";
 
 export function ListPage() {
     const navigate = useNavigate();
     const [authenticated, setAuthenticated] = useState(isAuthenticated());
     const [user, setUser] = useState(getUserInfo());
+    const [files, setFiles] = useState<MarkdownFile[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const checkAuth = () => {
@@ -23,8 +26,17 @@ export function ListPage() {
         };
     }, []);
 
-    const allFiles = getMarkdownFiles();
-    const visibleFiles = filterPostsByVisibility(allFiles, user?.email || null);
+    useEffect(() => {
+        const fetchPosts = async () => {
+            setLoading(true);
+            const userEmail = user?.email || null;
+            const posts = await getMarkdownFiles(userEmail);
+            setFiles(posts);
+            setLoading(false);
+        };
+
+        fetchPosts();
+    }, [user]);
 
     const handleFileClick = (filename: string) => {
         navigate(`/${filename}`);
@@ -62,10 +74,14 @@ export function ListPage() {
                 </div>
 
                 <div className={styles.list}>
-                    {visibleFiles.length === 0 ? (
+                    {loading ? (
+                        <div className={styles.loading}>
+                            <span></span>
+                        </div>
+                    ) : files.length === 0 ? (
                         <div className={styles.empty}>게시물이 없습니다</div>
                     ) : (
-                        visibleFiles.map((file) => (
+                        files.map((file) => (
                             <div
                                 key={file.filename}
                                 className={styles.item}

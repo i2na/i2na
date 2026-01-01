@@ -1,6 +1,103 @@
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
+.viewPage {
+    min-height: 100vh;
+    background: white;
+}
+
+.container {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 $spacing-xl $spacing-3xl;
+
+    @include respond-to(md) {
+        padding: 0 $spacing-md $spacing-xl;
+    }
+}
+
+.toolbar {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    z-index: 1000;
+    border-bottom: 1px solid transparent;
+    transition: border-color $transition-base;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    height: 56px;
+
+    @include respond-to(md) {
+        height: 46px;
+    }
+}
+
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+}
+
+.backButton {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: transparent;
+    border: none;
+    color: $gray-700;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all $transition-base;
+    border-radius: 4px;
+    padding: 2px;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+        color: $gray-900;
+        background: $gray-100;
+    }
+
+    @include respond-to(md) {
+        font-size: $font-size-xs;
+    }
+}
+
+.shareButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: $gray-700;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: all $transition-base;
+    border-radius: 4px;
+    padding: 2px;
+
+    &:hover {
+        color: $gray-900;
+        background: $gray-100;
+    }
+
+    @include respond-to(md) {
+        font-size: 1.05rem;
+    }
+}
+
+.loading {
+    @include loading-spinner(0.8rem, $gray-400);
+    min-height: 400px;
+}
+
 .errorPage {
     min-height: 100vh;
     display: flex;

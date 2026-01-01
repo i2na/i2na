@@ -24,10 +24,6 @@
         background: $gray-100;
     }
 
-    &:active {
-        transform: scale(0.95);
-    }
-
     @include respond-to(md) {
         font-size: 1.45rem;
     }
