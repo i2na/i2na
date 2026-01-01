@@ -100,7 +100,7 @@ export default async function addCommand(filepath, options) {
         }
 
         // URL 출력
-        console.log(chalk.cyan(`→ ${config.baseUrl}/${slug}`));
+        console.log(chalk.cyan(`→ ${config.baseUrl}/${slug}.md`));
     } catch (error) {
         console.error(chalk.red("✗ Failed to add document"));
         console.error(chalk.dim(error.message));
