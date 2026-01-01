@@ -103,7 +103,7 @@ Google Cloud Console (https://console.cloud.google.com/)에서 설정:
 
 ### Environment Variables
 
-루트에 `.env` 파일을 생성:
+`/blog/.env`
 
 ```bash
 # Google OAuth 클라이언트 ID (프론트엔드용)
