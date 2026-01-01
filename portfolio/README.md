@@ -2,20 +2,24 @@
 
 > Portfolio project - Work in Progress
 
-개발용 임시 배포: https://i2na.vercel.app/
+**Production**: https://yena.io.kr
 
 ## Tech Stack
 
-- Vite
-- React
-- TypeScript
-- Tailwind CSS
+-   Vite
+-   React
+-   TypeScript
+-   SCSS
+-   Feature-Sliced Design
 
 ## Key Features
 
-- Markdown 기반 블로그 포스팅
-- 3D 인터랙티브 씬 (Spline)
-- AI 챗봇 위젯
+-   **Hero Section**: Spline 3D 기반 인터랙티브 씬
+-   **About Section**
+-   **Blog Section**: 블로그 사이트 연동 (https://blog.yena.io.kr)
+-   **Tech Stack Section**
+-   **Contact Section**
+-   **AI 챗봇**: Gemini API 기반 포트폴리오 정보 제공
 
 ## Development
 
@@ -35,18 +39,10 @@ yarn preview
 
 ## Environment Variables
 
-Create `.env.local` file and set:
+`/portfolio/.env.local`
 
 ```
 GEMINI_API_KEY=your_api_key_here
-```
-
-## Content Structure
-
-```
-blog/
-├── *.md              # 게시된 포스트
-└── temp/             # 임시 저장 (빌드 제외)
 ```
 
 ## Status
