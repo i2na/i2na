@@ -32,7 +32,7 @@
 
 🤖 **Electrical and Computer Engineering** | University of Seoul | [Link](https://engineering.uos.ac.kr/engineering/depart/ecehp/introduct.do)
 <br>
-💻 **Quipu Developer** | UOS Computer Club | [Link](https://quipu.uos.ac.kr/) | [GitHub](https://github.com/Quipu-Developers)
+💻 **Quipu President & Developer** | UOS Computer Club | [Link](https://quipu.uos.ac.kr/) | [GitHub](https://github.com/Quipu-Developers)
 <br>
 🏙️ **Mossland Developer** | IT Company connecting reality and virtual space | [Link](https://www.moss.land) | [GitHub](https://github.com/mossland)
 
