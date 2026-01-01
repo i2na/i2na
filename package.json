@@ -1,9 +1,9 @@
 {
-  "name": "i2na",
-  "version": "1.0.0",
-  "private": true,
-  "description": "i2na monorepo",
-  "scripts": {
-    "postinstall": "node git-hook/install.js"
-  }
+    "name": "i2na",
+    "version": "1.0.0",
+    "private": true,
+    "description": "i2na monorepo",
+    "scripts": {
+        "postinstall": "node git-hook/install.js"
+    }
 }

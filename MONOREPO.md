@@ -1,5 +1,17 @@
 # Monorepo Management Guide
 
+## Initial Setup
+
+저장소를 clone한 후 다음 명령어를 실행하세요:
+
+```bash
+git clone <repository-url>
+cd i2na
+yarn install
+```
+
+이 명령어는 Git hooks를 자동으로 설치하여 아래의 커밋 규칙이 적용되도록 합니다.
+
 ## Git Commit Rules
 
 ### Auto Prefix
@@ -37,6 +49,12 @@ git commit -m "docs: update profile"
 # → "docs: update profile"
 ```
 
+### Bypass Validation
+
+```bash
+git commit --no-verify -m "message"
+```
+
 ## Vercel Build Optimization
 
 각 프로젝트는 변경 감지 시에만 빌드됩니다.
@@ -47,16 +65,8 @@ git commit -m "docs: update profile"
 
 ```json
 {
-    "ignoreCommand": "git diff HEAD^ HEAD --quiet -- <project>/"
+    "ignoreCommand": "git diff HEAD^ HEAD --quiet ."
 }
-```
-
-### Dashboard Setting (Optional)
-
-**Settings → Git → Ignored Build Step**
-
-```bash
-git diff HEAD^ HEAD --quiet -- <project>/
 ```
 
 ## Troubleshooting
@@ -67,10 +77,4 @@ Git hooks는 `.git/hooks/`에 위치하며 실행 권한이 필요합니다.
 
 ```bash
 chmod +x .git/hooks/pre-commit .git/hooks/prepare-commit-msg .git/hooks/commit-msg
-```
-
-### Bypass Validation
-
-```bash
-git commit --no-verify -m "message"
 ```
