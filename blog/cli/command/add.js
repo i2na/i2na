@@ -50,9 +50,8 @@ export default async function addCommand(filepath, options) {
         const minutes = String(kstTime.getUTCMinutes()).padStart(2, "0");
         const timestamp = `${year}.${month}.${day} ${hours}:${minutes}`;
 
-        // Frontmatter 데이터
-        const visibility = parsed.data.visibility || DEFAULTS.DEFAULT_VISIBILITY;
-        const sharedWith = parsed.data.sharedWith || [DEFAULTS.DEFAULT_AUTHOR_EMAIL];
+        const visibility = DEFAULTS.DEFAULT_VISIBILITY;
+        const sharedWith = [DEFAULTS.DEFAULT_AUTHOR_EMAIL];
         const createdAt = parsed.data.createdAt || timestamp;
 
         // 배열 형식의 frontmatter 생성
@@ -65,29 +64,30 @@ export default async function addCommand(filepath, options) {
 
         console.log(chalk.green(`✓ Saved → ${slug}${FILE.MD_EXTENSION}`));
 
-        // Prettier 포맷팅 적용
-        try {
-            execSync(`npx prettier --write "${slug}${FILE.MD_EXTENSION}"`, {
-                cwd: config.postsRepoPath,
-                stdio: "pipe",
-            });
-            console.log(chalk.green("✓ Formatted with Prettier"));
-        } catch (error) {
-            console.log(chalk.yellow("⚠ Prettier formatting skipped"));
-        }
-
         // Git commit & push to private repo
         try {
             execSync(`git add "${slug}${FILE.MD_EXTENSION}"`, {
                 cwd: config.postsRepoPath,
                 stdio: "pipe",
             });
-            execSync(`git commit -m "${GIT.COMMIT_MESSAGE_PREFIX} ${slug}"`, {
-                cwd: config.postsRepoPath,
-                stdio: "pipe",
-            });
-            execSync("git push", { cwd: config.postsRepoPath, stdio: "inherit" });
-            console.log(chalk.green("✓ Committed & pushed to private repo"));
+
+            // 변경사항이 있는지 확인
+            try {
+                execSync("git diff --cached --quiet", {
+                    cwd: config.postsRepoPath,
+                    stdio: "pipe",
+                });
+                // exit code 0 = 변경사항 없음
+                console.log(chalk.yellow("⚠ No changes to commit (file already up to date)"));
+            } catch {
+                // exit code 1 = 변경사항 있음
+                execSync(`git commit -m "${GIT.COMMIT_MESSAGE_PREFIX} ${slug}"`, {
+                    cwd: config.postsRepoPath,
+                    stdio: "pipe",
+                });
+                execSync("git push", { cwd: config.postsRepoPath, stdio: "inherit" });
+                console.log(chalk.green("✓ Committed & pushed to private repo"));
+            }
         } catch (error) {
             console.error(chalk.red("✗ Git operation failed"));
             throw error;
