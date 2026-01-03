@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMarkdownFiles } from "@/utils/markdown";
 import { isAuthenticated, getUserInfo, startGoogleLogin, clearAuth } from "@/utils/auth";
+import { formatDate } from "@/utils/date";
+import { GoRepo, GoLock } from "react-icons/go";
 import type { MarkdownFile } from "@/types";
 import styles from "./ListPage.module.scss";
 
@@ -57,7 +59,7 @@ export function ListPage() {
         <div className={styles.listPage}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>Blog</h1>
+                    <h1 className={styles.title}>@yena/blog</h1>
 
                     {authenticated && user ? (
                         <div className={styles.userInfo}>
@@ -87,11 +89,26 @@ export function ListPage() {
                                 className={styles.item}
                                 onClick={() => handleFileClick(file.filename)}
                             >
-                                <div className={styles.itemTitle}>
-                                    {file.title}
-                                    {file.metadata.visibility === "private" && (
-                                        <span className={styles.sharedBadge}>Shared</span>
-                                    )}
+                                <div className={styles.itemMain}>
+                                    <div className={styles.itemTitleRow}>
+                                        <GoRepo className={styles.repoIcon} />
+                                        <h2 className={styles.itemTitle} title={file.title}>
+                                            {file.title}
+                                        </h2>
+                                        {file.metadata.visibility === "private" && (
+                                            <span className={styles.sharedBadge}>
+                                                <GoLock size={12} />
+                                                <span className={styles.badgeText}>Shared</span>
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className={styles.itemMeta}>
+                                        {file.metadata.createdAt && (
+                                            <span className={styles.date}>
+                                                {formatDate(file.metadata.createdAt)}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         ))

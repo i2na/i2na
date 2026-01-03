@@ -6,6 +6,7 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import type { MarkdownFile } from "@/types";
 import { smoothScrollToElement } from "@/utils/scroll";
+import { formatDate } from "@/utils/date";
 import { HeaderLink } from "./HeaderLink";
 import styles from "./MarkdownViewer.module.scss";
 import "@/styles/markdown.scss";
@@ -44,10 +45,16 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
         <article className={styles.article}>
             <div className="markdownContent">
                 {file.metadata.createdAt && (
-                    <>
-                        <sub>{file.metadata.createdAt}</sub>
-                        {"\n\n"}
-                    </>
+                    <span
+                        style={{
+                            fontSize: "0.875rem",
+                            color: "#6e7781",
+                            display: "block",
+                            marginBottom: "0.5rem",
+                        }}
+                    >
+                        {formatDate(file.metadata.createdAt)}
+                    </span>
                 )}
                 <ReactMarkdown
                     remarkPlugins={[remarkGfm]}

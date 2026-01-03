@@ -7,7 +7,7 @@
 }
 
 .container {
-    max-width: 48rem;
+    max-width: 52rem;
     margin: 0 auto;
     padding: 0 $spacing-xl $spacing-3xl;
 
@@ -18,55 +18,51 @@
 
 .toolbar {
     position: sticky;
-    position: -webkit-sticky;
     top: 0;
-    left: 0;
-    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: white;
     z-index: 1000;
-    border-bottom: 1px solid transparent;
-    transition: border-color $transition-base;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    height: 56px;
+    border-bottom: 1px solid $gray-200;
+    height: 64px;
+    margin-bottom: $spacing-2xl;
 
     @include respond-to(md) {
-        height: 46px;
+        height: 56px;
+        margin-bottom: $spacing-xl;
     }
 }
 
 .toolbarActions {
     display: flex;
     align-items: center;
-    gap: $spacing-lg;
+    gap: $spacing-md;
 }
 
 .backButton {
     display: inline-flex;
     align-items: center;
     gap: $spacing-xs;
-    background: transparent;
-    border: none;
+    background: $gray-50;
+    border: 1px solid $gray-200;
     color: $gray-700;
     font-size: $font-size-sm;
+    font-weight: 500;
     cursor: pointer;
     transition: all $transition-base;
-    border-radius: 4px;
-    padding: 2px;
-    -webkit-tap-highlight-color: transparent;
+    border-radius: 6px;
+    padding: 6px 12px;
 
     &:hover {
-        color: $gray-900;
         background: $gray-100;
+        border-color: $gray-300;
+        color: $gray-900;
     }
 
     @include respond-to(md) {
         font-size: $font-size-xs;
+        padding: 4px 10px;
     }
 }
 
@@ -74,27 +70,28 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    border: none;
+    background: $gray-50;
+    border: 1px solid $gray-200;
     color: $gray-700;
-    font-size: 1.15rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all $transition-base;
-    border-radius: 4px;
-    padding: 2px;
+    border-radius: 6px;
+    padding: 6px;
 
     &:hover {
-        color: $gray-900;
         background: $gray-100;
-    }
-
-    @include respond-to(md) {
-        font-size: 1.05rem;
+        border-color: $gray-300;
+        color: $gray-900;
     }
 }
 
+.content {
+    margin: 0 auto;
+}
+
 .loading {
-    @include loading-spinner(0.8rem, $gray-400);
+    @include loading-spinner(1.2rem, $gray-400);
     min-height: 400px;
 }
 

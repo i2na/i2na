@@ -68,6 +68,16 @@ export function ViewPage() {
 
     const tocItems = file ? extractTableOfContents(file.content) : [];
 
+    const formatDate = (dateString?: string) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat("ko-KR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        }).format(date);
+    };
+
     return (
         <div className={styles.viewPage}>
             <div className={styles.container}>
@@ -90,7 +100,9 @@ export function ViewPage() {
                         <span></span>
                     </div>
                 ) : file ? (
-                    <MarkdownViewer file={file} />
+                    <div className={styles.content}>
+                        <MarkdownViewer file={file} />
+                    </div>
                 ) : null}
             </div>
         </div>

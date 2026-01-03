@@ -3,16 +3,17 @@
 
 .listPage {
     min-height: 100vh;
-    background: $gray-50;
-    padding: $spacing-3xl $spacing-xl;
+    background: white;
+    padding: $spacing-2xl $spacing-xl;
+    overflow-x: hidden;
 
     @include respond-to(md) {
-        padding: $spacing-2xl $spacing-md;
+        padding: $spacing-xl $spacing-md;
     }
 }
 
 .container {
-    max-width: 42rem;
+    max-width: 52rem;
     margin: 0 auto;
 }
 
@@ -20,12 +21,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacing-lg;
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $gray-200;
 
     @include respond-to(md) {
         flex-direction: column;
         align-items: flex-start;
         gap: $spacing-md;
+        margin-bottom: $spacing-lg;
     }
 }
 
@@ -33,107 +37,134 @@
     font-size: $font-size-2xl;
     font-weight: 600;
     color: $gray-900;
-
-    @include respond-to(md) {
-        font-size: $font-size-2xl;
-    }
 }
 
 .userInfo {
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    font-size: $font-size-sm;
 }
 
 .userEmail {
+    font-size: $font-size-sm;
     color: $gray-600;
 }
 
-.loginButton {
-    padding: $spacing-xs $spacing-md;
-    background: $gray-900;
-    border: 1px solid $gray-900;
-    border-radius: 4px;
-    color: white;
-    font-size: $font-size-sm;
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &:hover {
-        background: $gray-800;
-        border-color: $gray-800;
-    }
-}
-
+.loginButton,
 .logoutButton {
-    padding: $spacing-xs $spacing-sm;
-    background: none;
-    border: 1px solid $gray-300;
-    border-radius: 4px;
-    color: $gray-600;
+    padding: 5px 12px;
+    background: $gray-50;
+    border: 1px solid $gray-200;
+    border-radius: 6px;
+    color: $gray-900;
     font-size: $font-size-sm;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
         background: $gray-100;
-        border-color: $gray-400;
+        border-color: $gray-300;
     }
 }
 
 .list {
     display: flex;
     flex-direction: column;
-    gap: 0;
 }
 
 .item {
-    padding: $spacing-md 0;
-    border-bottom: 1px solid $gray-200;
+    padding: $spacing-lg 0;
+    border-bottom: 1px solid $gray-100;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
-    transition: background 0.2s;
 
     &:hover {
-        background: rgba(0, 0, 0, 0.02);
+        .itemTitle {
+            color: #1f4eb4;
+        }
+    }
+
+    @include respond-to(md) {
+        padding: $spacing-md 0;
     }
 }
 
-.itemTitle {
-    font-size: $font-size-lg;
-    font-weight: 400;
-    color: $gray-800;
+.itemMain {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+}
+
+.itemTitleRow {
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    flex: 1;
+}
+
+.repoIcon {
+    color: $gray-500;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.itemTitle {
+    font-size: $font-size-xl;
+    font-weight: 600;
+    color: #2563eb;
+    margin: 0;
+    line-height: 1.25;
+
+    /* 2줄까지만 표시하고 넘어가면 ... 처리 */
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
 
     @include respond-to(md) {
-        font-size: $font-size-base;
+        font-size: $font-size-lg;
     }
 }
 
 .sharedBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-size: $font-size-xs;
     color: $gray-500;
-    background: $gray-100;
-    padding: 2px 8px;
-    border-radius: 3px;
+    border: 1px solid $gray-200;
+    padding: 2px 7px;
+    border-radius: 20px;
     font-weight: 500;
-    letter-spacing: 0.02em;
+}
+
+.badgeText {
+    @include respond-to(md) {
+        display: none;
+    }
+}
+
+.itemMeta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-top: $spacing-xs;
+}
+
+.date {
+    font-size: $font-size-xs;
+    color: $gray-500;
 }
 
 .empty {
     padding: $spacing-3xl 0;
     text-align: center;
     color: $gray-500;
-    font-size: $font-size-base;
 }
 
 .loading {
-    @include loading-spinner(0.8rem, $gray-400);
+    @include loading-spinner(1rem, $gray-400);
     padding: $spacing-3xl 0;
 }
