@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMarkdownFiles } from "@/utils/markdown";
 import { isAuthenticated, getUserInfo, startGoogleLogin, clearAuth } from "@/utils/auth";
-import { formatDate } from "@/utils/date";
 import { GoRepo, GoLock } from "react-icons/go";
 import type { MarkdownFile } from "@/types";
 import styles from "./ListPage.module.scss";
@@ -105,7 +104,7 @@ export function ListPage() {
                                     <div className={styles.itemMeta}>
                                         {file.metadata.createdAt && (
                                             <span className={styles.date}>
-                                                {formatDate(file.metadata.createdAt)}
+                                                {file.metadata.createdAt}
                                             </span>
                                         )}
                                     </div>
