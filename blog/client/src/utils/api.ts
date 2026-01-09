@@ -1,5 +1,3 @@
-const API_BASE = "/api";
-
 interface FetchOptions {
     userEmail?: string | null;
 }
@@ -10,7 +8,7 @@ export async function fetchPosts(options: FetchOptions = {}) {
         headers["x-user-email"] = options.userEmail;
     }
 
-    const response = await fetch(`${API_BASE}/posts`, { headers });
+    const response = await fetch("/api/posts", { headers });
     if (!response.ok) {
         throw new Error("Failed to fetch posts");
     }
@@ -24,7 +22,7 @@ export async function fetchPost(filename: string, options: FetchOptions = {}) {
         headers["x-user-email"] = options.userEmail;
     }
 
-    const response = await fetch(`${API_BASE}/posts?file=${encodeURIComponent(filename)}`, {
+    const response = await fetch(`/api/posts?file=${encodeURIComponent(filename)}`, {
         headers,
     });
 
