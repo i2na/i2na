@@ -38,28 +38,26 @@
 }
 
 .backButton {
+    @include text-button;
+}
+
+.settingsButton {
     display: inline-flex;
     align-items: center;
-    gap: $spacing-xs;
+    justify-content: center;
     background: $gray-50;
     border: 1px solid $gray-200;
     color: $gray-700;
-    font-size: $font-size-sm;
-    font-weight: 500;
+    font-size: 1rem;
     cursor: pointer;
     transition: all $transition-base;
     border-radius: 6px;
-    padding: 6px 12px;
+    padding: 6px;
 
     &:hover {
         background: $gray-100;
         border-color: $gray-300;
         color: $gray-900;
-    }
-
-    @include respond-to(md) {
-        font-size: $font-size-xs;
-        padding: 4px 10px;
     }
 }
 
@@ -88,7 +86,7 @@
 }
 
 .loading {
-    @include loading-spinner(1.2rem, $gray-400);
+    @include loading-spinner(1rem, $gray-400);
     min-height: 400px;
 }
 

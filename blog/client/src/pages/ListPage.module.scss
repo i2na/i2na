@@ -49,20 +49,7 @@
 
 .loginButton,
 .logoutButton {
-    padding: 5px 12px;
-    background: $gray-50;
-    border: 1px solid $gray-200;
-    border-radius: 6px;
-    color: $gray-900;
-    font-size: $font-size-sm;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &:hover {
-        background: $gray-100;
-        border-color: $gray-300;
-    }
+    @include text-button;
 }
 
 .list {

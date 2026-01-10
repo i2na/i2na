@@ -40,7 +40,8 @@ export function ListPage() {
     }, [user]);
 
     const handleFileClick = (filename: string) => {
-        navigate(`/${filename}`);
+        const baseFilename = filename.replace(".md", "");
+        navigate(`/${baseFilename}`);
     };
 
     const handleLogin = () => {

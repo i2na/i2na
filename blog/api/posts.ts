@@ -3,6 +3,25 @@ import { fetchGitHubFileList, fetchGitHubFile } from "./utils/github.js";
 import { parseFrontmatter, PostMetadata } from "./utils/markdown.js";
 import { getUserEmailFromRequest, hasAccessToPost } from "./utils/auth.js";
 
+async function getAdminEmails(): Promise<string[]> {
+    try {
+        const emailConfigContent = await fetchGitHubFile("email.yaml");
+        const adminMatch = emailConfigContent.match(/admin:\s*\n((?:\s+-\s+[^\n]+\n?)+)/);
+        if (!adminMatch) return [];
+
+        return adminMatch[1]
+            .split("\n")
+            .map((line) => {
+                const itemMatch = line.match(/^\s+-\s+(.+)$/);
+                return itemMatch ? itemMatch[1].trim() : null;
+            })
+            .filter((item): item is string => item !== null && item.length > 0);
+    } catch (error) {
+        console.error("Error fetching admin emails:", error);
+        return [];
+    }
+}
+
 interface PostListItem {
     filename: string;
     title: string;
@@ -31,7 +50,8 @@ async function fetchPostMetadata(file: any): Promise<PostListItem | null> {
 async function handleSinglePost(
     filename: string,
     userEmail: string | undefined,
-    res: VercelResponse
+    res: VercelResponse,
+    adminEmails: string[]
 ) {
     if (!filename.endsWith(".md")) {
         return res.status(400).json({ error: "Invalid filename" });
@@ -41,7 +61,7 @@ async function handleSinglePost(
         const fileContent = await fetchGitHubFile(filename);
         const { content, metadata } = parseFrontmatter(fileContent);
 
-        if (!hasAccessToPost(metadata, userEmail)) {
+        if (!hasAccessToPost(metadata, userEmail, adminEmails)) {
             return res.status(403).json({ error: "Access denied" });
         }
 
@@ -61,12 +81,18 @@ async function handleSinglePost(
     }
 }
 
-async function handlePostList(userEmail: string | undefined, res: VercelResponse) {
+async function handlePostList(
+    userEmail: string | undefined,
+    res: VercelResponse,
+    adminEmails: string[]
+) {
     try {
         const mdFiles = await fetchGitHubFileList();
         const posts = await Promise.all(mdFiles.map(fetchPostMetadata));
         const validPosts = posts.filter((post): post is PostListItem => post !== null);
-        const visiblePosts = validPosts.filter((post) => hasAccessToPost(post.metadata, userEmail));
+        const visiblePosts = validPosts.filter((post) =>
+            hasAccessToPost(post.metadata, userEmail, adminEmails)
+        );
 
         res.status(200).json({ posts: visiblePosts });
     } catch (error) {
@@ -81,18 +107,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const userEmail = getUserEmailFromRequest(req.headers);
+    const adminEmails = await getAdminEmails();
     const urlPath = req.url || "";
     const { file } = req.query;
 
     if (file && typeof file === "string") {
-        return handleSinglePost(file, userEmail, res);
+        return handleSinglePost(file, userEmail, res, adminEmails);
     }
 
     const pathMatch = urlPath.match(/^\/api\/posts\/(.+)/);
     if (pathMatch) {
         const filename = decodeURIComponent(pathMatch[1].split("?")[0]);
-        return handleSinglePost(filename, userEmail, res);
+        return handleSinglePost(filename, userEmail, res, adminEmails);
     }
 
-    return handlePostList(userEmail, res);
+    return handlePostList(userEmail, res, adminEmails);
 }

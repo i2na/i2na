@@ -52,13 +52,27 @@ export function parseFrontmatter(fileContent: string): ParsedPost {
             metadata.createdAt = formatDate(rawDate);
         }
 
-        // sharedWith 배열 파싱
-        const sharedWithMatch = frontmatterText.match(/sharedWith:\s*\[([\s\S]*?)\]/);
-        if (sharedWithMatch) {
-            metadata.sharedWith = sharedWithMatch[1]
-                .split(",")
-                .map((email) => email.trim())
-                .filter((email) => email.length > 0);
+        // sharedWith 배열 파싱 (block-style sequence)
+        const sharedWithBlockMatch = frontmatterText.match(
+            /sharedWith:\s*\n((?:\s+-\s+[^\n]+\n?)+)/
+        );
+        if (sharedWithBlockMatch) {
+            metadata.sharedWith = sharedWithBlockMatch[1]
+                .split("\n")
+                .map((line) => {
+                    const itemMatch = line.match(/^\s+-\s+(.+)$/);
+                    return itemMatch ? itemMatch[1].trim() : null;
+                })
+                .filter((item): item is string => item !== null && item.length > 0);
+        } else {
+            // flow-style sequence (기존 형식) 지원
+            const sharedWithMatch = frontmatterText.match(/sharedWith:\s*\[([\s\S]*?)\]/);
+            if (sharedWithMatch) {
+                metadata.sharedWith = sharedWithMatch[1]
+                    .split(",")
+                    .map((email) => email.trim())
+                    .filter((email) => email.length > 0);
+            }
         }
     }
 
@@ -66,4 +80,25 @@ export function parseFrontmatter(fileContent: string): ParsedPost {
         content: content.trim(),
         metadata,
     };
+}
+
+export function generateFrontmatter(metadata: PostMetadata, content: string): string {
+    const frontmatterLines: string[] = ["---"];
+
+    frontmatterLines.push(`visibility: ${metadata.visibility}`);
+
+    if (metadata.createdAt) {
+        frontmatterLines.push(`createdAt: ${metadata.createdAt}`);
+    }
+
+    if (metadata.sharedWith && metadata.sharedWith.length > 0) {
+        frontmatterLines.push("sharedWith:");
+        metadata.sharedWith.forEach((email) => {
+            frontmatterLines.push(`    - ${email}`);
+        });
+    }
+
+    frontmatterLines.push("---");
+
+    return `${frontmatterLines.join("\n")}\n${content}`;
 }
