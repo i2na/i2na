@@ -2,10 +2,7 @@
 @use "@/styles/mixins" as *;
 
 .listPage {
-    min-height: 100vh;
-    background: white;
     padding: $spacing-2xl $spacing-xl;
-    overflow-x: hidden;
 
     @include respond-to(md) {
         padding: $spacing-xl $spacing-md;

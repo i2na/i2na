@@ -1,5 +1,9 @@
 @use "variables" as *;
 
+@function vh($value) {
+    @return calc(#{$vh-base} * #{$value});
+}
+
 @mixin respond-to($breakpoint) {
     @if $breakpoint == sm {
         @media (max-width: $breakpoint-sm) {

@@ -2,17 +2,14 @@
 @use "@/styles/mixins" as *;
 
 .viewPage {
-    min-height: 100vh;
-    background: white;
-}
+    .container {
+        max-width: 52rem;
+        margin: 0 auto;
+        padding: 0 $spacing-xl $spacing-3xl;
 
-.container {
-    max-width: 52rem;
-    margin: 0 auto;
-    padding: 0 $spacing-xl $spacing-3xl;
-
-    @include respond-to(md) {
-        padding: 0 $spacing-md $spacing-xl;
+        @include respond-to(md) {
+            padding: 0 $spacing-md $spacing-xl;
+        }
     }
 }
 
