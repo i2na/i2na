@@ -49,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(403).json({ error: "Admin access required" });
         }
 
-        const { sharedWith } = req.body;
+        const { sharedWith, visibility } = req.body;
         if (!Array.isArray(sharedWith)) {
             return res.status(400).json({ error: "sharedWith must be an array" });
         }
@@ -58,6 +58,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const { content, metadata } = parseFrontmatter(fileContent);
 
         metadata.sharedWith = sharedWith;
+        if (visibility && (visibility === "public" || visibility === "private")) {
+            metadata.visibility = visibility;
+        }
         const updatedContent = generateFrontmatter(metadata, content);
 
         await updateGitHubFile(

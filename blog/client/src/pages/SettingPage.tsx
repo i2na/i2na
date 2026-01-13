@@ -8,6 +8,7 @@ import { updatePostSharedWith, deletePost } from "@/utils/api";
 import { IoArrowBack } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { IoTrashOutline } from "react-icons/io5";
+import { GoLock } from "react-icons/go";
 import type { MarkdownFile } from "@/types";
 import styles from "./SettingPage.module.scss";
 
@@ -196,7 +197,12 @@ export function SettingPage() {
 
         try {
             setSaving(true);
-            await updatePostSharedWith(file.filename, updatedSharedWith, user.email);
+            await updatePostSharedWith(
+                file.filename,
+                updatedSharedWith,
+                user.email,
+                file.metadata.visibility
+            );
             setFile({
                 ...file,
                 metadata: {
@@ -220,7 +226,12 @@ export function SettingPage() {
 
         try {
             setSaving(true);
-            await updatePostSharedWith(file.filename, updatedSharedWith, user.email);
+            await updatePostSharedWith(
+                file.filename,
+                updatedSharedWith,
+                user.email,
+                file.metadata.visibility
+            );
             setFile({
                 ...file,
                 metadata: {
@@ -231,6 +242,35 @@ export function SettingPage() {
             toast.success(`${newEmails.length}개의 이메일이 추가되었습니다`);
         } catch (error) {
             toast.error("이메일 추가에 실패했습니다");
+            console.error(error);
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleVisibilityToggle = async () => {
+        if (!file || !user) return;
+
+        const newVisibility = file.metadata.visibility === "public" ? "private" : "public";
+
+        try {
+            setSaving(true);
+            await updatePostSharedWith(
+                file.filename,
+                file.metadata.sharedWith,
+                user.email,
+                newVisibility
+            );
+            setFile({
+                ...file,
+                metadata: {
+                    ...file.metadata,
+                    visibility: newVisibility,
+                },
+            });
+            toast.success(`${newVisibility}으로 변경되었습니다`);
+        } catch (error) {
+            toast.error("Visibility 변경에 실패했습니다");
             console.error(error);
         } finally {
             setSaving(false);
@@ -286,10 +326,26 @@ export function SettingPage() {
 
                 <div className={styles.content}>
                     <div className={styles.section}>
-                        <h2 className={styles.sectionTitle}>
-                            Shared Emails ({file.metadata.sharedWith.length})
-                        </h2>
-                        <div className={styles.emailList}>
+                        <div className={styles.sectionHeader}>
+                            <h2 className={styles.sectionTitle}>
+                                Shared Emails ({file.metadata.sharedWith.length})
+                            </h2>
+                            <button
+                                className={styles.visibilityToggle}
+                                onClick={handleVisibilityToggle}
+                                disabled={saving}
+                            >
+                                {file.metadata.visibility === "private" && <GoLock size={12} />}
+                                <span>
+                                    {file.metadata.visibility === "public" ? "Public" : "Private"}
+                                </span>
+                            </button>
+                        </div>
+                        <div
+                            className={`${styles.emailList} ${
+                                file.metadata.visibility === "public" ? styles.disabled : ""
+                            }`}
+                        >
                             {file.metadata.sharedWith.length === 0 ? (
                                 <div className={styles.emptyMessage}>No shared emails</div>
                             ) : (
@@ -299,7 +355,9 @@ export function SettingPage() {
                                         <button
                                             className={styles.removeButton}
                                             onClick={() => handleRemoveEmail(email)}
-                                            disabled={saving}
+                                            disabled={
+                                                saving || file.metadata.visibility === "public"
+                                            }
                                         >
                                             <IoClose />
                                         </button>
@@ -310,7 +368,7 @@ export function SettingPage() {
                         <button
                             className={styles.addButton}
                             onClick={() => setShowAddModal(true)}
-                            disabled={saving}
+                            disabled={saving || file.metadata.visibility === "public"}
                         >
                             + Add emails
                         </button>

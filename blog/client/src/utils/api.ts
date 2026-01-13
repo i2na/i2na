@@ -47,7 +47,8 @@ export async function fetchEmailConfig() {
 export async function updatePostSharedWith(
     filename: string,
     sharedWith: string[],
-    userEmail: string
+    userEmail: string,
+    visibility?: "public" | "private"
 ) {
     const response = await fetch(
         `/api/posts/shared-with?filename=${encodeURIComponent(filename)}`,
@@ -57,7 +58,7 @@ export async function updatePostSharedWith(
                 "Content-Type": "application/json",
                 "x-user-email": userEmail,
             },
-            body: JSON.stringify({ sharedWith }),
+            body: JSON.stringify({ sharedWith, ...(visibility && { visibility }) }),
         }
     );
 

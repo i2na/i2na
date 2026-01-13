@@ -33,11 +33,48 @@
     margin-bottom: 0;
 }
 
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-md;
+}
+
 .sectionTitle {
     font-size: $font-size-lg;
     font-weight: 600;
     color: $gray-900;
-    margin-bottom: $spacing-md;
+    margin: 0;
+}
+
+.visibilityToggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: $font-size-sm;
+    color: $gray-600;
+    border: 1px solid $gray-300;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all $transition-base;
+
+    &:hover {
+        border-color: $gray-300;
+        color: $gray-700;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    @include respond-to(md) {
+        font-size: $font-size-xs;
+        padding: 3px 7px;
+    }
 }
 
 .emailList {
@@ -45,6 +82,12 @@
     flex-direction: column;
     gap: $spacing-xs;
     margin-bottom: $spacing-md;
+    transition: opacity $transition-base;
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 }
 
 .emailItem {
