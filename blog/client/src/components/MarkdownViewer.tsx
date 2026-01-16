@@ -3,7 +3,6 @@ import { useEffect, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import rehypeRaw from "rehype-raw";
 import type { MarkdownFile } from "@/types";
 import { smoothScrollToElement } from "@/utils/scroll";
 import { HeaderLink } from "./HeaderLink";
@@ -51,7 +50,7 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
                 )}
                 <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                    rehypePlugins={[rehypeHighlight]}
                     components={{
                         a: ({ node, ...props }) => (
                             <a {...props} target="_blank" rel="noopener noreferrer" />
