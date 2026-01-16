@@ -13,7 +13,18 @@ export async function getMarkdownFiles(userEmail: string | null = null): Promise
             metadata: post.metadata,
         }));
 
-        return files.sort((a, b) => a.filename.localeCompare(b.filename));
+        return files.sort((a, b) => {
+            const dateA = a.metadata.createdAt;
+            const dateB = b.metadata.createdAt;
+
+            if (!dateA && !dateB) {
+                return a.filename.localeCompare(b.filename);
+            }
+            if (!dateA) return 1;
+            if (!dateB) return -1;
+
+            return new Date(dateB).getTime() - new Date(dateA).getTime();
+        });
     } catch (error) {
         console.error("Error fetching posts:", error);
         return [];

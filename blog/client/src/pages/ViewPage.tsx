@@ -5,8 +5,10 @@ import { MarkdownViewer } from "@/components/MarkdownViewer";
 import { TableOfContents } from "@/components/TableOfContents";
 import { getMarkdownFileByFilename, extractTableOfContents } from "@/utils/markdown";
 import { isAuthenticated, getUserInfo, startGoogleLogin } from "@/utils/auth";
+import { useAdminStore } from "@/store/admin";
 import { IoArrowBack } from "react-icons/io5";
 import { BsShare } from "react-icons/bs";
+import { IoSettingsOutline } from "react-icons/io5";
 import type { MarkdownFile } from "@/types";
 import styles from "./ViewPage.module.scss";
 
@@ -20,6 +22,7 @@ export function ViewPage() {
 
     const authenticated = isAuthenticated();
     const user = getUserInfo();
+    const { isAdmin } = useAdminStore();
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -30,7 +33,7 @@ export function ViewPage() {
 
             setLoading(true);
             const userEmail = user?.email || null;
-            const fullFilename = filename.endsWith(".md") ? filename : `${filename}.md`;
+            const fullFilename = `${filename}.md`;
 
             const post = await getMarkdownFileByFilename(fullFilename, userEmail);
 
@@ -42,7 +45,7 @@ export function ViewPage() {
                 } else {
                     if (!hasShownError.current) {
                         hasShownError.current = true;
-                        toast.error("이 글을 볼 권한이 없습니다.");
+                        toast.error("권한이 없습니다.");
                         navigate("/");
                     }
                     return;
@@ -79,6 +82,15 @@ export function ViewPage() {
 
                     <div className={styles.toolbarActions}>
                         {!loading && <TableOfContents items={tocItems} />}
+                        {isAdmin && filename && (
+                            <button
+                                className={styles.settingsButton}
+                                onClick={() => navigate(`/${filename}/setting`)}
+                                title="Settings"
+                            >
+                                <IoSettingsOutline />
+                            </button>
+                        )}
                         <button className={styles.shareButton} onClick={handleShare}>
                             <BsShare />
                         </button>
@@ -90,7 +102,9 @@ export function ViewPage() {
                         <span></span>
                     </div>
                 ) : file ? (
-                    <MarkdownViewer file={file} />
+                    <div className={styles.content}>
+                        <MarkdownViewer file={file} />
+                    </div>
                 ) : null}
             </div>
         </div>

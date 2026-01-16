@@ -4,8 +4,13 @@ import { useEffect } from "react";
 import { ListPage } from "./pages/ListPage";
 import { ViewPage } from "./pages/ViewPage";
 import { AuthCallbackPage } from "./pages/AuthCallbackPage";
+import { SettingPage } from "./pages/SettingPage";
+import { useAdminStore } from "./store/admin";
+import { isAuthenticated } from "./utils/auth";
 
 function AppContent() {
+    const { loadEmailConfig } = useAdminStore();
+
     useEffect(() => {
         const setVh = () => {
             const vh = window.innerHeight * 0.01;
@@ -22,6 +27,12 @@ function AppContent() {
         };
     }, []);
 
+    useEffect(() => {
+        if (isAuthenticated()) {
+            loadEmailConfig();
+        }
+    }, [loadEmailConfig]);
+
     return (
         <>
             <Toaster
@@ -37,8 +48,9 @@ function AppContent() {
             />
             <Routes>
                 <Route path="/" element={<ListPage />} />
-                <Route path="/:filename" element={<ViewPage />} />
                 <Route path="/auth/callback" element={<AuthCallbackPage />} />
+                <Route path="/:filename/setting" element={<SettingPage />} />
+                <Route path="/:filename" element={<ViewPage />} />
             </Routes>
         </>
     );

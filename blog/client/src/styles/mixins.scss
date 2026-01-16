@@ -1,5 +1,9 @@
 @use "variables" as *;
 
+@function vh($value) {
+    @return calc(#{$vh-base} * #{$value});
+}
+
 @mixin respond-to($breakpoint) {
     @if $breakpoint == sm {
         @media (max-width: $breakpoint-sm) {
@@ -76,5 +80,31 @@
             opacity: 1;
             transform: scale(1);
         }
+    }
+}
+
+@mixin text-button {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: $gray-50;
+    border: 1px solid $gray-200;
+    color: $gray-700;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all $transition-base;
+    border-radius: 6px;
+    padding: 6px 12px;
+
+    &:hover {
+        background: $gray-100;
+        border-color: $gray-300;
+        color: $gray-900;
+    }
+
+    @include respond-to(md) {
+        font-size: $font-size-xs;
+        padding: 4px 10px;
     }
 }

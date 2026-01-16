@@ -1,5 +1,3 @@
-const API_BASE = "/api";
-
 interface FetchOptions {
     userEmail?: string | null;
 }
@@ -10,7 +8,7 @@ export async function fetchPosts(options: FetchOptions = {}) {
         headers["x-user-email"] = options.userEmail;
     }
 
-    const response = await fetch(`${API_BASE}/posts`, { headers });
+    const response = await fetch("/api/posts", { headers });
     if (!response.ok) {
         throw new Error("Failed to fetch posts");
     }
@@ -24,7 +22,7 @@ export async function fetchPost(filename: string, options: FetchOptions = {}) {
         headers["x-user-email"] = options.userEmail;
     }
 
-    const response = await fetch(`${API_BASE}/posts?file=${encodeURIComponent(filename)}`, {
+    const response = await fetch(`/api/posts?file=${encodeURIComponent(filename)}`, {
         headers,
     });
 
@@ -33,6 +31,57 @@ export async function fetchPost(filename: string, options: FetchOptions = {}) {
             return null;
         }
         throw new Error("Failed to fetch post");
+    }
+
+    return await response.json();
+}
+
+export async function fetchEmailConfig() {
+    const response = await fetch("/api/email-config");
+    if (!response.ok) {
+        throw new Error("Failed to fetch email config");
+    }
+    return await response.json();
+}
+
+export async function updatePostSharedWith(
+    filename: string,
+    sharedWith: string[],
+    userEmail: string,
+    visibility?: "public" | "private"
+) {
+    const response = await fetch(
+        `/api/posts/shared-with?filename=${encodeURIComponent(filename)}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "x-user-email": userEmail,
+            },
+            body: JSON.stringify({ sharedWith, ...(visibility && { visibility }) }),
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to update shared emails");
+    }
+
+    return await response.json();
+}
+
+export async function deletePost(filename: string, userEmail: string) {
+    const response = await fetch(
+        `/api/posts/delete?filename=${encodeURIComponent(filename)}`,
+        {
+            method: "DELETE",
+            headers: {
+                "x-user-email": userEmail,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to delete post");
     }
 
     return await response.json();

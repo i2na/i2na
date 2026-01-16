@@ -43,10 +43,16 @@ export function MarkdownViewer({ file }: MarkdownViewerProps) {
         <article className={styles.article}>
             <div className="markdownContent">
                 {file.metadata.createdAt && (
-                    <>
-                        <sub>{file.metadata.createdAt}</sub>
-                        {"\n\n"}
-                    </>
+                    <span
+                        style={{
+                            fontSize: "0.875rem",
+                            color: "#6e7781",
+                            display: "block",
+                            marginBottom: "0.5rem",
+                        }}
+                    >
+                        {file.metadata.createdAt}
+                    </span>
                 )}
                 <ReactMarkdown
                     remarkPlugins={[remarkGfm]}

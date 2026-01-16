@@ -1,8 +1,4 @@
-export const SCROLL_CONFIG = {
-    duration: 1000,
-    offset: -100,
-    delay: 100,
-} as const;
+import { SCROLL_CONFIG } from "@/config/constants";
 
 export function smoothScrollToElement(elementId: string, delay: number = SCROLL_CONFIG.delay) {
     setTimeout(() => {

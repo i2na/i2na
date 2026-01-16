@@ -3,302 +3,174 @@
 
 .markdownContent {
     line-height: 1.5;
-    color: $gray-800;
+    color: $brand-text-primary;
     max-width: 100%;
     overflow-x: hidden;
+    font-size: 0.95rem;
+    font-family: $font-family-base;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-top: 24px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+        color: $gray-900;
+    }
 
     h1 {
-        font-size: $font-size-3xl;
-        font-weight: 700;
-        margin-bottom: $spacing-md;
-        margin-top: $spacing-xl;
-        color: $gray-900;
-        line-height: 1.25;
-        letter-spacing: -0.02em;
-        border-bottom: 2px solid $gray-200;
-        padding-bottom: $spacing-md;
-
-        @include respond-to(md) {
-            font-size: $font-size-xl;
-            margin-top: $spacing-lg;
-            margin-bottom: $spacing-sm;
-            padding-bottom: $spacing-sm;
-        }
+        font-size: 1.75em;
+        padding-bottom: 0.3em;
+        border-bottom: 1px solid $gray-200;
     }
 
     h2 {
-        font-size: $font-size-2xl;
-        font-weight: 700;
-        margin-bottom: $spacing-sm;
-        margin-top: $spacing-xl;
-        line-height: 1.3;
-        letter-spacing: -0.01em;
-        position: relative;
-
-        @include respond-to(md) {
-            font-size: $font-size-lg;
-            margin-top: $spacing-lg;
-            margin-bottom: $spacing-xs;
-        }
+        font-size: 1.35em;
+        padding-bottom: 0.3em;
+        border-bottom: 1px solid $gray-200;
     }
 
     h3 {
-        font-size: $font-size-xl;
-        font-weight: 600;
-        margin-bottom: $spacing-xs;
-        margin-top: $spacing-lg;
-        color: $gray-900;
-        line-height: 1.4;
-        position: relative;
-
-        @include respond-to(md) {
-            font-size: $font-size-base;
-            margin-top: $spacing-md;
-            margin-bottom: $spacing-xs;
-        }
-    }
-
-    h4 {
-        font-size: $font-size-lg;
-        font-weight: 600;
-        margin-bottom: $spacing-xs;
-        margin-top: $spacing-md;
-        color: $gray-800;
-        line-height: 1.4;
-
-        @include respond-to(md) {
-            font-size: $font-size-sm;
-            margin-top: $spacing-md;
-            margin-bottom: $spacing-xs;
-        }
+        font-size: 1.15em;
     }
 
     p {
-        font-size: $font-size-base;
+        margin-top: 0;
+        margin-bottom: 16px;
+        font-size: 1em;
         line-height: 1.6;
-        margin-bottom: $spacing-md;
-        color: $gray-700;
-        word-break: keep-all;
-
-        @include respond-to(md) {
-            font-size: $font-size-sm;
-            margin-bottom: $spacing-sm;
-            line-height: 1.6;
-        }
+        word-break: break-word;
     }
 
     ul,
     ol {
-        margin-left: $spacing-lg;
-        margin-bottom: $spacing-md;
-        display: flex;
-        flex-direction: column;
-        gap: $spacing-xs;
-        padding-left: $spacing-sm;
-
-        @include respond-to(md) {
-            margin-left: $spacing-md;
-            margin-bottom: $spacing-sm;
-            gap: $spacing-xs;
-        }
-    }
-
-    ul {
-        list-style-type: disc;
-    }
-
-    ol {
-        list-style-type: decimal;
+        margin-top: 0;
+        margin-bottom: 16px;
+        padding-left: 2em;
+        font-size: 1em;
     }
 
     li {
-        font-size: $font-size-base;
-        color: $gray-700;
+        word-wrap: break-all;
         line-height: 1.6;
-        padding-left: $spacing-xs;
 
-        @include respond-to(md) {
-            font-size: $font-size-sm;
-            line-height: 1.6;
-        }
-
-        p {
-            margin-bottom: $spacing-xs;
+        & + li {
+            margin-top: 0.25em;
         }
     }
 
     blockquote {
-        border-left: 4px solid $brand-green;
-        padding: $spacing-md $spacing-lg;
-        margin: $spacing-lg 0;
-        font-size: $font-size-base;
-        background: $gray-100;
-        border-radius: 0 $radius-md $radius-md 0;
-        color: $gray-700;
-        font-style: normal;
-        line-height: 1.6;
+        margin: 0 0 16px;
+        padding: 0 1em;
+        color: $gray-600;
+        border-left: 0.25em solid $gray-300;
+        font-size: 1em;
 
-        @include respond-to(md) {
-            padding: $spacing-sm $spacing-md;
-            margin: $spacing-md 0;
-            font-size: $font-size-sm;
+        & > :first-child {
+            margin-top: 0;
         }
-
-        p {
+        & > :last-child {
             margin-bottom: 0;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
         }
     }
 
     code {
-        font-family: $font-family-mono;
+        padding: 0.2em 0.4em;
+        margin: 0;
         font-size: 0.875em;
-
-        &:not(pre code) {
-            background: $gray-100;
-            color: #1e3a8a;
-            padding: 0.15em 0.4em;
-            border-radius: $radius-sm;
-            font-size: 0.85em;
-            font-weight: 600;
-            border: 1px solid $gray-200;
-        }
+        background-color: rgba(175, 184, 193, 0.2);
+        color: #cf222e;
+        font-weight: 400;
+        border-radius: 6px;
+        font-family: $font-family-mono;
     }
 
     pre {
-        background: $gray-900;
-        color: $gray-100;
-        padding: $spacing-sm;
-        border-radius: $radius-md;
-        overflow-x: auto;
-        margin: $spacing-lg 0;
-        border: 1px solid $gray-800;
-        line-height: 1.5;
-
-        @include respond-to(md) {
-            padding: $spacing-xs;
-            margin: $spacing-md 0;
-        }
+        padding: 16px;
+        overflow: auto;
+        font-size: 0.825em;
+        line-height: 1.45;
+        background-color: #0d1117;
+        color: #e6edf3;
+        border-radius: 6px;
+        margin-bottom: 16px;
 
         code {
-            background: transparent;
-            color: inherit;
             padding: 0;
-            border: none;
-            font-size: $font-size-sm;
+            margin: 0;
+            font-size: 1em;
+            word-break: normal;
+            white-space: pre;
+            background: transparent;
+            border: 0;
+            color: inherit;
+            overflow: auto;
 
-            @include respond-to(md) {
-                font-size: $font-size-xs;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                display: none;
             }
         }
     }
 
     hr {
-        border: none;
-        border-top: 1px solid $gray-200;
-        margin: $spacing-xl 0;
-
-        @include respond-to(md) {
-            margin: $spacing-lg 0;
-        }
+        height: 0.25em;
+        padding: 0;
+        margin: 24px 0;
+        background-color: $gray-200;
+        border: 0;
     }
 
     table {
+        display: block;
         width: 100%;
+        width: max-content;
+        max-width: 100%;
+        overflow: auto;
+        border-spacing: 0;
         border-collapse: collapse;
-        border: 1px solid $gray-300;
-        margin: $spacing-lg 0;
-        border-radius: $radius-md;
-        overflow: hidden;
+        margin-top: 0;
+        margin-bottom: 16px;
+        font-size: 0.9em;
 
-        @include respond-to(md) {
-            margin: $spacing-md 0;
+        tr {
+            background-color: white;
+            border-top: 1px solid $gray-200;
+
+            &:nth-child(2n) {
+                background-color: $gray-50;
+            }
         }
-    }
 
-    th {
-        border: 1px solid $gray-300;
-        padding: $spacing-md;
-        background: $gray-100;
-        font-weight: 600;
-        text-align: left;
-        color: $gray-900;
-        font-size: $font-size-sm;
-
-        @include respond-to(md) {
-            padding: $spacing-sm $spacing-md;
-            font-size: $font-size-xs;
+        th,
+        td {
+            padding: 6px 13px;
+            border: 1px solid $gray-200;
         }
-    }
 
-    td {
-        border: 1px solid $gray-300;
-        padding: $spacing-md;
-        color: $gray-700;
-        font-size: $font-size-sm;
-
-        @include respond-to(md) {
-            padding: $spacing-sm $spacing-md;
-            font-size: $font-size-xs;
+        th {
+            font-weight: 600;
         }
     }
 
     a {
-        color: #1e3a8a;
+        color: $brand-blue;
         text-decoration: none;
-        border-bottom: 1px solid transparent;
-        transition: all $transition-base;
 
         &:hover {
-            color: #1e40af;
-            border-bottom-color: #1e3a8a;
-        }
-    }
-
-    strong {
-        font-weight: 600;
-        color: $gray-900;
-    }
-
-    em {
-        font-style: italic;
-        color: $gray-700;
-    }
-
-    .tableWrapper {
-        overflow-x: auto;
-        margin: $spacing-lg 0;
-        border-radius: $radius-md;
-
-        @include respond-to(md) {
-            margin: $spacing-md 0;
+            text-decoration: underline;
         }
     }
 
     img {
         max-width: 100%;
-        height: auto;
-        display: block;
-        margin: $spacing-lg 0;
-        border-radius: $radius-md;
-
-        @include respond-to(md) {
-            margin: $spacing-md 0;
-        }
-    }
-
-    video {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: $spacing-lg 0;
-        border-radius: $radius-md;
-
-        @include respond-to(md) {
-            margin: $spacing-md 0;
-        }
+        box-sizing: content-box;
+        background-color: white;
     }
 }

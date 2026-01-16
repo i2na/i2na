@@ -2,71 +2,62 @@
 @use "@/styles/mixins" as *;
 
 .viewPage {
-    min-height: 100vh;
-    background: white;
-}
+    .container {
+        max-width: 52rem;
+        margin: 0 auto;
+        padding: 0 $spacing-xl $spacing-3xl;
 
-.container {
-    max-width: 48rem;
-    margin: 0 auto;
-    padding: 0 $spacing-xl $spacing-3xl;
-
-    @include respond-to(md) {
-        padding: 0 $spacing-md $spacing-xl;
+        @include respond-to(md) {
+            padding: 0 $spacing-md $spacing-xl;
+        }
     }
 }
 
 .toolbar {
     position: sticky;
-    position: -webkit-sticky;
     top: 0;
-    left: 0;
-    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: white;
     z-index: 1000;
-    border-bottom: 1px solid transparent;
-    transition: border-color $transition-base;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    height: 56px;
+    border-bottom: 1px solid $gray-200;
+    height: 64px;
+    margin-bottom: $spacing-2xl;
 
     @include respond-to(md) {
-        height: 46px;
+        height: 56px;
+        margin-bottom: $spacing-xl;
     }
 }
 
 .toolbarActions {
     display: flex;
     align-items: center;
-    gap: $spacing-lg;
+    gap: $spacing-md;
 }
 
 .backButton {
+    @include text-button;
+}
+
+.settingsButton {
     display: inline-flex;
     align-items: center;
-    gap: $spacing-xs;
-    background: transparent;
-    border: none;
+    justify-content: center;
+    background: $gray-50;
+    border: 1px solid $gray-200;
     color: $gray-700;
-    font-size: $font-size-sm;
+    font-size: 1rem;
     cursor: pointer;
     transition: all $transition-base;
-    border-radius: 4px;
-    padding: 2px;
-    -webkit-tap-highlight-color: transparent;
+    border-radius: 6px;
+    padding: 6px;
 
     &:hover {
-        color: $gray-900;
         background: $gray-100;
-    }
-
-    @include respond-to(md) {
-        font-size: $font-size-xs;
+        border-color: $gray-300;
+        color: $gray-900;
     }
 }
 
@@ -74,27 +65,28 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    border: none;
+    background: $gray-50;
+    border: 1px solid $gray-200;
     color: $gray-700;
-    font-size: 1.15rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all $transition-base;
-    border-radius: 4px;
-    padding: 2px;
+    border-radius: 6px;
+    padding: 6px;
 
     &:hover {
-        color: $gray-900;
         background: $gray-100;
-    }
-
-    @include respond-to(md) {
-        font-size: 1.05rem;
+        border-color: $gray-300;
+        color: $gray-900;
     }
 }
 
+.content {
+    margin: 0 auto;
+}
+
 .loading {
-    @include loading-spinner(0.8rem, $gray-400);
+    @include loading-spinner(1rem, $gray-400);
     min-height: 400px;
 }
 

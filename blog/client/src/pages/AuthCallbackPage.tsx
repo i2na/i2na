@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { STORAGE_KEYS } from "@/config/constants";
 
 export function AuthCallbackPage() {
     const navigate = useNavigate();
@@ -13,13 +14,13 @@ export function AuthCallbackPage() {
             try {
                 const authData = JSON.parse(decodeURIComponent(authDataStr));
 
-                localStorage.setItem("blog_auth_token", authData.token);
-                localStorage.setItem("blog_user_email", authData.email);
-                localStorage.setItem("blog_user_name", authData.name);
-                localStorage.setItem("blog_expires", authData.expires.toString());
+                localStorage.setItem(STORAGE_KEYS.TOKEN, authData.token);
+                localStorage.setItem(STORAGE_KEYS.EMAIL, authData.email);
+                localStorage.setItem(STORAGE_KEYS.NAME, authData.name);
+                localStorage.setItem(STORAGE_KEYS.EXPIRES, authData.expires.toString());
 
-                localStorage.removeItem("auth_return_path");
-                localStorage.removeItem("auth_in_progress");
+                localStorage.removeItem(STORAGE_KEYS.AUTH_RETURN_PATH);
+                localStorage.removeItem(STORAGE_KEYS.AUTH_IN_PROGRESS);
 
                 navigate(redirectPath, { replace: true });
             } catch (error) {

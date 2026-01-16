@@ -1,11 +1,5 @@
 import type { UserInfo } from "@/types";
-
-const STORAGE_KEYS = {
-    TOKEN: "blog_auth_token",
-    EMAIL: "blog_user_email",
-    NAME: "blog_user_name",
-    EXPIRES: "blog_expires",
-} as const;
+import { STORAGE_KEYS, ENV, OAUTH } from "@/config/constants";
 
 export function isAuthenticated(): boolean {
     if (typeof window === "undefined") return false;
@@ -48,29 +42,28 @@ export function startGoogleLogin(returnPath?: string): void {
         return;
     }
 
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const baseUrl = import.meta.env.VITE_BASE_URL;
+    const clientId = ENV.GOOGLE_CLIENT_ID;
+    const baseUrl = ENV.BASE_URL;
     const redirectUri = `${baseUrl}/api/auth/google`;
-    const scope = "email profile";
 
     const currentPath = returnPath || window.location.pathname + window.location.search;
-    localStorage.setItem("auth_return_path", currentPath);
+    localStorage.setItem(STORAGE_KEYS.AUTH_RETURN_PATH, currentPath);
 
     const authUrl =
-        `https://accounts.google.com/o/oauth2/v2/auth?` +
+        `${OAUTH.GOOGLE_AUTH_URL}?` +
         `client_id=${clientId}&` +
         `redirect_uri=${encodeURIComponent(redirectUri)}&` +
         `response_type=code&` +
-        `scope=${encodeURIComponent(scope)}&` +
+        `scope=${encodeURIComponent(OAUTH.SCOPE)}&` +
         `state=${encodeURIComponent(currentPath)}`;
 
     window.location.href = authUrl;
 }
 
 export function getAuthReturnPath(): string | null {
-    return localStorage.getItem("auth_return_path");
+    return localStorage.getItem(STORAGE_KEYS.AUTH_RETURN_PATH);
 }
 
 export function clearAuthReturnPath(): void {
-    localStorage.removeItem("auth_return_path");
+    localStorage.removeItem(STORAGE_KEYS.AUTH_RETURN_PATH);
 }
