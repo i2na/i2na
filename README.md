@@ -42,7 +42,7 @@
 
 👋 **Portfolio** | [yena.io.kr](https://yena.io.kr)
 <br>
-📃 **Blog** | [blog.yena.io.kr](https://blog.yena.io.kr)
+📃 **Blog** | [heymark.yena.io.kr](https://heymark.yena.io.kr)
 
 <br>
 
