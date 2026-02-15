@@ -528,18 +528,12 @@ function drawFooter(
     drawSharpText(context, "TECH STACK", leftColumnX, sectionTitleY);
     drawSharpText(context, "CONTACT", rightColumnX, sectionTitleY);
 
-    const skillPillGapX = 16;
-    const skillPillGapY = 16;
+    const skillPillGapX = 20;
+    const skillPillGapY = 20;
     const skillMaxRows = 2;
-    const skillPillHeight = Math.max(
-        76,
-        Math.min(
-            94,
-            Math.floor((availableSectionHeight - skillPillGapY * (skillMaxRows - 1)) / skillMaxRows)
-        )
-    );
+    const skillPillHeight = 73;
     const skillPillRadius = Math.floor(skillPillHeight / 2);
-    const skillPillPaddingX = 34;
+    const skillPillPaddingX = 24;
     const skillInnerWidth = leftColumnWidth;
     let skillCursorX = leftColumnX;
     let skillCursorY = contentStartY;
@@ -603,13 +597,10 @@ function drawFooter(
         buildMailText(profile.links.mail),
         profile.links.instagramShort,
     ];
-    const contactPillGapX = 12;
-    const contactPillGapY = 14;
-    const contactPillHeight = Math.max(
-        74,
-        Math.min(92, Math.floor((availableSectionHeight - contactPillGapY * 2) / 3))
-    );
-    const contactPillPaddingX = 26;
+    const contactPillGapX = 20;
+    const contactPillGapY = 20;
+    const contactPillHeight = 73;
+    const contactPillPaddingX = 18;
     const contactRightBoundary = rightColumnX + rightColumnWidth;
     const contactBottomBoundary = contentStartY + availableSectionHeight;
     let contactCursorX = rightColumnX;

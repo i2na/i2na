@@ -73,9 +73,9 @@ export const PROFILE: TProfile = {
         "React",
         "Next.js",
         "TypeScript",
+        "MongoDB",
+        "Docker",
         "Nginx",
         "Cloudflare",
-        "Docker",
-        "MongoDB",
     ],
 };
