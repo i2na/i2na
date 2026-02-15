@@ -3,7 +3,7 @@
 Software Engineer focused on Digital Twin products
 
 <p>
-  <img src="https://skillicons.dev/icons?i=react,nextjs,ts,js,nodejs,tailwind,sass,threejs&theme=light" alt="Skill Icons" />
+  <img src="https://skillicons.dev/icons?i=react,nextjs,ts,js,tailwind,sass,threejs,nodejs,python,flask,mongodb,mysql,docker,github,figma&theme=light" alt="Skill Icons" />
 </p>
 
 I build digital twins that turn real-world complexity into clear 3D experiences.  
