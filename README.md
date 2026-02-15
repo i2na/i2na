@@ -9,9 +9,9 @@ I build digital twins that turn real-world complexity into clear 3D experiences.
 At Mossland, I create software that helps teams decide faster and operate smarter.
 
 - **University of Seoul (2020-2025)** - B.S. in Electrical and Computer Engineering  
-  [https://www.uos.ac.kr/](https://www.uos.ac.kr/)
+  [https://www.uos.ac.kr](https://www.uos.ac.kr)
 - **QUIPU, University of Seoul Computer Club (2022-2025)** - Former President and Frontend Developer  
-  [https://quipu.uos.ac.kr/](https://quipu.uos.ac.kr/) | [https://github.com/Quipu-Developers](https://github.com/Quipu-Developers)
+  [https://quipu.uos.ac.kr](https://quipu.uos.ac.kr) | [https://github.com/Quipu-Developers](https://github.com/Quipu-Developers)
 - **Mossland (2025-Present)** - Software Engineer, Digital Twin Group  
   [https://www.moss.land](https://www.moss.land)
 
