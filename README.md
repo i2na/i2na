@@ -1,46 +1,82 @@
 # YENA
 
-#### I am a Front-End Developer 🔥
+Software Engineer focused on Digital Twin products
 
 <p>
-  <img src="https://img.shields.io/badge/react-61DAFB.svg?style=for-the-badge&logo=react&logoColor=white"/>
-  <img src="https://img.shields.io/badge/next.js-000000.svg?style=for-the-badge&logo=next.js&logoColor=white"/>
-  <img src="https://img.shields.io/badge/typescript-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white"/>
-  <img src="https://img.shields.io/badge/javascript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=white"/>
-<br>
-  <img src="https://img.shields.io/badge/zustand-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"/>
-  <img src="https://img.shields.io/badge/tailwindcss-06B6D4.svg?style=for-the-badge&logo=tailwindcss&logoColor=white"/>
-  <img src="https://img.shields.io/badge/SCSS-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white"/>
-</p>
-<br>
-
-#### I am focusing on...
-
-<p>
-  <img src="https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Autodesk_APS-0696D7?style=for-the-badge&logo=autodesk&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Digital_Twin-FF4B4B?style=for-the-badge&logo=opsgenie&logoColor=white"/>
+  <img src="https://skillicons.dev/icons?i=react,nextjs,ts,js,nodejs,tailwind,sass,threejs&theme=light" alt="Skill Icons" />
 </p>
 
-🧩 **Now**: Developing `Digital Twin` services with a focus on 3D visualization using `Autodesk APS Viewer SDK` at `Mossland`.
-<br>
-🎯 **Goal**: Create a development pipeline that simplifies building Digital Twin services.
+I build digital twins that turn real-world complexity into clear 3D experiences.  
+At Mossland, I create software that helps teams decide faster and operate smarter.
 
-<br>
+- **University of Seoul (2020-2025)** - B.S. in Electrical and Computer Engineering  
+  [https://engineering.uos.ac.kr/engineering/depart/ecehp/introduct.do](https://engineering.uos.ac.kr/engineering/depart/ecehp/introduct.do)
+- **QUIPU, University of Seoul Computer Club (2022-2025)** - Former President and Frontend Developer  
+  [https://quipu.uos.ac.kr/](https://quipu.uos.ac.kr/) | [https://github.com/Quipu-Developers](https://github.com/Quipu-Developers)
+- **Mossland (2025-Present)** - Software Engineer, Digital Twin Group  
+  [https://www.moss.land](https://www.moss.land)
 
-#### What I have experienced...
+<br />
 
-🤖 **Electrical and Computer Engineering** | University of Seoul | [Website](https://engineering.uos.ac.kr/engineering/depart/ecehp/introduct.do)
-<br>
-💻 **Quipu President & Developer** | UOS Computer Club | [Website](https://quipu.uos.ac.kr/) | [GitHub](https://github.com/Quipu-Developers)
-<br>
-🏙️ **Mossland Developer** | IT Company connecting reality and virtual space | [Website](https://www.moss.land) | [GitHub](https://github.com/mossland)
-
-<br>
-
-#### Contact me!
-
-<p>
-  <a href="mailto:yena@moss.land"><img src="https://img.shields.io/badge/Email-yena@moss.land-D14836?style=flat-square&logo=gmail&logoColor=white"/></a>
-  <a href="https://www.instagram.com/2ye._na/"><img src="https://img.shields.io/badge/Instagram-@2ye._na-E4405F?style=flat-square&logo=instagram&logoColor=white"/></a>
-</p>
+```mermaid
+---
+config:
+  logLevel: 'debug'
+  theme: 'base'
+  themeVariables:
+    background: '#F8FAFC'
+    fontFamily: 'Inter, Segoe UI, Arial, sans-serif'
+    fontSize: '17px'
+    commitLabelColor: '#0F172A'
+    commitLabelBackground: '#E2E8F0'
+    commitLabelFontSize: '13px'
+    git0: '#5E6B80'
+    git1: '#5A87C9'
+    git2: '#8A74B8'
+    git3: '#4F9A94'
+    git4: '#5E9CC7'
+    git5: '#7EA364'
+    git6: '#C49255'
+    git7: '#B97197'
+    gitBranchLabel0: '#FFFFFF'
+    gitBranchLabel1: '#FFFFFF'
+    gitBranchLabel2: '#FFFFFF'
+    gitBranchLabel3: '#FFFFFF'
+    gitBranchLabel4: '#FFFFFF'
+    gitBranchLabel5: '#FFFFFF'
+    gitBranchLabel6: '#FFFFFF'
+    gitBranchLabel7: '#FFFFFF'
+    gitBranchLabel8: '#FFFFFF'
+    gitBranchLabel9: '#FFFFFF'
+  gitGraph:
+    mainBranchName: 'growth_path'
+    showBranches: true
+---
+gitGraph
+  commit id:"2001 Born in Seoul"
+  commit id:"A student who loves building and creating"
+  branch academics
+  checkout academics
+  commit id:"2020 Entered University of Seoul"
+  commit id:"Majored in Electrical and Computer Engineering"
+  branch leadership
+  checkout leadership
+  commit id:"2022 Joined QUIPU Computer Club"
+  commit id:"2024 Worked as a Frontend Developer"
+  commit id:"2024 Served as President"
+  commit id:"2025 Completed Club Activities"
+  checkout academics
+  merge leadership
+  commit id:" "
+  branch career
+  checkout career
+  commit id:"2025 Started at Mossland IT Company"
+  commit id:"Worked as a Software Engineer"
+  commit id:"Joined the Digital Twin Group"
+  checkout academics
+  commit id:"2026 Graduated from University of Seoul"
+  checkout growth_path
+  merge academics
+  checkout career
+  commit id:"Now Developing 3D Graphics"
+```
