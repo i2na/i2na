@@ -38,14 +38,6 @@
 
 <br>
 
-#### Check out my work!
-
-👋 **Portfolio** | [yena.io.kr](https://yena.io.kr)
-<br>
-📃 **Blog** | [heymark.yena.io.kr](https://heymark.yena.io.kr)
-
-<br>
-
 #### Contact me!
 
 <p>
