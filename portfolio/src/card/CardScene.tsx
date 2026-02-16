@@ -36,11 +36,21 @@ import type { TRendererAdapter } from "./card.types";
 import { usePointerTilt } from "./use-pointer-tilt";
 import { useTiltSpring } from "./use-tilt-spring";
 
+const INPUT_MODE_MEDIA_QUERY = `(max-width: ${ENABLE_DEVICE_TILT_MIN_WIDTH}px), (pointer: coarse)`;
+
+function detectTouchInput(): boolean {
+    if (typeof window === "undefined") {
+        return false;
+    }
+
+    return window.matchMedia(INPUT_MODE_MEDIA_QUERY).matches;
+}
+
 export function CardScene() {
     const sceneContainerRef = useRef<HTMLElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const frameIdRef = useRef<number>(0);
-    const [isTouchInput, setIsTouchInput] = useState<boolean>(false);
+    const [isTouchInput, setIsTouchInput] = useState<boolean>(() => detectTouchInput());
 
     const pointerTiltRef = usePointerTilt({
         isEnabled: true,
@@ -52,9 +62,7 @@ export function CardScene() {
     });
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia(
-            `(max-width: ${ENABLE_DEVICE_TILT_MIN_WIDTH}px), (pointer: coarse)`
-        );
+        const mediaQuery = window.matchMedia(INPUT_MODE_MEDIA_QUERY);
 
         const updateInputMode = (): void => {
             setIsTouchInput(mediaQuery.matches);
@@ -67,6 +75,27 @@ export function CardScene() {
             mediaQuery.removeEventListener("change", updateInputMode);
         };
     }, []);
+
+    useEffect(() => {
+        if (!isTouchInput || !sceneContainerRef.current) {
+            return undefined;
+        }
+
+        const sceneContainer = sceneContainerRef.current;
+        const preventDefaultBehavior = (event: Event): void => {
+            event.preventDefault();
+        };
+
+        sceneContainer.addEventListener("contextmenu", preventDefaultBehavior);
+        sceneContainer.addEventListener("dragstart", preventDefaultBehavior);
+        sceneContainer.addEventListener("selectstart", preventDefaultBehavior);
+
+        return () => {
+            sceneContainer.removeEventListener("contextmenu", preventDefaultBehavior);
+            sceneContainer.removeEventListener("dragstart", preventDefaultBehavior);
+            sceneContainer.removeEventListener("selectstart", preventDefaultBehavior);
+        };
+    }, [isTouchInput]);
 
     useEffect(() => {
         if (!canvasRef.current) {
@@ -265,7 +294,7 @@ export function CardScene() {
 
     return (
         <section className="card-scene" ref={sceneContainerRef} aria-label="YENA identity card">
-            <canvas className="card-scene__canvas" ref={canvasRef} />
+            <canvas className="card-scene__canvas" ref={canvasRef} draggable={false} />
         </section>
     );
 }

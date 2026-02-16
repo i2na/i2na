@@ -35,7 +35,7 @@ export const PROFILE: TProfile = {
     ],
     educationSummary: "University of Seoul (2020-2025) · ECE B.S.",
     workSummary: "Mossland · Software Engineer · Digital Twin Group",
-    aboutKeywordLine: "Digital Twin · 3D Graphics · Frontend Engineering",
+    aboutKeywordLine: "Digital Twin · 3D Graphics · Software Engineering",
     atGlanceDetailLines: [
         "Building interfaces for complex real-world systems.",
         "Realtime rendering and product-focused delivery.",

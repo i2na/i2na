@@ -72,6 +72,7 @@ export function usePointerTilt(options: TUsePointerTiltOptions): React.MutableRe
                 return;
             }
 
+            event.preventDefault();
             activePointerId = event.pointerId;
             targetElement.setPointerCapture(event.pointerId);
             const tilt = calculateTiltFromPointer(event, targetElement, tiltLimit);
@@ -84,6 +85,7 @@ export function usePointerTilt(options: TUsePointerTiltOptions): React.MutableRe
                 return;
             }
 
+            event.preventDefault();
             const tilt = calculateTiltFromPointer(event, targetElement, tiltLimit);
             tiltRef.current.x = tilt.x;
             tiltRef.current.y = tilt.y;
