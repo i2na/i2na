@@ -19,6 +19,24 @@ import { usePointerTilt } from "../input/use-pointer-tilt";
 import { useTiltSpring } from "../input/use-tilt-spring";
 import {
     AMBIENT_LIGHT_INTENSITY,
+    CARD_ENTRANCE_DURATION_SECONDS_DESKTOP,
+    CARD_ENTRANCE_DURATION_SECONDS_TOUCH,
+    CARD_ENTRANCE_SCALE_BACK_OVERSHOOT_DESKTOP,
+    CARD_ENTRANCE_SCALE_BACK_OVERSHOOT_TOUCH,
+    CARD_ENTRANCE_START_OFFSET_Y_DESKTOP,
+    CARD_ENTRANCE_START_OFFSET_Y_TOUCH,
+    CARD_ENTRANCE_START_ROLL_DEG_DESKTOP,
+    CARD_ENTRANCE_START_ROLL_DEG_TOUCH,
+    CARD_ENTRANCE_START_SCALE_DESKTOP,
+    CARD_ENTRANCE_START_SCALE_TOUCH,
+    CARD_ENTRANCE_START_TILT_X_DEG_DESKTOP,
+    CARD_ENTRANCE_START_TILT_X_DEG_TOUCH,
+    CARD_ENTRANCE_START_TILT_Y_DEG_DESKTOP,
+    CARD_ENTRANCE_START_TILT_Y_DEG_TOUCH,
+    CARD_ENTRANCE_SWAY_CYCLES_DESKTOP,
+    CARD_ENTRANCE_SWAY_CYCLES_TOUCH,
+    CARD_ENTRANCE_SWAY_ROLL_DEG_DESKTOP,
+    CARD_ENTRANCE_SWAY_ROLL_DEG_TOUCH,
     CARD_ASPECT_RATIO,
     CARD_CONTENT_LAYER_Z,
     CARD_GEOMETRY_SEGMENTS,
@@ -67,6 +85,18 @@ type TUseCardRuntimeResult = {
     canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
 };
 
+type TCardEntranceMotion = {
+    durationSeconds: number;
+    startScale: number;
+    startOffsetY: number;
+    startRollDeg: number;
+    startTiltXDeg: number;
+    startTiltYDeg: number;
+    scaleBackOvershoot: number;
+    swayRollDeg: number;
+    swayCycles: number;
+};
+
 function calculateIdleTilt(elapsedTime: number, idleStrength: number): TTilt {
     const idleX =
         (Math.sin(elapsedTime * IDLE_X_WAVE.primaryFrequency) * IDLE_X_WAVE.primaryAmplitude +
@@ -90,6 +120,68 @@ function calculateIdleRoll(elapsedTime: number, idleStrength: number): number {
                 IDLE_ROLL_WAVE.secondaryAmplitude) *
         idleStrength
     );
+}
+
+function easeOutCubic(progress: number): number {
+    const inverseProgress = 1 - progress;
+
+    return 1 - inverseProgress * inverseProgress * inverseProgress;
+}
+
+function easeOutBack(progress: number, overshoot: number): number {
+    const shiftedProgress = progress - 1;
+
+    return (
+        1 +
+        (overshoot + 1) * shiftedProgress * shiftedProgress * shiftedProgress +
+        overshoot * shiftedProgress * shiftedProgress
+    );
+}
+
+function calculateEntranceLinearProgress(elapsedTime: number, durationSeconds: number): number {
+    if (durationSeconds <= 0) {
+        return 1;
+    }
+
+    return MathUtils.clamp(elapsedTime / durationSeconds, 0, 1);
+}
+
+function calculateDampedSwayRoll(
+    linearProgress: number,
+    swayRollDeg: number,
+    swayCycles: number
+): number {
+    const dampingWeight = Math.pow(1 - linearProgress, 1.15);
+
+    return Math.sin(linearProgress * Math.PI * 2 * swayCycles) * swayRollDeg * dampingWeight;
+}
+
+function getCardEntranceMotion(isTouchInput: boolean): TCardEntranceMotion {
+    if (isTouchInput) {
+        return {
+            durationSeconds: CARD_ENTRANCE_DURATION_SECONDS_TOUCH,
+            startScale: CARD_ENTRANCE_START_SCALE_TOUCH,
+            startOffsetY: CARD_ENTRANCE_START_OFFSET_Y_TOUCH,
+            startRollDeg: CARD_ENTRANCE_START_ROLL_DEG_TOUCH,
+            startTiltXDeg: CARD_ENTRANCE_START_TILT_X_DEG_TOUCH,
+            startTiltYDeg: CARD_ENTRANCE_START_TILT_Y_DEG_TOUCH,
+            scaleBackOvershoot: CARD_ENTRANCE_SCALE_BACK_OVERSHOOT_TOUCH,
+            swayRollDeg: CARD_ENTRANCE_SWAY_ROLL_DEG_TOUCH,
+            swayCycles: CARD_ENTRANCE_SWAY_CYCLES_TOUCH,
+        };
+    }
+
+    return {
+        durationSeconds: CARD_ENTRANCE_DURATION_SECONDS_DESKTOP,
+        startScale: CARD_ENTRANCE_START_SCALE_DESKTOP,
+        startOffsetY: CARD_ENTRANCE_START_OFFSET_Y_DESKTOP,
+        startRollDeg: CARD_ENTRANCE_START_ROLL_DEG_DESKTOP,
+        startTiltXDeg: CARD_ENTRANCE_START_TILT_X_DEG_DESKTOP,
+        startTiltYDeg: CARD_ENTRANCE_START_TILT_Y_DEG_DESKTOP,
+        scaleBackOvershoot: CARD_ENTRANCE_SCALE_BACK_OVERSHOOT_DESKTOP,
+        swayRollDeg: CARD_ENTRANCE_SWAY_ROLL_DEG_DESKTOP,
+        swayCycles: CARD_ENTRANCE_SWAY_CYCLES_DESKTOP,
+    };
 }
 
 function preventDefaultBehavior(event: Event): void {
@@ -205,11 +297,18 @@ export function useCardRuntime(): TUseCardRuntimeResult {
         const idleFadeInSeconds = isTouchInput
             ? IDLE_FADE_IN_SECONDS_TOUCH
             : IDLE_FADE_IN_SECONDS_DESKTOP;
+        const entranceMotion = getCardEntranceMotion(isTouchInput);
         let rendererAdapter: TRendererAdapter | null = null;
         let isMounted = true;
         let isLoopActive = false;
         let lastActiveInputTime = 0;
         let idleWeight = 0;
+
+        cardGroup.scale.setScalar(entranceMotion.startScale);
+        cardGroup.position.y = entranceMotion.startOffsetY;
+        cardGroup.rotation.x = MathUtils.degToRad(entranceMotion.startTiltXDeg);
+        cardGroup.rotation.y = MathUtils.degToRad(entranceMotion.startTiltYDeg);
+        cardGroup.rotation.z = MathUtils.degToRad(entranceMotion.startRollDeg);
 
         const resize = (): void => {
             if (!rendererAdapter || !canvas.parentElement) {
@@ -232,6 +331,38 @@ export function useCardRuntime(): TUseCardRuntimeResult {
             const tilt = smoothedTiltRef.current;
             const inputMagnitude = Math.abs(tilt.x) + Math.abs(tilt.y);
             const isInputActive = inputMagnitude > INPUT_ACTIVITY_THRESHOLD;
+            const entranceLinearProgress = calculateEntranceLinearProgress(
+                elapsedTime,
+                entranceMotion.durationSeconds
+            );
+            const entranceProgress = easeOutCubic(entranceLinearProgress);
+            const entranceScaleProgress = easeOutBack(
+                entranceLinearProgress,
+                entranceMotion.scaleBackOvershoot
+            );
+            const entranceScale = MathUtils.lerp(
+                entranceMotion.startScale,
+                1,
+                entranceScaleProgress
+            );
+            const entranceOffsetY = MathUtils.lerp(
+                entranceMotion.startOffsetY,
+                0,
+                entranceProgress
+            );
+            const entranceBaseRoll = MathUtils.lerp(
+                entranceMotion.startRollDeg,
+                0,
+                entranceProgress
+            );
+            const entranceSwayRoll = calculateDampedSwayRoll(
+                entranceLinearProgress,
+                entranceMotion.swayRollDeg,
+                entranceMotion.swayCycles
+            );
+            const entranceRoll = entranceBaseRoll + entranceSwayRoll;
+            const entranceTiltX = MathUtils.lerp(entranceMotion.startTiltXDeg, 0, entranceProgress);
+            const entranceTiltY = MathUtils.lerp(entranceMotion.startTiltYDeg, 0, entranceProgress);
 
             if (isInputActive) {
                 lastActiveInputTime = elapsedTime;
@@ -258,13 +389,16 @@ export function useCardRuntime(): TUseCardRuntimeResult {
                 y: MathUtils.clamp(tilt.y + idleTilt.y, -tiltLimit, tiltLimit),
             };
 
-            cardGroup.rotation.x = MathUtils.degToRad(animatedTilt.x);
-            cardGroup.rotation.y = MathUtils.degToRad(animatedTilt.y);
-            cardGroup.rotation.z = MathUtils.degToRad(idleRoll);
+            cardGroup.rotation.x = MathUtils.degToRad(animatedTilt.x + entranceTiltX);
+            cardGroup.rotation.y = MathUtils.degToRad(animatedTilt.y + entranceTiltY);
+            cardGroup.rotation.z = MathUtils.degToRad(idleRoll + entranceRoll);
             cardGroup.position.x =
                 MathUtils.degToRad(animatedTilt.y) * CARD_GROUP_POSITION_FACTOR.x;
             cardGroup.position.y =
-                MathUtils.degToRad(-animatedTilt.x) * CARD_GROUP_POSITION_FACTOR.y + floatY;
+                MathUtils.degToRad(-animatedTilt.x) * CARD_GROUP_POSITION_FACTOR.y +
+                floatY +
+                entranceOffsetY;
+            cardGroup.scale.setScalar(entranceScale);
 
             keyLight.position.x =
                 KEY_LIGHT_BASE_POSITION.x + animatedTilt.y * KEY_LIGHT_TILT_FACTOR.x;
