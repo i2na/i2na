@@ -13,40 +13,90 @@ import {
     Vector2,
 } from "three";
 
-import { PROFILE } from "../config/profile.constants";
+import { PROFILE } from "../../../config/profile.constants";
+import { detectTouchInput } from "../input/detect-input-mode";
+import { usePointerTilt } from "../input/use-pointer-tilt";
+import { useTiltSpring } from "../input/use-tilt-spring";
 import {
-    CAMERA_DISTANCE,
-    CAMERA_FOV,
+    AMBIENT_LIGHT_INTENSITY,
     CARD_ASPECT_RATIO,
+    CARD_CONTENT_LAYER_Z,
+    CARD_GEOMETRY_SEGMENTS,
+    CARD_GLASS_LAYER_Z,
+    CARD_GROUP_POSITION_FACTOR,
     CARD_HEIGHT,
     CARD_WIDTH,
-    ENABLE_DEVICE_TILT_MIN_WIDTH,
+    CAMERA_DISTANCE,
+    CAMERA_FOV,
+    FILL_LIGHT_INTENSITY,
+    FILL_LIGHT_POSITION,
+    IDLE_DELAY_SECONDS_DESKTOP,
+    IDLE_DELAY_SECONDS_TOUCH,
+    IDLE_FADE_IN_SECONDS_DESKTOP,
+    IDLE_FADE_IN_SECONDS_TOUCH,
+    IDLE_FLOAT_AMPLITUDE,
+    IDLE_FLOAT_FREQUENCY,
+    IDLE_LERP_FALL,
+    IDLE_LERP_RISE,
+    IDLE_ROLL_WAVE,
+    IDLE_STRENGTH_DESKTOP,
+    IDLE_STRENGTH_TOUCH,
+    IDLE_TILT_MARGIN_DEG,
+    IDLE_X_WAVE,
+    IDLE_Y_WAVE,
+    INPUT_ACTIVITY_THRESHOLD,
+    INPUT_MODE_MEDIA_QUERY,
+    KEY_LIGHT_BASE_POSITION,
+    KEY_LIGHT_INTENSITY,
+    KEY_LIGHT_TILT_FACTOR,
     MAX_DEVICE_TILT_DEG,
     MAX_POINTER_TILT_DEG,
-} from "./card.constants";
-import { createCardContentTexture } from "./card-content-texture";
+} from "../model/constants";
+import type { TRendererAdapter, TTilt } from "../model/types";
+import { createCardContentTexture } from "../content/create-content-texture";
 import {
     createCardGlassMaterial,
     createCardMaterial,
     updateCardGlassMaterialUniforms,
     updateCardMaterialUniforms,
-} from "./card-material";
-import { createCardRenderer, resizeCardRenderer } from "./card-renderer";
-import type { TRendererAdapter } from "./card.types";
-import { usePointerTilt } from "./use-pointer-tilt";
-import { useTiltSpring } from "./use-tilt-spring";
+} from "./materials";
+import { createCardRenderer, resizeCardRenderer } from "./create-renderer";
 
-const INPUT_MODE_MEDIA_QUERY = `(max-width: ${ENABLE_DEVICE_TILT_MIN_WIDTH}px), (pointer: coarse)`;
+type TUseCardRuntimeResult = {
+    sceneContainerRef: React.MutableRefObject<HTMLElement | null>;
+    canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+};
 
-function detectTouchInput(): boolean {
-    if (typeof window === "undefined") {
-        return false;
-    }
+function calculateIdleTilt(elapsedTime: number, idleStrength: number): TTilt {
+    const idleX =
+        (Math.sin(elapsedTime * IDLE_X_WAVE.primaryFrequency) * IDLE_X_WAVE.primaryAmplitude +
+            Math.sin(elapsedTime * IDLE_X_WAVE.secondaryFrequency + IDLE_X_WAVE.secondaryPhase) *
+                IDLE_X_WAVE.secondaryAmplitude) *
+        idleStrength;
+    const idleY =
+        (Math.cos(elapsedTime * IDLE_Y_WAVE.primaryFrequency) * IDLE_Y_WAVE.primaryAmplitude +
+            Math.sin(elapsedTime * IDLE_Y_WAVE.secondaryFrequency + IDLE_Y_WAVE.secondaryPhase) *
+                IDLE_Y_WAVE.secondaryAmplitude) *
+        idleStrength;
 
-    return window.matchMedia(INPUT_MODE_MEDIA_QUERY).matches;
+    return { x: idleX, y: idleY };
 }
 
-export function CardScene() {
+function calculateIdleRoll(elapsedTime: number, idleStrength: number): number {
+    return (
+        (Math.sin(elapsedTime * IDLE_ROLL_WAVE.primaryFrequency + IDLE_ROLL_WAVE.primaryPhase) *
+            IDLE_ROLL_WAVE.primaryAmplitude +
+            Math.sin(elapsedTime * IDLE_ROLL_WAVE.secondaryFrequency) *
+                IDLE_ROLL_WAVE.secondaryAmplitude) *
+        idleStrength
+    );
+}
+
+function preventDefaultBehavior(event: Event): void {
+    event.preventDefault();
+}
+
+export function useCardRuntime(): TUseCardRuntimeResult {
     const sceneContainerRef = useRef<HTMLElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const frameIdRef = useRef<number>(0);
@@ -82,10 +132,6 @@ export function CardScene() {
         }
 
         const sceneContainer = sceneContainerRef.current;
-        const preventDefaultBehavior = (event: Event): void => {
-            event.preventDefault();
-        };
-
         sceneContainer.addEventListener("contextmenu", preventDefaultBehavior);
         sceneContainer.addEventListener("dragstart", preventDefaultBehavior);
         sceneContainer.addEventListener("selectstart", preventDefaultBehavior);
@@ -110,7 +156,12 @@ export function CardScene() {
         const cardGroup = new Group();
         scene.add(cardGroup);
 
-        const cardGeometry = new PlaneGeometry(CARD_WIDTH, CARD_HEIGHT, 72, 72);
+        const cardGeometry = new PlaneGeometry(
+            CARD_WIDTH,
+            CARD_HEIGHT,
+            CARD_GEOMETRY_SEGMENTS,
+            CARD_GEOMETRY_SEGMENTS
+        );
         const cardMaterial = createCardMaterial();
         const cardGlassMaterial = createCardGlassMaterial();
         const cardContentTexture = createCardContentTexture(PROFILE, {
@@ -127,25 +178,33 @@ export function CardScene() {
         const cardGlassMesh = new Mesh(cardGeometry, cardGlassMaterial);
         const cardContentMesh = new Mesh(cardGeometry, cardContentMaterial);
 
-        cardGlassMesh.position.z = 0.0016;
-        cardContentMesh.position.z = 0.0044;
+        cardGlassMesh.position.z = CARD_GLASS_LAYER_Z;
+        cardContentMesh.position.z = CARD_CONTENT_LAYER_Z;
         cardContentMesh.scale.set(1, 1, 1);
         cardBaseMesh.renderOrder = 1;
         cardGlassMesh.renderOrder = 2;
         cardContentMesh.renderOrder = 3;
         cardGroup.add(cardBaseMesh, cardGlassMesh, cardContentMesh);
 
-        const ambientLight = new AmbientLight("#dff6f0", 0.56);
-        const keyLight = new DirectionalLight("#8bf5dd", 1.45);
-        keyLight.position.set(2.1, 1.6, 2.8);
-        const fillLight = new DirectionalLight("#6aa8ff", 0.42);
-        fillLight.position.set(-1.8, -1.2, 2.2);
+        const ambientLight = new AmbientLight("#dff6f0", AMBIENT_LIGHT_INTENSITY);
+        const keyLight = new DirectionalLight("#8bf5dd", KEY_LIGHT_INTENSITY);
+        keyLight.position.set(
+            KEY_LIGHT_BASE_POSITION.x,
+            KEY_LIGHT_BASE_POSITION.y,
+            KEY_LIGHT_BASE_POSITION.z
+        );
+        const fillLight = new DirectionalLight("#6aa8ff", FILL_LIGHT_INTENSITY);
+        fillLight.position.set(FILL_LIGHT_POSITION.x, FILL_LIGHT_POSITION.y, FILL_LIGHT_POSITION.z);
         scene.add(ambientLight, keyLight, fillLight);
 
         const resolution = new Vector2(1, 1);
         const clock = new Clock();
-        const idleDelaySeconds = isTouchInput ? 1.6 : 1.4;
-        const idleFadeInSeconds = isTouchInput ? 3.2 : 2.8;
+        const idleDelaySeconds = isTouchInput
+            ? IDLE_DELAY_SECONDS_TOUCH
+            : IDLE_DELAY_SECONDS_DESKTOP;
+        const idleFadeInSeconds = isTouchInput
+            ? IDLE_FADE_IN_SECONDS_TOUCH
+            : IDLE_FADE_IN_SECONDS_DESKTOP;
         let rendererAdapter: TRendererAdapter | null = null;
         let isMounted = true;
         let isLoopActive = false;
@@ -172,7 +231,7 @@ export function CardScene() {
             const elapsedTime = clock.getElapsedTime();
             const tilt = smoothedTiltRef.current;
             const inputMagnitude = Math.abs(tilt.x) + Math.abs(tilt.y);
-            const isInputActive = inputMagnitude > 0.4;
+            const isInputActive = inputMagnitude > INPUT_ACTIVITY_THRESHOLD;
 
             if (isInputActive) {
                 lastActiveInputTime = elapsedTime;
@@ -183,34 +242,34 @@ export function CardScene() {
             const easedIdleProgress =
                 idleFadeProgress * idleFadeProgress * (3 - 2 * idleFadeProgress);
             const idleTargetWeight = easedIdleProgress;
-            const idleLerpFactor = idleTargetWeight > idleWeight ? 0.022 : 0.2;
+            const idleLerpFactor = idleTargetWeight > idleWeight ? IDLE_LERP_RISE : IDLE_LERP_FALL;
             idleWeight = MathUtils.lerp(idleWeight, idleTargetWeight, idleLerpFactor);
 
-            const idleStrength = (isTouchInput ? 1.54 : 1.68) * idleWeight;
-            const idleX =
-                (Math.sin(elapsedTime * 0.56) * 1.34 + Math.sin(elapsedTime * 0.21 + 1.1) * 0.66) *
-                idleStrength;
-            const idleY =
-                (Math.cos(elapsedTime * 0.5) * 1.46 + Math.sin(elapsedTime * 0.27 + 0.6) * 0.62) *
-                idleStrength;
-            const idleRoll =
-                (Math.sin(elapsedTime * 0.44 + 0.8) * 0.68 + Math.sin(elapsedTime * 0.18) * 0.34) *
-                idleStrength;
-            const floatY = Math.sin(elapsedTime * 0.66) * 0.0105 * idleWeight;
-            const tiltLimit = isTouchInput ? MAX_DEVICE_TILT_DEG : MAX_POINTER_TILT_DEG;
+            const idleStrength =
+                (isTouchInput ? IDLE_STRENGTH_TOUCH : IDLE_STRENGTH_DESKTOP) * idleWeight;
+            const idleTilt = calculateIdleTilt(elapsedTime, idleStrength);
+            const idleRoll = calculateIdleRoll(elapsedTime, idleStrength);
+            const floatY =
+                Math.sin(elapsedTime * IDLE_FLOAT_FREQUENCY) * IDLE_FLOAT_AMPLITUDE * idleWeight;
+            const tiltLimit =
+                (isTouchInput ? MAX_DEVICE_TILT_DEG : MAX_POINTER_TILT_DEG) + IDLE_TILT_MARGIN_DEG;
             const animatedTilt = {
-                x: MathUtils.clamp(tilt.x + idleX, -(tiltLimit + 1.6), tiltLimit + 1.6),
-                y: MathUtils.clamp(tilt.y + idleY, -(tiltLimit + 1.6), tiltLimit + 1.6),
+                x: MathUtils.clamp(tilt.x + idleTilt.x, -tiltLimit, tiltLimit),
+                y: MathUtils.clamp(tilt.y + idleTilt.y, -tiltLimit, tiltLimit),
             };
 
             cardGroup.rotation.x = MathUtils.degToRad(animatedTilt.x);
             cardGroup.rotation.y = MathUtils.degToRad(animatedTilt.y);
             cardGroup.rotation.z = MathUtils.degToRad(idleRoll);
-            cardGroup.position.x = MathUtils.degToRad(animatedTilt.y) * 0.104;
-            cardGroup.position.y = MathUtils.degToRad(-animatedTilt.x) * 0.074 + floatY;
+            cardGroup.position.x =
+                MathUtils.degToRad(animatedTilt.y) * CARD_GROUP_POSITION_FACTOR.x;
+            cardGroup.position.y =
+                MathUtils.degToRad(-animatedTilt.x) * CARD_GROUP_POSITION_FACTOR.y + floatY;
 
-            keyLight.position.x = 2.1 + animatedTilt.y * 0.02;
-            keyLight.position.y = 1.6 + animatedTilt.x * 0.015;
+            keyLight.position.x =
+                KEY_LIGHT_BASE_POSITION.x + animatedTilt.y * KEY_LIGHT_TILT_FACTOR.x;
+            keyLight.position.y =
+                KEY_LIGHT_BASE_POSITION.y + animatedTilt.x * KEY_LIGHT_TILT_FACTOR.y;
 
             updateCardMaterialUniforms(cardMaterial, elapsedTime, animatedTilt, resolution);
             updateCardGlassMaterialUniforms(
@@ -292,9 +351,8 @@ export function CardScene() {
         };
     }, [isTouchInput, smoothedTiltRef]);
 
-    return (
-        <section className="card-scene" ref={sceneContainerRef} aria-label="YENA identity card">
-            <canvas className="card-scene__canvas" ref={canvasRef} draggable={false} />
-        </section>
-    );
+    return {
+        sceneContainerRef,
+        canvasRef,
+    };
 }

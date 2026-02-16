@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 
-import { MAX_DEVICE_TILT_DEG, MAX_POINTER_TILT_DEG } from "./card.constants";
-import type { TTilt } from "./card.types";
+import { MAX_DEVICE_TILT_DEG, MAX_POINTER_TILT_DEG } from "../model/constants";
+import type { TTilt } from "../model/types";
 
 type TUsePointerTiltOptions = {
     isEnabled: boolean;
     isTouchMode: boolean;
-    targetRef: React.MutableRefObject<HTMLElement | null>;
+    targetRef: React.RefObject<HTMLElement | null>;
 };
 
 function clamp(value: number, min: number, max: number): number {

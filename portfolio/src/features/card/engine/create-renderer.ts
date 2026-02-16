@@ -1,7 +1,7 @@
 import { WebGLRenderer } from "three";
 
-import { MAX_DPR_DESKTOP, MAX_DPR_MOBILE } from "./card.constants";
-import type { TRendererAdapter, TRendererFacade } from "./card.types";
+import { MAX_DPR_DESKTOP, MAX_DPR_MOBILE } from "../model/constants";
+import type { TRendererAdapter, TRendererFacade } from "../model/types";
 
 const WEBGPU_MODULE_ID: string = "three/webgpu";
 

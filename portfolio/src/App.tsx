@@ -1,28 +1,5 @@
-import { CardScene } from "./card/CardScene";
-import { PROFILE } from "./config/profile.constants";
-
-type TDockItem = {
-    label: string;
-    href: string;
-    external?: boolean;
-};
-
-const DOCK_ITEMS: TDockItem[] = [
-    {
-        label: "GitHub",
-        href: PROFILE.links.github,
-        external: true,
-    },
-    {
-        label: "Mail",
-        href: PROFILE.links.mail,
-    },
-    {
-        label: "Instagram",
-        href: PROFILE.links.instagram,
-        external: true,
-    },
-];
+import { CardScene } from "./features/card/ui/CardScene";
+import { DOCK_ITEMS } from "./config/dock.constants";
 
 function App() {
     return (

@@ -21,7 +21,7 @@ export type TRendererAdapter = {
     renderer: TRendererFacade;
 };
 
-export type TCardUniforms = {
+export type TSharedCardUniforms = {
     uTime: { value: number };
     uTilt: { value: Vector2 };
     uResolution: { value: Vector2 };
@@ -30,11 +30,6 @@ export type TCardUniforms = {
     uCornerRadius: { value: number };
 };
 
-export type TCardGlassUniforms = {
-    uTime: { value: number };
-    uTilt: { value: Vector2 };
-    uResolution: { value: Vector2 };
-    uAccentColor: { value: Color };
-    uQuality: { value: number };
-    uCornerRadius: { value: number };
-};
+export type TCardUniforms = TSharedCardUniforms;
+
+export type TCardGlassUniforms = TSharedCardUniforms;

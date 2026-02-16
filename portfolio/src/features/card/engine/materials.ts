@@ -1,7 +1,7 @@
 import { AdditiveBlending, Color, ShaderMaterial, Vector2 } from "three";
 
-import { ACCENT_HEX, CARD_CORNER_RADIUS_UV, DEFAULT_QUALITY_LEVEL } from "./card.constants";
-import type { TCardGlassUniforms, TCardUniforms, TTilt } from "./card.types";
+import { ACCENT_HEX, CARD_CORNER_RADIUS_UV, DEFAULT_QUALITY_LEVEL } from "../model/constants";
+import type { TCardGlassUniforms, TCardUniforms, TTilt } from "../model/types";
 
 const CARD_VERTEX_SHADER = `
 varying vec2 vUv;
@@ -175,7 +175,7 @@ export function createCardMaterial(): ShaderMaterial {
 }
 
 export function createCardGlassMaterial(): ShaderMaterial {
-    const uniforms = createSharedUniforms() as unknown as TCardGlassUniforms;
+    const uniforms: TCardGlassUniforms = createSharedUniforms();
 
     return new ShaderMaterial({
         uniforms,

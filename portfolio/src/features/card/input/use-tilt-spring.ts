@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 
-import { SPRING_DAMPING, SPRING_STIFFNESS } from "./card.constants";
-import type { TTilt } from "./card.types";
+import { SPRING_DAMPING, SPRING_STIFFNESS } from "../model/constants";
+import type { TTilt } from "../model/types";
 
 type TUseTiltSpringOptions = {
-    targetTiltRef: React.MutableRefObject<TTilt>;
+    targetTiltRef: React.RefObject<TTilt>;
 };
 
 export function useTiltSpring(options: TUseTiltSpringOptions): React.MutableRefObject<TTilt> {
