@@ -10,6 +10,8 @@ Three.js 기반으로 구현한 단일 페이지 인터랙티브 명함 웹입�
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 
+https://github.com/user-attachments/assets/18687b91-0172-4af9-b4e7-43763ded4250
+
 ## Overview
 
 이 프로젝트는 한 화면에서 핵심 프로필 정보를 카드 형태로 즉시 전달하는 React 애플리케이션입니다.  
