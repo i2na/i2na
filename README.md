@@ -8,12 +8,7 @@
 I build digital twins that turn real-world complexity into clear 3D experiences.  
 At Mossland, I create software that helps teams decide faster and operate smarter.
 
-- **bio**  
-  [https://yena.io.kr](https://yena.io.kr)
-- **instagram**  
-  [https://www.instagram.com/2ye.\_na](https://www.instagram.com/2ye._na)
-- **email**  
-  [yena@moss.land](mailto:yena@moss.land)
+**bio** [yena.io.kr](https://yena.io.kr) | **instagram** [2ye.\_na](https://instagram.com/2ye._na) | **email** [yena@moss.land](mailto:yena@moss.land)
 
 - **University of Seoul (2020-2025)** - B.S. in Electrical and Computer Engineering  
   [https://uos.ac.kr](https://uos.ac.kr)
