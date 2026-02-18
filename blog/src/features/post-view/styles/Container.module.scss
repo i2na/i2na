@@ -1,0 +1,22 @@
+@use "@/shared/styles/variables" as *;
+@use "@/shared/styles/mixins" as *;
+
+.viewPage {
+    .container {
+        max-width: $container-max-width;
+        margin: 0 auto;
+        padding: 0 $base-size-16 4rem;
+
+        @include respond-to(md) {
+            padding: 0 $base-size-16 2rem;
+        }
+    }
+}
+
+.content {
+    margin: 0 auto;
+}
+
+.loading {
+    min-height: 400px;
+}
