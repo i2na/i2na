@@ -1,0 +1,4 @@
+{
+    "rootDirectory": "bio",
+    "ignoreCommand": "git diff HEAD^ HEAD --quiet ."
+}
