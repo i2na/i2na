@@ -7,7 +7,7 @@ Next.js API Routes, Node.js, TypeScript, Yarn
 ## Project Structure
 
 ```
-heymark/
+i2na-blog/
 ├── app/
 │   └── api/               # Route Handlers → /api/...
 │       └── [endpoint]/
@@ -64,9 +64,9 @@ Create an OAuth client in [Google Cloud Console](https://console.cloud.google.co
 2. **Application type**: Web application
 3. **Authorized JavaScript origins**:
     - `http://localhost:3000` (local)
-    - `https://your-heymark-url.com` (production)
+    - `https://your-blog-url.com` (production)
 4. **Authorized redirect URIs**:
     - `http://localhost:3000/api/auth/google` (local)
-    - `https://your-heymark-url.com/api/auth/google` (production)
+    - `https://your-blog-url.com/api/auth/google` (production)
 
 Set `NEXT_PUBLIC_GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in `.env.local`.

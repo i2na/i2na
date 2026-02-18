@@ -25,7 +25,7 @@ export function Container() {
         <div className={styles.listPage}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>@heymark</h1>
+                    <h1 className={styles.title}>@i2na-blog</h1>
 
                     {isAuthenticated && user ? (
                         <div className={styles.userInfo}>

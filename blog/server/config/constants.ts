@@ -2,7 +2,7 @@ export const GITHUB = {
     REPO_OWNER: process.env.POSTS_REPO_OWNER,
     POSTS_REPO_NAME: process.env.POSTS_REPO_NAME,
     API_BASE_URL: "https://api.github.com",
-    USER_AGENT: "heymark-api",
+    USER_AGENT: "i2na-blog-api",
 };
 
 export const ENV_VARS = {

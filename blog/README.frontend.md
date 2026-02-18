@@ -7,7 +7,7 @@ Next.js (App Router), React, TypeScript, SCSS Modules, Zustand, Yarn
 ## Project Structure
 
 ```
-heymark/
+i2na-blog/
 ├── app/                    # Next.js App Router
 │   ├── layout.tsx
 │   └── (pages)/            # Route Group

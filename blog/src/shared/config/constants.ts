@@ -1,8 +1,8 @@
 export const STORAGE_KEYS = {
-    TOKEN: "heymark_auth_token",
-    EMAIL: "heymark_user_email",
-    NAME: "heymark_user_name",
-    EXPIRES: "heymark_expires",
+    TOKEN: "i2na_blog_auth_token",
+    EMAIL: "i2na_blog_user_email",
+    NAME: "i2na_blog_user_name",
+    EXPIRES: "i2na_blog_expires",
     AUTH_RETURN_PATH: "auth_return_path",
     AUTH_IN_PROGRESS: "auth_in_progress",
 } as const;

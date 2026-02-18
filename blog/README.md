@@ -1,15 +1,16 @@
-# heymark
+# i2na-blog
 
-> **Hey, Mark it down!**  
-> A documentation system designed for agentic AI workflows.
+> Markdown-based blog and document publishing project for the i2na monorepo.
 
 ## Overview
 
-heymark is a markdown-centric documentation system for AI-augmented development. It integrates with AI tools such as Claude Skill so developers can create, organize, and share documentation with minimal friction.
+i2na-blog is a markdown-centric web application for publishing and sharing posts.
+It provides public/private visibility controls, email-based access management, and rendering optimized for technical documents.
 
 ### Rationale
 
-In AI-driven workflows, well-structured markdown is a high-value, token-efficient asset. Systems like Claude Skill use frontmatter to select and surface relevant documents. heymark supports this with CLI tooling, Git-backed versioning, and frontmatter-based access control.
+In AI-driven workflows, well-structured markdown is a high-value asset.
+i2na-blog keeps markdown publishing and access control in the web application with a single operational flow.
 
 ## Tech Stack
 
@@ -17,11 +18,9 @@ In AI-driven workflows, well-structured markdown is a high-value, token-efficien
 | -------- | -------------------------------------------------------------- |
 | Frontend | Next.js (App Router), React, TypeScript, SCSS Modules, Zustand |
 | Backend  | Next.js API Routes, server utilities, GitHub API               |
-| CLI      | Node.js, Commander, Chalk, Gray Matter                         |
 
 ## Features
 
-- **CLI-driven document management** — Create and publish from the terminal
 - **Frontmatter-based access control** — Public/private visibility and email-based sharing
 - **Git-backed versioning** — Change history and rollback via the posts repository
 - **Automatic table of contents** — TOC and anchors from markdown headings
@@ -35,10 +34,7 @@ cp .env.example .env.local  # edit with your values
 yarn dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
-
 ## Documentation
 
 - [Frontend Guide](README.frontend.md)
 - [Backend Guide](README.backend.md)
-- [CLI Guide](README.cli.md)
