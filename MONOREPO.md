@@ -11,7 +11,7 @@ Git hooks로 커밋 규칙을 강제하여 프로젝트 경계를 유지하고, 
 
 ```bash
 git clone <repository-url>
-cd i2na
+cd <repository-directory>
 yarn install
 ```
 
@@ -26,7 +26,7 @@ yarn install
 
 ```bash
 docs: update profile
-bio: feat: add profile animation
+project1: feat: add profile animation
 ```
 
 ### Auto Prefix
@@ -34,9 +34,9 @@ bio: feat: add profile animation
 단일 프로젝트 디렉터리만 변경된 경우 `prepare-commit-msg` 훅이 프로젝트 prefix를 자동으로 추가합니다.
 
 ```bash
-git add bio/
+git add project1/
 git commit -m "feat: add new feature"
-# → "bio: feat: add new feature"
+# → "project1: feat: add new feature"
 ```
 
 ### Multiple Projects Prevention
@@ -45,13 +45,13 @@ git commit -m "feat: add new feature"
 
 ```bash
 # 거부됨
-git add bio/ blog/
+git add project1/ project2/
 git commit -m "feat: update"
 
 # 올바른 방법
 git reset
-git add bio/ && git commit -m "feat: update"
-git add blog/ && git commit -m "feat: update"
+git add project1/ && git commit -m "feat: update"
+git add project2/ && git commit -m "feat: update"
 ```
 
 ### Root Files Exception
@@ -101,7 +101,7 @@ Prettier는 루트 `package.json`의 `devDependencies`에 설치되어 있으며
 
 ```bash
 yarn format .
-yarn format "bio/**/*.{js,jsx,ts,tsx,json,md,css,scss}"
+yarn format "<project-directory>/"
 ```
 
 ## Vercel Deployment
@@ -110,8 +110,8 @@ yarn format "bio/**/*.{js,jsx,ts,tsx,json,md,css,scss}"
 
 | 프로젝트 | Vercel 프로젝트명 예시 | Root Directory |
 | -------- | ---------------------- | -------------- |
-| bio      | i2na-bio               | `bio`          |
-| blog     | i2na-blog              | `blog`         |
+| project1 | your-monorepo-project1 | `project1`     |
+| project2 | your-monorepo-project2 | `project2`     |
 
 Root Directory는 다음 경로에서 프로젝트별로 설정합니다.
 
