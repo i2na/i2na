@@ -37,7 +37,9 @@ export function hasAccessToPost(
         return true;
     }
 
-    return metadata.sharedWith.map((email) => normalizeEmail(email)).includes(normalizedViewerEmail);
+    return metadata.sharedWith
+        .map((email) => normalizeEmail(email))
+        .includes(normalizedViewerEmail);
 }
 
 export async function getAdminEmails(): Promise<string[]> {
@@ -56,8 +58,12 @@ export async function getAdminEmails(): Promise<string[]> {
 export async function getEmailConfig(): Promise<{ admin: string[]; archive: string[] }> {
     if (APP_CONFIG.ACCESS.ADMIN_EMAILS.length > 0 || APP_CONFIG.ACCESS.ARCHIVE_EMAILS.length > 0) {
         return {
-            admin: APP_CONFIG.ACCESS.ADMIN_EMAILS.map((email) => normalizeEmail(email)).filter(Boolean),
-            archive: APP_CONFIG.ACCESS.ARCHIVE_EMAILS.map((email) => normalizeEmail(email)).filter(Boolean),
+            admin: APP_CONFIG.ACCESS.ADMIN_EMAILS.map((email) => normalizeEmail(email)).filter(
+                Boolean
+            ),
+            archive: APP_CONFIG.ACCESS.ARCHIVE_EMAILS.map((email) => normalizeEmail(email)).filter(
+                Boolean
+            ),
         };
     }
 

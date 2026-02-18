@@ -10,64 +10,47 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    border: none;
-    color: $gh-fg-default;
-    font-size: 1.6rem;
+    width: 32px;
+    height: 32px;
+    background: $theme-surface-soft;
+    border: 1px solid $theme-border-soft;
+    color: $theme-ink-base;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: all $transition-base;
-    border-radius: 4px;
-    padding: 0;
+    transition: background-color $transition-fast ease;
+    border-radius: 9px;
 
     &:hover {
-        color: $gh-fg-default;
-        background: $gh-bg-neutral-muted;
-    }
-
-    @include respond-to(md) {
-        font-size: 1.45rem;
+        background: #f7faf8;
     }
 }
 
 .tocTooltip {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 6px);
     right: 0;
-    background: white;
-    border: 1px solid $gh-border-default;
-    border-radius: $radius-lg;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    min-width: 280px;
-    max-width: 400px;
-    max-height: 70vh;
+    background: #ffffff;
+    border: 1px solid $theme-border-soft;
+    border-radius: 12px;
+    min-width: 260px;
+    max-width: 360px;
+    max-height: 65vh;
     overflow-y: auto;
     z-index: 1000;
-    animation: fadeIn $transition-fast ease-out;
 
     @include respond-to(md) {
-        min-width: 240px;
-        max-width: calc(100vw - 32px);
-        right: -8px;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+        min-width: 220px;
+        max-width: calc(100vw - 28px);
+        right: -6px;
     }
 }
 
 .tocHeader {
     padding: $base-size-16 $base-size-24;
     font-weight: $font-weight-semibold;
-    font-size: 0.875rem;
-    color: $gh-fg-default;
-    border-bottom: 1px solid $gh-border-default;
+    font-size: 0.84rem;
+    color: $theme-ink-base;
+    border-bottom: 1px solid $theme-border-soft;
 }
 
 .tocList {
@@ -95,16 +78,12 @@
     text-align: left;
     background: transparent;
     border: none;
-    color: $gh-fg-default;
-    font-size: 0.875rem;
+    color: $theme-ink-base;
+    font-size: 0.82rem;
     cursor: pointer;
-    transition: all $transition-fast;
-    border-left: 2px solid transparent;
 
     &:hover {
-        background: $gh-bg-muted;
-        color: $gh-fg-default;
-        border-left-color: $gh-fg-accent;
+        background: #f7faf8;
     }
 
     .level2 & {
@@ -113,15 +92,15 @@
 
     .level3 & {
         font-weight: $font-weight-normal;
-        font-size: 0.75rem;
+        font-size: 0.76rem;
     }
 
     @include respond-to(md) {
-        font-size: 0.75rem;
+        font-size: 0.76rem;
         padding: $base-size-4 $base-size-16;
 
         .level3 & {
-            font-size: 0.7rem;
+            font-size: 0.72rem;
         }
     }
 }

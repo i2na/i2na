@@ -16,16 +16,12 @@ export function Card({ post, onClick }: CardProps) {
         <article className={styles.item} onClick={() => onClick(post.slug)}>
             <div className={styles.itemMain}>
                 <div className={styles.itemTitleRow}>
-                    <GoRepo className={styles.repoIcon} />
+                    <span className={styles.repoIconWrap}>
+                        <GoRepo className={styles.repoIcon} />
+                    </span>
                     <h2 className={styles.itemTitle} title={post.title}>
                         {post.title}
                     </h2>
-                    {post.metadata.visibility === "private" && (
-                        <span className={styles.sharedBadge}>
-                            <GoLock size={12} />
-                            <span>Private</span>
-                        </span>
-                    )}
                 </div>
 
                 <p className={styles.description}>{post.description}</p>
@@ -39,6 +35,12 @@ export function Card({ post, onClick }: CardProps) {
                         <FiEye />
                         {post.viewCount}
                     </span>
+                    {post.metadata.visibility === "private" && (
+                        <span className={styles.sharedBadge}>
+                            <GoLock size={12} />
+                            <span>Private</span>
+                        </span>
+                    )}
                 </div>
             </div>
         </article>

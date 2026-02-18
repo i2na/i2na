@@ -34,7 +34,9 @@ export const useAdminStore = create<IAdminState>((set, get) => ({
             const archiveEmails = Array.isArray(config.archive) ? config.archive : [];
 
             set({
-                adminEmails: adminEmails.map((email: string) => normalizeEmail(email)).filter(Boolean),
+                adminEmails: adminEmails
+                    .map((email: string) => normalizeEmail(email))
+                    .filter(Boolean),
                 archiveEmails: archiveEmails
                     .map((email: string) => normalizeEmail(email))
                     .filter(Boolean),

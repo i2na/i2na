@@ -69,10 +69,9 @@ function normalizeMongoValue(value: unknown): unknown {
         return value;
     }
 
-    const normalizedEntries = Object.entries(value as Record<string, unknown>).map(([key, next]) => [
-        key,
-        normalizeMongoValue(next),
-    ]);
+    const normalizedEntries = Object.entries(value as Record<string, unknown>).map(
+        ([key, next]) => [key, normalizeMongoValue(next)]
+    );
 
     return Object.fromEntries(normalizedEntries);
 }
@@ -116,7 +115,9 @@ export async function findOne<TDocument>(
     filter: TMongoInput
 ): Promise<TDocument | null> {
     const collectionRef = await getCollection(collection);
-    return (await collectionRef.findOne(normalizeMongoInput(filter) as TMongoInput)) as TDocument | null;
+    return (await collectionRef.findOne(
+        normalizeMongoInput(filter) as TMongoInput
+    )) as TDocument | null;
 }
 
 export async function insertOne<TDocument>(
@@ -167,7 +168,10 @@ export async function updateMany(
     };
 }
 
-export async function deleteOne(collection: string, filter: TMongoInput): Promise<IMongoDeleteResponse> {
+export async function deleteOne(
+    collection: string,
+    filter: TMongoInput
+): Promise<IMongoDeleteResponse> {
     const collectionRef = await getCollection(collection);
     const result = await collectionRef.deleteOne(normalizeMongoInput(filter));
 

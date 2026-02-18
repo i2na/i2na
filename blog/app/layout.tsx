@@ -7,7 +7,7 @@ import "@/app/styles/global.scss";
 const siteTitle = APP_CONFIG.SITE_TITLE;
 
 export const metadata: Metadata = {
-    title: `${siteTitle} blog`,
+    title: `${siteTitle} | Blog`,
     description: "Markdown-based blog by Yena",
 };
 

@@ -1,80 +1,101 @@
 @use "@/shared/styles/variables" as *;
 
 .item {
-    border: 1px solid #eee3d4;
-    border-radius: 16px;
-    background: #fff;
-    padding: 1rem;
-    margin-bottom: 0.7rem;
+    border: 1px solid $theme-border-soft;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 0.84rem;
     cursor: pointer;
-    transition: transform 130ms ease;
+    transition:
+        border-color 140ms ease,
+        background-color 140ms ease;
 
     &:hover {
-        transform: translateY(-1px);
-        border-color: #dcc8a7;
+        border-color: rgba($theme-primary-strong, 0.34);
+        background: #fbfdfc;
     }
 }
 
 .itemMain {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.46rem;
 }
 
 .itemTitleRow {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.46rem;
+}
+
+.repoIconWrap {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($theme-primary, 0.22);
 }
 
 .repoIcon {
-    color: #7c6a55;
+    color: $theme-ink-base;
 }
 
 .itemTitle {
     margin: 0;
-    font-size: 1.12rem;
-    color: #2b2416;
-    line-height: 1.35;
+    font-family: $font-family-display;
+    font-size: 1.08rem;
+    color: $theme-ink-strong;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.description {
+    margin: 0;
+    color: $theme-ink-soft;
+    line-height: 1.5;
+    font-size: 0.93rem;
+}
+
+.itemMeta {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
+    color: $theme-ink-faint;
+    font-size: 0.76rem;
+    flex-wrap: wrap;
+}
+
+.author {
+    font-weight: 700;
+    color: $theme-ink-base;
+}
+
+.date {
+    color: $theme-ink-faint;
+}
+
+.dot {
+    opacity: 0.44;
+}
+
+.viewCount {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.24rem;
 }
 
 .sharedBadge {
     margin-left: auto;
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    border: 1px solid #e5d6bf;
+    gap: 0.28rem;
+    border: 1px solid rgba($theme-ink-strong, 0.2);
     border-radius: 999px;
-    color: #6f5f4a;
-    padding: 0.18rem 0.55rem;
-    font-size: 0.74rem;
-}
-
-.description {
-    margin: 0;
-    color: #61543f;
-    line-height: 1.5;
-}
-
-.itemMeta {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    color: #7f6f59;
-    font-size: 0.82rem;
-}
-
-.author {
-    font-weight: $font-weight-semibold;
-    color: #6f5d46;
-}
-
-.dot {
-    opacity: 0.5;
-}
-
-.viewCount {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
+    color: $theme-ink-soft;
+    background: $theme-surface-soft;
+    padding: 0.14rem 0.48rem;
+    font-size: 0.7rem;
+    font-weight: 700;
 }

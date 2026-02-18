@@ -58,7 +58,8 @@ async function assertCanManageComment(
 
     const adminEmails = await getAdminEmails();
     const viewerIsAdmin = isAdmin(viewerEmail, adminEmails);
-    const viewerOwnsComment = normalizeEmail(targetComment.authorEmail) === normalizeEmail(viewerEmail);
+    const viewerOwnsComment =
+        normalizeEmail(targetComment.authorEmail) === normalizeEmail(viewerEmail);
 
     if (!viewerIsAdmin && !viewerOwnsComment) {
         throw new HttpError(403, "You can only manage your own comments");

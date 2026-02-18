@@ -3,24 +3,24 @@
 
 .listPage {
     min-height: 100vh;
-    padding: 2.2rem 1rem 4rem;
-    background:
-        radial-gradient(circle at 6% 0%, #f8f4ff 0%, transparent 24%),
-        radial-gradient(circle at 100% 0%, #f1fbff 0%, transparent 34%),
-        linear-gradient(180deg, #fffcf5 0%, #fff 55%, #fffef8 100%);
+    padding: 1.1rem 1rem 3rem;
 }
 
 .container {
-    max-width: 1080px;
+    max-width: 1020px;
     margin: 0 auto;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
     align-items: flex-start;
-    margin-bottom: 1.1rem;
+    gap: 1rem;
+    background: #08332d;
+    color: #ebfaf4;
+    border-radius: 20px;
+    border: 1px solid rgba($theme-primary, 0.2);
+    padding: 1rem;
 
     @include respond-to(md) {
         flex-direction: column;
@@ -30,139 +30,147 @@
 .brandBlock {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.35rem;
+}
+
+.eyebrow {
+    margin: 0;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(233, 249, 242, 0.72);
 }
 
 .title {
     margin: 0;
-    font-size: 2.1rem;
-    color: #1e1a14;
-    letter-spacing: -0.02em;
+    font-family: $font-family-display;
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    line-height: 1.06;
 }
 
 .subtitle {
     margin: 0;
-    color: #77624a;
-    font-size: 0.94rem;
+    color: rgba(233, 249, 242, 0.85);
+    font-size: 0.92rem;
 }
 
 .userInfo {
     display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+
+    @include respond-to(md) {
+        align-items: flex-start;
+        width: 100%;
+    }
 }
 
 .userSummary {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     line-height: 1.2;
-
-    @include respond-to(md) {
-        align-items: flex-start;
-    }
 }
 
 .userName {
-    color: #2a2114;
-    font-weight: $font-weight-semibold;
+    font-size: 0.82rem;
+    font-weight: 700;
 }
 
 .userEmail {
-    color: #7b6b55;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
+    opacity: 0.78;
 }
 
-.newPostButton {
-    border: 1px solid #d9b978;
-    background: linear-gradient(180deg, #fff5dc 0%, #ffe5b8 100%);
-    color: #65491a;
-    border-radius: 999px;
-    font-size: 0.82rem;
-    font-weight: $font-weight-semibold;
-    padding: 0.52rem 0.92rem;
-    cursor: pointer;
+.actionGroup {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
 }
 
-.syncButton {
-    border: 1px solid #a6bfd7;
-    background: linear-gradient(180deg, #f2f8ff 0%, #d9edff 100%);
-    color: #22415c;
+.utilityButton {
+    border: 1px solid rgba($theme-primary, 0.5);
+    background: rgba($theme-primary, 0.14);
+    color: #e4fff5;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 0.4rem 0.72rem;
     border-radius: 999px;
-    font-size: 0.82rem;
-    font-weight: $font-weight-semibold;
-    padding: 0.52rem 0.92rem;
     cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+        background: rgba($theme-primary, 0.22);
+    }
 
     &:disabled {
-        opacity: 0.7;
+        opacity: 0.62;
         cursor: not-allowed;
     }
 }
 
-.subscribeSection {
-    margin: 1rem 0 1.2rem;
-    border: 1px solid #eee3d1;
-    border-radius: 18px;
-    background: #fff;
-    padding: 1rem;
+.loginButton,
+.logoutButton {
+    border-color: rgba($theme-primary, 0.54) !important;
+    background: rgba($theme-primary, 0.16) !important;
+    color: #e8fff6 !important;
+
+    &:hover {
+        border-color: rgba($theme-primary, 0.54) !important;
+        background: rgba($theme-primary, 0.22) !important;
+        color: #e8fff6 !important;
+    }
+}
+
+.summaryRow {
+    margin-top: 0.78rem;
     display: grid;
-    grid-template-columns: 1.6fr 1fr;
-    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
 
     @include respond-to(md) {
         grid-template-columns: 1fr;
     }
 }
 
-.subscribeText {
-    h2 {
-        margin: 0;
-        font-size: 1.1rem;
-        color: #2f271a;
-    }
-
-    p {
-        margin: 0.35rem 0 0;
-        color: #7d6c57;
-    }
-}
-
-.subscribeForm {
+.statCard {
+    background: #f6f9f8;
+    border: 1px solid $theme-border-soft;
+    border-radius: 16px;
+    padding: 0.78rem 0.86rem;
     display: flex;
-    gap: 0.5rem;
-    align-items: center;
+    justify-content: space-between;
+    align-items: baseline;
 }
 
-.subscribeInput {
-    flex: 1;
-    border: 1px solid #e5d4bb;
-    border-radius: 10px;
-    padding: 0.6rem 0.78rem;
-    background: #fffdfa;
-
-    &:focus {
-        outline: none;
-        border-color: #cfa35d;
-    }
+.statLabel {
+    color: $theme-ink-faint;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
-.subscribeButton {
-    border: 1px solid #be9a58;
-    border-radius: 10px;
-    background: #fff3d9;
-    color: #58411c;
-    font-weight: $font-weight-semibold;
-    padding: 0.58rem 0.88rem;
-    cursor: pointer;
+.statValue {
+    font-family: $font-family-display;
+    color: $theme-ink-strong;
+    font-size: 1.48rem;
+    line-height: 1;
 }
 
-.controls {
-    margin-top: 1.15rem;
+.controlsSection,
+.subscribeSection,
+.postsSection {
+    margin-top: 0.78rem;
+    background: #ffffff;
+    border: 1px solid $theme-border-soft;
+    border-radius: 16px;
+    padding: 0.88rem;
+}
+
+.controlsSection {
     display: flex;
-    gap: 0.7rem;
     align-items: center;
+    gap: 0.62rem;
 
     @include respond-to(md) {
         flex-direction: column;
@@ -170,42 +178,129 @@
     }
 }
 
-.searchInput {
-    flex: 1;
-    border: 1px solid #e8dbc8;
-    border-radius: 12px;
-    padding: 0.65rem 0.82rem;
-    background: #fff;
+.searchInput,
+.select,
+.subscribeInput {
+    border: 1px solid $theme-border-soft;
+    border-radius: 10px;
+    padding: 0.56rem 0.74rem;
+    background: $theme-surface-soft;
+    color: $theme-ink-base;
 
     &:focus {
         outline: none;
-        border-color: #b58f51;
+        border-color: rgba($theme-primary-strong, 0.45);
+        box-shadow: 0 0 0 2px rgba($theme-primary, 0.18);
+        background: #fff;
     }
+}
+
+.searchInput {
+    flex: 1;
 }
 
 .selectGroup {
     display: flex;
-    gap: 0.6rem;
+    gap: 0.5rem;
+
+    @include respond-to(sm) {
+        flex-direction: column;
+    }
 }
 
 .select {
-    border: 1px solid #e8dbc8;
+    min-width: 122px;
+}
+
+.subscribeSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.68rem;
+
+    @include respond-to(md) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.subscribeText {
+    h2 {
+        margin: 0;
+        font-family: $font-family-display;
+        color: $theme-ink-strong;
+        font-size: 1.34rem;
+    }
+
+    p {
+        margin: 0.28rem 0 0;
+        color: $theme-ink-soft;
+        font-size: 0.9rem;
+    }
+}
+
+.subscribeForm {
+    display: flex;
+    gap: 0.45rem;
+    width: min(440px, 100%);
+
+    @include respond-to(sm) {
+        flex-direction: column;
+    }
+}
+
+.subscribeInput {
+    flex: 1;
+}
+
+.subscribeButton {
+    border: 1px solid #0a3a33;
     border-radius: 10px;
-    padding: 0.56rem 0.78rem;
-    background: #fff;
+    background: #0a3a33;
+    color: $theme-primary;
+    padding: 0.56rem 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+        opacity: 0.92;
+    }
+}
+
+.postsSectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    h2 {
+        margin: 0;
+        font-family: $font-family-display;
+        color: $theme-ink-strong;
+        font-size: 1.44rem;
+    }
+
+    span {
+        color: $theme-ink-faint;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+    }
 }
 
 .list {
-    margin-top: 0.75rem;
+    margin-top: 0.65rem;
     display: flex;
     flex-direction: column;
+    gap: 0.56rem;
 }
 
 .empty {
-    border: 1px dashed #e7d8c2;
-    border-radius: 14px;
-    color: #7d6b55;
+    border: 1px dashed $theme-border-strong;
+    border-radius: 12px;
+    color: $theme-ink-soft;
     text-align: center;
-    padding: 3rem 1rem;
-    background: #fff;
+    padding: 1.6rem 1rem;
+    background: $theme-surface-soft;
 }

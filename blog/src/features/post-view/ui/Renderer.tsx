@@ -2,11 +2,11 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { FiEye } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
-import { SITE_CONFIG } from "@/shared/config";
 import type { IPostDetail } from "@/shared/lib/types";
 import { smoothScrollToElement } from "../lib/scroll";
 import { HeaderLink } from "./HeaderLink";
@@ -15,9 +15,10 @@ import "highlight.js/styles/github.css";
 
 interface RendererProps {
     file: IPostDetail;
+    viewCount: number;
 }
 
-export function Renderer({ file }: RendererProps) {
+export function Renderer({ file, viewCount }: RendererProps) {
     const searchParams = useSearchParams();
     const headerIndexRef = useRef(0);
     headerIndexRef.current = 0;
@@ -32,11 +33,16 @@ export function Renderer({ file }: RendererProps) {
     return (
         <article className={styles.article}>
             <header className={styles.postHeader}>
-                <p className={styles.identity}>{`${SITE_CONFIG.TITLE}/${file.filename}`}</p>
+                <p className={styles.identity}>{`/${file.filename}`}</p>
                 <h1 className={styles.postTitle}>{file.title}</h1>
                 <p className={styles.postDescription}>{file.description}</p>
                 <div className={styles.metaRow}>
                     <span>{file.metadata.createdAt || "No publish date"}</span>
+                    <span className={styles.metaDot}>•</span>
+                    <span className={styles.reactionBadge}>
+                        <FiEye />
+                        Reaction {viewCount}
+                    </span>
                 </div>
             </header>
 

@@ -2,5 +2,5 @@
 @use "@/shared/styles/mixins" as *;
 
 .spinner {
-    @include loading-spinner(1rem, $gh-fg-muted);
+    @include loading-spinner(0.9rem, rgba($theme-primary-strong, 0.9));
 }

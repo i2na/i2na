@@ -49,6 +49,12 @@ export function Container() {
     const { analytics } = useHomeAnalytics();
 
     const listTitle = useMemo(() => `@${SITE_CONFIG.TITLE}`, []);
+    const visiblePostCount = useMemo(() => posts.length, [posts]);
+    const privatePostCount = useMemo(
+        () => posts.filter((post) => post.metadata.visibility === "private").length,
+        [posts]
+    );
+    const deepDiveRate = useMemo(() => Math.round(analytics.deepDive.rate * 100), [analytics]);
 
     useEffect(() => {
         if (user?.email) {
@@ -109,8 +115,9 @@ export function Container() {
             <div className={styles.container}>
                 <header className={styles.header}>
                     <div className={styles.brandBlock}>
+                        <p className={styles.eyebrow}>Blog account</p>
                         <h1 className={styles.title}>{listTitle}</h1>
-                        <p className={styles.subtitle}>Simple premium blog with MongoDB runtime</p>
+                        <p className={styles.subtitle}>Simple and calm reading space.</p>
                     </div>
 
                     {isAuthenticated && user ? (
@@ -119,51 +126,55 @@ export function Container() {
                                 <span className={styles.userName}>{user.name}</span>
                                 <span className={styles.userEmail}>{user.email}</span>
                             </div>
-                            {isAdmin && (
-                                <>
-                                    <button
-                                        className={styles.newPostButton}
-                                        onClick={() => router.push(ROUTES.NEW_POST)}
-                                    >
-                                        New Post
-                                    </button>
-                                    <button
-                                        className={styles.syncButton}
-                                        onClick={handleSyncStores}
-                                        disabled={isSyncing}
-                                    >
-                                        {isSyncing ? "Syncing..." : "Sync DB ↔ Repo"}
-                                    </button>
-                                </>
-                            )}
-                            <LogoutButton onLogout={handleLogout}>Logout</LogoutButton>
+                            <div className={styles.actionGroup}>
+                                {isAdmin && (
+                                    <>
+                                        <button
+                                            className={styles.utilityButton}
+                                            onClick={() => router.push(ROUTES.NEW_POST)}
+                                        >
+                                            New Post
+                                        </button>
+                                        <button
+                                            className={styles.utilityButton}
+                                            onClick={handleSyncStores}
+                                            disabled={isSyncing}
+                                        >
+                                            {isSyncing ? "Syncing..." : "Sync"}
+                                        </button>
+                                    </>
+                                )}
+                                <LogoutButton
+                                    onLogout={handleLogout}
+                                    className={styles.logoutButton}
+                                >
+                                    Logout
+                                </LogoutButton>
+                            </div>
                         </div>
                     ) : (
-                        <LoginButton returnPath={ROUTES.HOME}>{AUTH_COPY.GOOGLE_CTA}</LoginButton>
+                        <LoginButton returnPath={ROUTES.HOME} className={styles.loginButton}>
+                            {AUTH_COPY.GOOGLE_CTA}
+                        </LoginButton>
                     )}
                 </header>
 
-                <section className={styles.subscribeSection}>
-                    <div className={styles.subscribeText}>
-                        <h2>Subscribe for public post alerts</h2>
-                        <p>Get email updates whenever a new public post is published.</p>
-                    </div>
-                    <div className={styles.subscribeForm}>
-                        <input
-                            className={styles.subscribeInput}
-                            value={subscriptionEmail}
-                            onChange={(event) => setSubscriptionEmail(event.target.value)}
-                            placeholder="email@example.com"
-                        />
-                        <button className={styles.subscribeButton} onClick={handleSubscribe}>
-                            Subscribe
-                        </button>
-                    </div>
+                <section className={styles.summaryRow}>
+                    <article className={styles.statCard}>
+                        <span className={styles.statLabel}>Visible</span>
+                        <strong className={styles.statValue}>{visiblePostCount}</strong>
+                    </article>
+                    <article className={styles.statCard}>
+                        <span className={styles.statLabel}>Private</span>
+                        <strong className={styles.statValue}>{privatePostCount}</strong>
+                    </article>
+                    <article className={styles.statCard}>
+                        <span className={styles.statLabel}>Deep dive</span>
+                        <strong className={styles.statValue}>{deepDiveRate}%</strong>
+                    </article>
                 </section>
 
-                <HomeCharts analytics={analytics} />
-
-                <section className={styles.controls}>
+                <section className={styles.controlsSection}>
                     <input
                         className={styles.searchInput}
                         value={searchKeyword}
@@ -200,21 +211,48 @@ export function Container() {
                     </div>
                 </section>
 
-                <div className={styles.list}>
-                    {loading ? (
-                        <Skeleton />
-                    ) : posts.length === 0 ? (
-                        <div className={styles.empty}>No posts found</div>
-                    ) : (
-                        posts.map((post) => (
-                            <Card
-                                key={post.filename}
-                                post={post}
-                                onClick={(slug) => router.push(`/${slug}`)}
-                            />
-                        ))
-                    )}
-                </div>
+                <section className={styles.subscribeSection}>
+                    <div className={styles.subscribeText}>
+                        <h2>Subscribe for updates</h2>
+                        <p>Receive email alerts when a new public post is published.</p>
+                    </div>
+                    <div className={styles.subscribeForm}>
+                        <input
+                            className={styles.subscribeInput}
+                            value={subscriptionEmail}
+                            onChange={(event) => setSubscriptionEmail(event.target.value)}
+                            placeholder="email@example.com"
+                        />
+                        <button className={styles.subscribeButton} onClick={handleSubscribe}>
+                            Subscribe
+                        </button>
+                    </div>
+                </section>
+
+                <HomeCharts analytics={analytics} />
+
+                <section className={styles.postsSection}>
+                    <div className={styles.postsSectionHeader}>
+                        <h2>Story feed</h2>
+                        <span>{loading ? "Loading..." : `${posts.length} results`}</span>
+                    </div>
+
+                    <div className={styles.list}>
+                        {loading ? (
+                            <Skeleton />
+                        ) : posts.length === 0 ? (
+                            <div className={styles.empty}>No posts found</div>
+                        ) : (
+                            posts.map((post) => (
+                                <Card
+                                    key={post.filename}
+                                    post={post}
+                                    onClick={(targetSlug) => router.push(`/${targetSlug}`)}
+                                />
+                            ))
+                        )}
+                    </div>
+                </section>
             </div>
         </div>
     );

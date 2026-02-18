@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
-import { FiEye } from "react-icons/fi";
 import { useAdminStore } from "@/features/admin";
 import { useAuthStore } from "@/features/auth";
 import { LoadingSpinner } from "@/shared/ui";
 import { usePost } from "../lib/use-post";
 import { useEngagement } from "../lib/use-engagement";
 import { extractTableOfContents } from "../lib/use-toc";
+import { SITE_CONFIG } from "@/shared/config";
 import { CommentsSection } from "./CommentsSection";
 import { Renderer } from "./Renderer";
 import { Toolbar } from "./Toolbar";
@@ -23,6 +23,7 @@ export function Container({ slug }: ContainerProps) {
     const { post, loading, error } = usePost(slug, user?.email || null, user?.name || null);
     const tocItems = post ? extractTableOfContents(post.content) : [];
     const { viewCount } = useEngagement(slug, post?.viewCount || 0);
+    const siteTitle = SITE_CONFIG.TITLE;
 
     useEffect(() => {
         if (!user?.email) {
@@ -31,6 +32,19 @@ export function Container({ slug }: ContainerProps) {
 
         loadEmailConfig();
     }, [loadEmailConfig, user?.email]);
+
+    useEffect(() => {
+        if (!post?.filename) {
+            return;
+        }
+
+        const previousTitle = document.title;
+        document.title = `${siteTitle} | ${post.filename}`;
+
+        return () => {
+            document.title = previousTitle;
+        };
+    }, [post?.filename]);
 
     if (loading) {
         return (
@@ -59,16 +73,8 @@ export function Container({ slug }: ContainerProps) {
             <div className={styles.container}>
                 <Toolbar canEdit={canEdit} slug={slug} tocItems={tocItems} />
 
-                <div className={styles.reactionRow}>
-                    <span className={styles.reactionLabel}>Reaction</span>
-                    <span className={styles.viewCount}>
-                        <FiEye />
-                        {viewCount}
-                    </span>
-                </div>
-
                 <div className={styles.content}>
-                    <Renderer file={post} />
+                    <Renderer file={post} viewCount={viewCount} />
                 </div>
 
                 <CommentsSection postSlug={post.slug} />

@@ -1,18 +1,15 @@
+@use "@/shared/styles/variables" as *;
 @use "@/shared/styles/mixins" as *;
 
 .viewPage {
     min-height: 100vh;
-    padding: 1.8rem 0 3rem;
-    background:
-        radial-gradient(circle at 14% 0%, #f2f8ff 0, transparent 24%),
-        radial-gradient(circle at 92% 10%, #fff3e2 0, transparent 28%),
-        linear-gradient(180deg, #fffdf8 0%, #fff 55%, #fffef9 100%);
+    padding: 1.1rem 0 2.4rem;
+}
 
-    .container {
-        max-width: 980px;
-        margin: 0 auto;
-        padding: 0 1rem 2rem;
-    }
+.container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .content {
@@ -20,40 +17,41 @@
 }
 
 .loading {
-    min-height: 260px;
+    min-height: 220px;
 }
 
 .error {
-    border: 1px dashed #e2d2b8;
+    border: 1px solid $theme-border-soft;
     border-radius: 12px;
-    background: #fff;
-    color: #745f40;
+    background: #ffffff;
+    color: $theme-ink-soft;
     text-align: center;
-    padding: 2rem;
+    padding: 1.6rem;
 }
 
 .reactionRow {
-    margin: 0.9rem 0;
-    padding: 0.55rem 0.75rem;
+    margin: 0.7rem 0;
+    padding: 0.52rem 0.68rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #eadfcf;
-    border-radius: 10px;
-    background: #fff;
+    border: 1px solid $theme-border-soft;
+    border-radius: 12px;
+    background: #ffffff;
 }
 
 .reactionLabel {
-    color: #6f5d46;
-    font-size: 0.82rem;
+    color: $theme-ink-faint;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
 }
 
 .viewCount {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    color: #2e2416;
+    gap: 0.28rem;
+    color: $theme-ink-base;
     font-weight: 600;
+    font-size: 0.85rem;
 }

@@ -32,7 +32,7 @@
     white-space: nowrap;
 }
 
-@mixin loading-spinner($size: 10px, $color: $gh-fg-muted) {
+@mixin loading-spinner($size: 10px, $color: $theme-primary-strong) {
     @include flex-center;
     width: 100%;
     min-height: 200px;
@@ -82,24 +82,38 @@
 @mixin text-button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: $base-size-4;
-    background: $gh-bg-muted;
-    border: 1px solid $gh-border-default;
-    color: $gh-fg-default;
-    font-size: 0.875rem;
-    font-weight: $font-weight-medium;
+    background: #ffffff;
+    border: 1px solid rgba($theme-border-strong, 0.9);
+    color: $theme-ink-base;
+    font-size: 0.84rem;
+    font-weight: $font-weight-semibold;
     cursor: pointer;
-    transition: all $transition-base;
-    border-radius: 6px;
-    padding: 6px 12px;
+    transition:
+        border-color $transition-fast ease,
+        background-color $transition-fast ease,
+        color $transition-fast ease;
+    border-radius: 999px;
+    padding: 0.45rem 0.92rem;
 
     &:hover {
-        background: $gh-bg-neutral-muted;
-        border-color: $gh-border-muted;
+        border-color: rgba($theme-primary-strong, 0.45);
+        background: #f7faf8;
+    }
+
+    &:focus-visible {
+        outline: 2px solid rgba($theme-primary, 0.32);
+        outline-offset: 2px;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.62;
     }
 
     @include respond-to(md) {
-        font-size: 0.75rem;
-        padding: 4px 10px;
+        font-size: 0.78rem;
+        padding: 0.4rem 0.8rem;
     }
 }

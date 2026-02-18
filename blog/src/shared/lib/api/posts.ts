@@ -110,10 +110,14 @@ export async function updatePostComment(
     payload: { content: string },
     options: IFetchOptions = {}
 ) {
-    return await apiClient.put<IUpdateCommentResponse>(API_ROUTES.POST_COMMENT(slug, commentId), payload, {
-        userEmail: options.userEmail,
-        userName: options.userName,
-    });
+    return await apiClient.put<IUpdateCommentResponse>(
+        API_ROUTES.POST_COMMENT(slug, commentId),
+        payload,
+        {
+            userEmail: options.userEmail,
+            userName: options.userName,
+        }
+    );
 }
 
 export async function deletePostComment(
@@ -121,10 +125,13 @@ export async function deletePostComment(
     commentId: string,
     options: IFetchOptions = {}
 ) {
-    return await apiClient.delete<IDeleteCommentResponse>(API_ROUTES.POST_COMMENT(slug, commentId), {
-        userEmail: options.userEmail,
-        userName: options.userName,
-    });
+    return await apiClient.delete<IDeleteCommentResponse>(
+        API_ROUTES.POST_COMMENT(slug, commentId),
+        {
+            userEmail: options.userEmail,
+            userName: options.userName,
+        }
+    );
 }
 
 export async function uploadMedia(file: File, options: IFetchOptions = {}) {

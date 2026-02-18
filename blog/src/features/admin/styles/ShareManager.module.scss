@@ -10,7 +10,7 @@
     transition: opacity $transition-base;
 
     &.disabled {
-        opacity: 0.5;
+        opacity: 0.52;
         pointer-events: none;
     }
 }
@@ -20,42 +20,48 @@
     align-items: center;
     justify-content: space-between;
     padding: $base-size-8 $base-size-16;
-    background: $gh-bg-muted;
-    border-radius: $radius-md;
-    transition: all $transition-base;
+    background: $theme-surface-white;
+    border: 1px solid $theme-border-soft;
+    border-radius: 10px;
+    transition:
+        border-color 0.16s ease,
+        box-shadow 0.16s ease,
+        transform 0.16s ease;
 
     &:hover {
-        background: $gh-bg-neutral-muted;
+        border-color: $theme-primary;
+        box-shadow: 0 8px 16px rgba(50, 65, 110, 0.1);
+        transform: translateY(-1px);
     }
 }
 
 .emailAddress {
     font-size: 1rem;
-    color: $gh-fg-default;
+    color: $theme-ink-base;
 }
 
 .removeButton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    border: none;
-    color: $gh-fg-muted;
-    font-size: 1rem;
+    background: #fff7fa;
+    border: 1px solid rgba($gh-border-danger, 0.3);
+    color: $gh-border-danger;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all $transition-base;
     padding: 4px;
-    border-radius: $radius-sm;
-    opacity: 0.6;
+    border-radius: 999px;
 
     &:hover {
-        color: $gh-fg-default;
-        opacity: 1;
+        border-color: rgba($gh-border-danger, 0.54);
+        transform: translateY(-1px);
     }
 
     &:disabled {
         opacity: 0.3;
         cursor: not-allowed;
+        transform: none;
     }
 }
 
@@ -63,28 +69,35 @@
     display: inline-flex;
     align-items: center;
     gap: $base-size-4;
-    background: transparent;
-    border: none;
-    color: $gh-fg-accent;
-    font-size: 1rem;
-    font-weight: $font-weight-medium;
+    background: #f6f8ff;
+    border: 1px solid $theme-primary;
+    color: $theme-primary-strong;
+    font-size: 0.92rem;
+    font-weight: $font-weight-semibold;
     cursor: pointer;
-    transition: all $transition-base;
-    padding: $base-size-4 0;
+    transition:
+        transform 0.16s ease,
+        border-color 0.16s ease,
+        box-shadow 0.16s ease;
+    padding: 0.42rem 0.84rem;
     margin-top: $base-size-8;
+    border-radius: 999px;
 
     &:hover {
-        color: color.adjust($gh-fg-accent, $lightness: -10%);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 16px rgba(49, 64, 108, 0.12);
     }
 
     &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
 }
 
 .emptyMessage {
-    color: $gh-fg-muted;
+    color: $theme-ink-faint;
     font-size: 0.875rem;
     padding: $base-size-16;
     text-align: center;
@@ -92,11 +105,8 @@
 
 .modalOverlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    background: rgba(22, 30, 56, 0.48);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,10 +123,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: white;
-    border: 1px solid $gh-border-default;
-    border-radius: $radius-lg;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: $theme-surface-white;
+    border: 1px solid $theme-border-soft;
+    border-radius: 16px;
+    box-shadow: 0 20px 44px rgba(20, 27, 53, 0.25);
     width: 90%;
     max-width: 600px;
     max-height: 80vh;
@@ -143,10 +153,11 @@
 
 .addEmailsModal .modalHeader {
     padding: $base-size-16 $base-size-24;
+    font-family: $font-family-display;
     font-weight: $font-weight-semibold;
-    font-size: 0.875rem;
-    color: $gh-fg-default;
-    border-bottom: 1px solid $gh-border-default;
+    font-size: 0.95rem;
+    color: $theme-ink-base;
+    border-bottom: 1px solid $theme-border-soft;
 }
 
 .addEmailsModal .modalContent {
@@ -165,7 +176,7 @@
     padding: 0 $base-size-24;
     font-size: 0.875rem;
     font-weight: $font-weight-semibold;
-    color: $gh-fg-default;
+    color: $theme-ink-soft;
     margin-bottom: $base-size-8;
 }
 
@@ -187,8 +198,8 @@
     border-left: 2px solid transparent;
 
     &:hover {
-        background: $gh-bg-muted;
-        border-left-color: $gh-fg-accent;
+        background: #f6f8ff;
+        border-left-color: $theme-primary;
     }
 
     input[type="checkbox"] {
@@ -197,25 +208,28 @@
 
     span {
         font-size: 0.875rem;
-        color: $gh-fg-default;
+        color: $theme-ink-base;
     }
 }
 
 .emailInput {
     width: calc(100% - #{2rem * 2});
     padding: $base-size-8 $base-size-24;
-    border: 1px solid $gh-border-default;
-    border-radius: $radius-md;
+    border: 1px solid $theme-border-soft;
+    border-radius: 10px;
     font-size: 0.875rem;
     font-family: $font-family-sans;
     resize: vertical;
     min-height: 80px;
     margin: 0 $base-size-24;
+    background: $theme-surface-soft;
+    color: $theme-ink-base;
 
     &:focus {
         outline: none;
-        border-color: $gh-fg-accent;
-        box-shadow: 0 0 0 3px rgba($gh-fg-accent, 0.1);
+        border-color: $theme-primary;
+        box-shadow: 0 0 0 3px rgba($theme-primary, 0.12);
+        background: #fff;
     }
 }
 
@@ -224,42 +238,39 @@
     justify-content: flex-end;
     gap: $base-size-8;
     padding: $base-size-16 $base-size-24;
-    border-top: 1px solid $gh-border-default;
+    border-top: 1px solid $theme-border-soft;
 }
 
-.modalCancelButton {
+.modalCancelButton,
+.modalAddButton {
     display: inline-flex;
     align-items: center;
-    background: white;
-    border: 1px solid $gh-border-default;
-    color: $gh-fg-default;
     font-size: 0.875rem;
     font-weight: $font-weight-medium;
     cursor: pointer;
     transition: all $transition-base;
-    border-radius: $radius-md;
-    padding: $base-size-4 $base-size-16;
+    border-radius: 999px;
+    padding: 0.34rem 0.86rem;
+}
+
+.modalCancelButton {
+    background: $theme-surface-white;
+    border: 1px solid $theme-border-soft;
+    color: $theme-ink-soft;
 
     &:hover {
-        background: $gh-bg-muted;
-        border-color: $gh-border-muted;
+        border-color: $theme-primary;
+        color: $theme-primary-strong;
     }
 }
 
 .modalAddButton {
-    display: inline-flex;
-    align-items: center;
-    background: $gh-fg-accent;
-    border: none;
-    color: white;
-    font-size: 0.875rem;
-    font-weight: $font-weight-medium;
-    cursor: pointer;
-    transition: all $transition-base;
-    border-radius: $radius-md;
-    padding: $base-size-4 $base-size-16;
+    background: $theme-primary;
+    border: 1px solid $theme-primary;
+    color: #fff;
 
     &:hover {
-        background: color.adjust($gh-fg-accent, $lightness: -10%);
+        background: color.adjust($theme-primary, $lightness: -4%);
+        transform: translateY(-1px);
     }
 }

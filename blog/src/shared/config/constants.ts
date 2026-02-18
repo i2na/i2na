@@ -1,5 +1,5 @@
 export const APP_CONFIG = {
-    SITE_TITLE: "yena",
+    SITE_TITLE: "Yena",
 } as const;
 
 export const STORAGE_KEYS = {

@@ -6,27 +6,35 @@
     align-items: center;
     gap: 4px;
     font-size: 0.875rem;
-    color: $gh-fg-muted;
-    border: 1px solid $gh-border-default;
-    padding: 4px 11px;
+    color: $theme-ink-soft;
+    border: 1px solid $theme-border-soft;
+    padding: 0.28rem 0.75rem;
     border-radius: 20px;
     font-weight: $font-weight-medium;
-    background: transparent;
+    background: $theme-surface-white;
     cursor: pointer;
-    transition: all $transition-base;
+    transition:
+        transform $transition-fast ease,
+        border-color $transition-fast ease,
+        box-shadow $transition-fast ease,
+        color $transition-fast ease;
 
     &:hover {
-        border-color: $gh-border-muted;
-        color: $gh-fg-default;
+        transform: translateY(-1px);
+        border-color: $theme-primary;
+        color: $theme-primary-strong;
+        box-shadow: 0 6px 14px rgba(64, 80, 124, 0.1);
     }
 
     &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
 
     @include respond-to(md) {
         font-size: 0.75rem;
-        padding: 3px 7px;
+        padding: 0.22rem 0.6rem;
     }
 }

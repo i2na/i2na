@@ -125,7 +125,9 @@ export function Settings({ slug }: SettingsProps) {
     if (loading || !file) {
         return (
             <div className={styles.settingPage}>
-                <LoadingSpinner />
+                <div className={styles.loadingWrap}>
+                    <LoadingSpinner />
+                </div>
             </div>
         );
     }

@@ -1,43 +1,64 @@
+@use "@/shared/styles/variables" as *;
+
 .section {
-    margin-top: 2rem;
-    border-top: 1px solid #eadfcd;
-    padding-top: 1.2rem;
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid $theme-border-soft;
 }
 
 .title {
     margin: 0 0 0.8rem;
-    color: #2f2618;
-    font-size: 1.2rem;
+    font-family: $font-family-display;
+    color: $theme-ink-strong;
+    font-size: 1.1rem;
 }
 
 .newComment {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.9rem;
 
     textarea {
-        min-height: 90px;
-        border: 1px solid #e5d6bd;
+        min-height: 88px;
+        border: 1px solid $theme-border-soft;
         border-radius: 10px;
-        padding: 0.6rem 0.75rem;
-        background: #fff;
+        padding: 0.56rem 0.68rem;
+        background: #ffffff;
+        color: $theme-ink-base;
+
+        &:focus {
+            outline: none;
+            border-color: rgba($theme-primary-strong, 0.45);
+            box-shadow: 0 0 0 2px rgba($theme-primary, 0.18);
+        }
     }
 
     button {
         align-self: flex-end;
-        border: 1px solid #be9a58;
-        background: #fff0d1;
-        color: #5a431e;
+        border: 1px solid #0a3a33;
+        background: #0a3a33;
+        color: $theme-primary;
         border-radius: 10px;
-        padding: 0.45rem 0.9rem;
+        padding: 0.42rem 0.78rem;
+        font-weight: 600;
         cursor: pointer;
+        transition: opacity 0.15s ease;
+
+        &:hover {
+            opacity: 0.92;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     }
 }
 
 .loginHint {
-    margin: 0 0 1rem;
-    color: #75644d;
+    margin: 0 0 0.9rem;
+    color: $theme-ink-soft;
 }
 
 .commentList,
@@ -48,22 +69,23 @@
 }
 
 .commentItem {
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.7rem;
 }
 
 .commentBody {
-    border: 1px solid #f0e6d7;
-    border-radius: 12px;
-    padding: 0.8rem;
-    background: #fff;
+    border: 1px solid $theme-border-soft;
+    border-radius: 10px;
+    padding: 0.72rem;
+    background: #ffffff;
 }
 
 .commentMeta {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    color: #7e6f5a;
-    font-size: 0.78rem;
+    gap: 0.36rem;
+    color: $theme-ink-faint;
+    font-size: 0.74rem;
+    flex-wrap: wrap;
 }
 
 .dot {
@@ -71,17 +93,23 @@
 }
 
 .commentContent {
-    margin: 0.45rem 0 0;
-    color: #2d2416;
+    margin: 0.4rem 0 0;
+    color: $theme-ink-base;
     line-height: 1.5;
+    white-space: pre-wrap;
 }
 
 .replyToggle {
     border: none;
     background: transparent;
-    color: #7c5f2d;
+    color: $theme-primary-strong;
     padding: 0;
     cursor: pointer;
+    font-weight: 600;
+
+    &:hover {
+        opacity: 0.86;
+    }
 
     &:disabled {
         opacity: 0.6;
@@ -90,33 +118,45 @@
 }
 
 .commentActions {
-    margin-top: 0.5rem;
+    margin-top: 0.44rem;
     display: flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.62rem;
 }
 
-.replyEditor {
-    margin-top: 0.5rem;
+.replyEditor,
+.editEditor {
+    margin-top: 0.46rem;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.36rem;
 
     textarea {
-        min-height: 72px;
-        border: 1px solid #e5d6bd;
+        min-height: 70px;
+        border: 1px solid $theme-border-soft;
         border-radius: 8px;
-        padding: 0.48rem 0.6rem;
+        padding: 0.46rem 0.56rem;
+        color: $theme-ink-base;
+        background: #ffffff;
+
+        &:focus {
+            outline: none;
+            border-color: rgba($theme-primary-strong, 0.45);
+            box-shadow: 0 0 0 2px rgba($theme-primary, 0.16);
+        }
     }
 
     button {
-        align-self: flex-end;
-        border: 1px solid #dbbd85;
+        border: 1px solid $theme-border-soft;
         border-radius: 8px;
-        background: #fff7e8;
-        color: #5f451d;
-        padding: 0.35rem 0.8rem;
+        background: $theme-surface-soft;
+        color: $theme-ink-base;
+        padding: 0.34rem 0.68rem;
         cursor: pointer;
+
+        &:hover {
+            background: #f7faf8;
+        }
 
         &:disabled {
             opacity: 0.6;
@@ -125,55 +165,32 @@
     }
 }
 
-.editEditor {
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-
-    textarea {
-        min-height: 72px;
-        border: 1px solid #e5d6bd;
-        border-radius: 8px;
-        padding: 0.48rem 0.6rem;
+.replyEditor {
+    button {
+        align-self: flex-end;
     }
 }
 
 .actionButtons {
     display: flex;
     justify-content: flex-end;
-    gap: 0.4rem;
-
-    button {
-        border: 1px solid #dbbd85;
-        border-radius: 8px;
-        background: #fff7e8;
-        color: #5f451d;
-        padding: 0.35rem 0.8rem;
-        cursor: pointer;
-
-        &:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-    }
+    gap: 0.36rem;
 }
 
 .secondaryButton {
-    border-color: #d9cfbe !important;
-    background: #f8f3ea !important;
-    color: #6d5d47 !important;
+    color: $theme-ink-soft !important;
 }
 
 .replyList {
-    margin-left: 1.2rem;
-    margin-top: 0.5rem;
+    margin-left: 1rem;
+    margin-top: 0.42rem;
 }
 
 .empty {
-    color: #7f7059;
-    border: 1px dashed #e4d6c1;
+    color: $theme-ink-soft;
+    border: 1px dashed $theme-border-strong;
     border-radius: 10px;
     text-align: center;
-    padding: 0.9rem;
+    padding: 0.8rem;
+    background: #ffffff;
 }

@@ -3,4 +3,8 @@
 
 .text {
     @include text-button;
+
+    svg {
+        font-size: 0.96rem;
+    }
 }

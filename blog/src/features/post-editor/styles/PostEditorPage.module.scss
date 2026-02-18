@@ -3,11 +3,8 @@
 
 .page {
     min-height: 100vh;
-    padding: 2.5rem 1rem 4rem;
-    background:
-        radial-gradient(circle at 12% 10%, #fffbec 0, transparent 34%),
-        radial-gradient(circle at 88% 0, #edf6ff 0, transparent 30%),
-        linear-gradient(180deg, #fffdf8 0%, #fff 65%, #fffefc 100%);
+    padding: 2rem 1rem 4rem;
+    background: #f4f6fb;
 }
 
 .loadingPage {
@@ -20,11 +17,11 @@
 .container {
     max-width: 920px;
     margin: 0 auto;
-    padding: 1.25rem;
-    border: 1px solid #ede5d7;
-    border-radius: 22px;
-    background: #fff;
-    box-shadow: 0 24px 40px rgba(68, 52, 27, 0.08);
+    padding: 1.2rem;
+    border: 1px solid $theme-border-soft;
+    border-radius: 16px;
+    background: $theme-surface-white;
+    box-shadow: $theme-shadow-elevated;
 }
 
 .header {
@@ -38,13 +35,15 @@
     font-size: 0.8rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #7a6954;
+    color: $theme-ink-faint;
 }
 
 .title {
-    margin: 0 0 1.4rem;
-    color: #2b210f;
+    margin: 0 0 1.2rem;
+    font-family: $font-family-display;
+    color: $theme-ink-strong;
     font-size: 1.8rem;
+    letter-spacing: -0.02em;
 }
 
 .fieldGroup {
@@ -56,24 +55,29 @@
 
 .label {
     font-size: 0.85rem;
-    color: #6e5a42;
+    color: $theme-ink-soft;
     font-weight: $font-weight-semibold;
 }
 
 .input,
 .select,
 .editor {
-    border: 1px solid #e4d7c0;
-    border-radius: 12px;
+    border: 1px solid $theme-border-soft;
+    border-radius: 11px;
     padding: 0.75rem 0.9rem;
     font-size: 0.96rem;
-    background: #fffdfa;
-    color: #1f1b13;
+    background: $theme-surface-soft;
+    color: $theme-ink-base;
+
+    &::placeholder {
+        color: $theme-ink-faint;
+    }
 
     &:focus {
-        border-color: #be9a58;
+        border-color: $theme-primary;
         outline: none;
-        box-shadow: 0 0 0 3px rgba(190, 154, 88, 0.18);
+        box-shadow: 0 0 0 3px rgba($theme-primary, 0.16);
+        background: #fff;
     }
 }
 
@@ -101,20 +105,33 @@
 }
 
 .deleteButton {
-    border: 1px solid #f0aab0;
+    border: 1px solid rgba($gh-border-danger, 0.45);
     border-radius: 999px;
-    background: #fff;
-    color: #d13d4f;
+    background: #fff7fa;
+    color: $gh-border-danger;
     padding: 0.48rem 1rem;
     cursor: pointer;
+    transition:
+        transform 0.16s ease,
+        box-shadow 0.16s ease,
+        border-color 0.16s ease;
 
     &:hover {
-        background: #fff3f4;
+        transform: translateY(-1px);
+        border-color: rgba($gh-border-danger, 0.68);
+        box-shadow: 0 8px 16px rgba(188, 64, 98, 0.14);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
 }
 
 .error {
     margin: 0;
-    color: #be2340;
+    color: $gh-border-danger;
     font-size: 0.88rem;
 }

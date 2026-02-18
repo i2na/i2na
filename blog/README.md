@@ -14,9 +14,9 @@ i2na-blog keeps markdown publishing and access control in the web application wi
 
 ## Tech Stack
 
-| Layer    | Technologies                                                                           |
-| -------- | -------------------------------------------------------------------------------------- |
-| Frontend | Next.js (App Router), React, TypeScript, SCSS Modules, Zustand                         |
+| Layer    | Technologies                                                                              |
+| -------- | ----------------------------------------------------------------------------------------- |
+| Frontend | Next.js (App Router), React, TypeScript, SCSS Modules, Zustand                            |
 | Backend  | Next.js API Routes, layered server controllers/models, MongoDB (MONGO_URI), GitHub backup |
 
 ## Features

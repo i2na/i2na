@@ -1,61 +1,75 @@
-// GitHub 스타일 변수 (github-markdown-light.css 기반)
-
-// 기본 크기
+// Base size
 $base-size-4: 0.25rem;
 $base-size-8: 0.5rem;
 $base-size-16: 1rem;
 $base-size-24: 1.5rem;
 $base-size-40: 2.5rem;
 
-// GitHub 컬러 - Light 모드
-$gh-fg-default: #1f2328;
-$gh-fg-muted: #59636e;
-$gh-fg-accent: #0969da;
-$gh-fg-success: #1a7f37;
-$gh-fg-attention: #9a6700;
-$gh-fg-danger: #d1242f;
-$gh-fg-done: #8250df;
+// Theme colors
+$gh-fg-default: #103632;
+$gh-fg-muted: #567370;
+$gh-fg-accent: #0f8d71;
+$gh-fg-success: #0f8d71;
+$gh-fg-attention: #8a6a1f;
+$gh-fg-danger: #b73e5a;
+$gh-fg-done: #5c6db3;
 
 $gh-bg-default: #ffffff;
-$gh-bg-muted: #f6f8fa;
-$gh-bg-neutral-muted: rgba(129, 139, 152, 0.12);
-$gh-bg-attention-muted: #fff8c5;
+$gh-bg-muted: #f3f7f5;
+$gh-bg-neutral-muted: rgba(36, 86, 78, 0.12);
+$gh-bg-attention-muted: #fff5d7;
 
-$gh-border-default: #d1d9e0;
-$gh-border-muted: rgba(209, 217, 224, 0.7);
-$gh-border-neutral-muted: rgba(209, 217, 224, 0.7);
-$gh-border-accent: #0969da;
-$gh-border-success: #1a7f37;
-$gh-border-attention: #9a6700;
-$gh-border-danger: #cf222e;
-$gh-border-done: #8250df;
+$gh-border-default: #d6e2de;
+$gh-border-muted: #e3ece9;
+$gh-border-neutral-muted: #c8d8d3;
+$gh-border-accent: #0f8d71;
+$gh-border-success: #0f8d71;
+$gh-border-attention: #8a6a1f;
+$gh-border-danger: #b73e5a;
+$gh-border-done: #5c6db3;
 
-// Syntax Highlighting 색상
-$gh-syntax-comment: #59636e;
-$gh-syntax-constant: #0550ae;
-$gh-syntax-entity: #6639ba;
-$gh-syntax-keyword: #cf222e;
-$gh-syntax-string: #0a3069;
-$gh-syntax-variable: #953800;
-$gh-syntax-invalid-illegal-bg: #82071e;
-$gh-syntax-invalid-deprecated-bg: #cf222e;
-$gh-syntax-diff-deleted: #82071e;
-$gh-syntax-diff-deleted-bg: #ffebe9;
-$gh-syntax-diff-inserted: #116329;
-$gh-syntax-diff-inserted-bg: #dafbe1;
-$gh-syntax-diff-changed: #953800;
-$gh-syntax-diff-changed-bg: #ffd8b5;
-$gh-syntax-diff-header-bg: #0550ae;
-$gh-syntax-meta: #8250df;
-$gh-syntax-markup: #3b2300;
+// Syntax highlighting
+$gh-syntax-comment: #607b77;
+$gh-syntax-constant: #1d5f98;
+$gh-syntax-entity: #8f3e6d;
+$gh-syntax-keyword: #944646;
+$gh-syntax-string: #0b7f64;
+$gh-syntax-variable: #94611f;
+$gh-syntax-invalid-illegal-bg: #8d203d;
+$gh-syntax-invalid-deprecated-bg: #b73e5a;
+$gh-syntax-diff-deleted: #8d203d;
+$gh-syntax-diff-deleted-bg: #ffe7ef;
+$gh-syntax-diff-inserted: #0f6f5a;
+$gh-syntax-diff-inserted-bg: #ddf8ef;
+$gh-syntax-diff-changed: #92601d;
+$gh-syntax-diff-changed-bg: #ffe9bf;
+$gh-syntax-diff-header-bg: #1d5f98;
+$gh-syntax-meta: #5c6db3;
+$gh-syntax-markup: #6f4a18;
 
-// 기타 색상
-$gh-canvas-subtle: #f6f8fa;
-$gh-neutral-emphasis: #818b98;
+$gh-canvas-subtle: #eef3f1;
+$gh-neutral-emphasis: #6f8682;
 
-// 폰트
-$font-family-sans:
-    "Avenir Next", "Suisse Intl", "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+// Brand tokens
+$theme-ink-strong: #062d28;
+$theme-ink-base: #0f3d36;
+$theme-ink-soft: #4f6966;
+$theme-ink-faint: #748b87;
+$theme-primary: #5ce8be;
+$theme-primary-strong: #0ea680;
+$theme-secondary: #f4d36f;
+$theme-bio-accent: #a9efd3;
+$theme-surface-white: #ffffff;
+$theme-surface-soft: #f2f5f4;
+$theme-surface-elevated: #eaeeec;
+$theme-border-soft: #d6dfdc;
+$theme-border-strong: #a8bbb6;
+$theme-shadow-soft: 0 10px 24px rgba(4, 37, 33, 0.08);
+$theme-shadow-elevated: 0 22px 42px rgba(2, 28, 24, 0.16);
+
+// Typography
+$font-family-display: "Fraunces", "Iowan Old Style", "Times New Roman", serif;
+$font-family-sans: "Manrope", "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
 $font-family-mono:
     ui-monospace,
     SFMono-Regular,
@@ -65,13 +79,13 @@ $font-family-mono:
     Liberation Mono,
     monospace;
 
-// 폰트 웨이트
+// Font weight
 $font-weight-normal: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 
-// 기본 스타일
-$container-max-width: 1012px;
+// Layout
+$container-max-width: 1100px;
 
 $breakpoint-sm: 640px;
 $breakpoint-md: 768px;
