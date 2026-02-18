@@ -11,6 +11,7 @@ out/
 .claude/
 .cursor/
 .github/
+.heymark/
 
 .env
 .env.local
