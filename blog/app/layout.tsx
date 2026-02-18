@@ -3,8 +3,8 @@ import { Providers } from "@/app/providers";
 import "@/app/styles/global.scss";
 
 export const metadata: Metadata = {
-    title: "i2na-blog",
-    description: "Markdown-based blog and document publishing project",
+    title: "Yena Blog",
+    description: "Markdown-based blog by Yena",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
