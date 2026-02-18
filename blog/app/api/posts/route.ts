@@ -1,50 +1,54 @@
-import { NextRequest, NextResponse } from "next/server";
-import { fetchGitHubFileList, fetchGitHubFile } from "@server/github/client";
-import { parseFrontmatter } from "@server/markdown/parse";
+import { NextRequest } from "next/server";
 import { getUserEmailFromRequest } from "@server/auth/session";
-import { hasAccessToPost, getAdminEmails } from "@server/auth/access";
-import type { IPostMetadata } from "@server/markdown/types";
-
-interface IPostListItem {
-    filename: string;
-    title: string;
-    path: string;
-    metadata: IPostMetadata;
-}
-
-async function fetchPostMetadata(file: any): Promise<IPostListItem | null> {
-    try {
-        const contentResponse = await fetch(file.download_url);
-        const content = await contentResponse.text();
-        const { metadata } = parseFrontmatter(content);
-
-        return {
-            filename: file.name,
-            title: file.name.replace(".md", ""),
-            path: file.name,
-            metadata,
-        };
-    } catch (error) {
-        console.error(`Error fetching file ${file.name}:`, error);
-        return null;
-    }
-}
+import { createPostController, listPostsController } from "@server/controllers/posts.controller";
+import { createErrorResponse, createSuccessResponse } from "@server/utils/route";
 
 export async function GET(request: NextRequest) {
     try {
+        const { searchParams } = new URL(request.url);
+
+        const search = searchParams.get("search") || undefined;
+        const visibilityParam = searchParams.get("visibility");
+        const sortParam = searchParams.get("sort");
         const userEmail = getUserEmailFromRequest(request.headers);
-        const adminEmails = await getAdminEmails();
 
-        const mdFiles = await fetchGitHubFileList();
-        const posts = await Promise.all(mdFiles.map(fetchPostMetadata));
-        const validPosts = posts.filter((post): post is IPostListItem => post !== null);
-        const visiblePosts = validPosts.filter((post) =>
-            hasAccessToPost(post.metadata, userEmail, adminEmails)
-        );
+        const visibility =
+            visibilityParam === "public" ||
+            visibilityParam === "private" ||
+            visibilityParam === "all"
+                ? visibilityParam
+                : undefined;
 
-        return NextResponse.json({ posts: visiblePosts });
+        const sort =
+            sortParam === "latest" ||
+            sortParam === "oldest" ||
+            sortParam === "viewCount" ||
+            sortParam === "name"
+                ? sortParam
+                : undefined;
+
+        const data = await listPostsController({
+            viewerEmail: userEmail,
+            search,
+            visibility,
+            sort,
+        });
+
+        return createSuccessResponse(data);
     } catch (error) {
-        console.error("Error fetching posts:", error);
-        return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 });
+        return createErrorResponse(error);
+    }
+}
+
+export async function POST(request: NextRequest) {
+    try {
+        const body = await request.json();
+        const viewerEmail = getUserEmailFromRequest(request.headers);
+        const viewerName = request.headers.get("x-user-name") || undefined;
+
+        const data = await createPostController(body, viewerEmail, viewerName);
+        return createSuccessResponse(data, 201);
+    } catch (error) {
+        return createErrorResponse(error);
     }
 }

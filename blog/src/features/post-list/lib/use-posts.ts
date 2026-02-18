@@ -1,53 +1,70 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchPosts } from "@/shared/lib/api";
-import type { IMarkdownFile } from "@/shared/lib/types";
+import type { IPostSummary, TPostSort, TPostVisibility } from "@/shared/lib/types";
 
-export function usePosts(userEmail: string | null = null) {
-    const [posts, setPosts] = useState<IMarkdownFile[]>([]);
+interface IUsePostsOptions {
+    userEmail?: string | null;
+    userName?: string | null;
+    search: string;
+    visibility: "all" | TPostVisibility;
+    sort: TPostSort;
+}
+
+export function usePosts(options: IUsePostsOptions) {
+    const [posts, setPosts] = useState<IPostSummary[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        let isMounted = true;
+
         const loadPosts = async () => {
             try {
                 setLoading(true);
-                const data = await fetchPosts({ userEmail });
-                const files: IMarkdownFile[] = (data.posts || []).map((post: any) => ({
-                    filename: post.filename,
-                    title: post.title,
-                    content: "",
-                    path: post.path,
-                    metadata: post.metadata,
-                }));
-
-                const sorted = files.sort((a, b) => {
-                    const dateA = a.metadata.createdAt;
-                    const dateB = b.metadata.createdAt;
-
-                    if (!dateA && !dateB) {
-                        return a.filename.localeCompare(b.filename);
+                const data = await fetchPosts(
+                    {
+                        userEmail: options.userEmail,
+                        userName: options.userName,
+                    },
+                    {
+                        search: options.search,
+                        visibility: options.visibility,
+                        sort: options.sort,
                     }
-                    if (!dateA) return 1;
-                    if (!dateB) return -1;
+                );
 
-                    return new Date(dateB).getTime() - new Date(dateA).getTime();
-                });
+                if (!isMounted) {
+                    return;
+                }
 
-                setPosts(sorted);
+                setPosts(data.posts || []);
                 setError(null);
-            } catch (err) {
-                console.error("Error fetching posts:", err);
-                setError("Failed to load posts");
+            } catch (error) {
+                if (!isMounted) {
+                    return;
+                }
+
                 setPosts([]);
+                setError(error instanceof Error ? error.message : "Failed to load posts");
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
 
         loadPosts();
-    }, [userEmail]);
 
-    return { posts, loading, error };
+        return () => {
+            isMounted = false;
+        };
+    }, [options.userEmail, options.userName, options.search, options.visibility, options.sort]);
+
+    return {
+        posts,
+        loading,
+        error,
+    };
 }

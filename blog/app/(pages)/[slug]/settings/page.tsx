@@ -1,25 +1,55 @@
 "use client";
 
-// @note Private. CSR; requires authentication (admin).
-
-import { useEffect, use } from "react";
-import { Settings } from "@/features/admin";
-import { useAuthStore } from "@/features/auth";
+import { use, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { PostEditorPage } from "@/features/post-editor";
 import { useAdminStore } from "@/features/admin";
-import { isAuthenticated, getUserInfo } from "@/features/auth";
+import { useAuthStore, getUserInfo, isAuthenticated } from "@/features/auth";
 
 export default function SettingsPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = use(params);
+    const router = useRouter();
     const { setUser } = useAuthStore();
     const { loadEmailConfig } = useAdminStore();
 
     useEffect(() => {
-        if (isAuthenticated()) {
+        let isMounted = true;
+
+        const guardAdmin = async () => {
+            if (!isAuthenticated()) {
+                router.replace("/");
+                return;
+            }
+
             const user = getUserInfo();
             setUser(user);
-        }
-        loadEmailConfig();
-    }, [setUser, loadEmailConfig]);
 
-    return <Settings slug={slug} />;
+            if (!user?.email) {
+                router.replace("/");
+                return;
+            }
+
+            await loadEmailConfig();
+
+            if (!isMounted) {
+                return;
+            }
+
+            const normalizedUserEmail = user.email.trim().toLowerCase();
+            const { adminEmails } = useAdminStore.getState();
+            const isAdmin = adminEmails.includes(normalizedUserEmail);
+
+            if (!isAdmin) {
+                router.replace("/");
+            }
+        };
+
+        guardAdmin();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [loadEmailConfig, router, setUser]);
+
+    return <PostEditorPage mode="edit" slug={slug} />;
 }

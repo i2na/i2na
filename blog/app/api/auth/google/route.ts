@@ -1,26 +1,62 @@
 import { NextRequest, NextResponse } from "next/server";
 import { exchangeCodeForToken, fetchGoogleUserInfo, generateAuthData } from "@server/auth/google";
-import { ENV_VARS } from "@server/config/constants";
+import { ENV_VARS, URLS } from "@server/config/constants";
 
-const BASE_URL = ENV_VARS.BASE_URL;
+function getPublicBaseUrl(request: NextRequest): string {
+    const configured = (ENV_VARS.PUBLIC_BASE_URL || "").trim();
+    if (configured.length > 0) {
+        return configured.replace(/\/$/, "");
+    }
+
+    return new URL(request.url).origin;
+}
+
+function createGoogleAuthorizeUrl(input: {
+    clientId: string;
+    redirectUri: string;
+    state: string;
+}): string {
+    const authorizeUrl = new URL(URLS.GOOGLE_AUTH_ENDPOINT);
+
+    authorizeUrl.searchParams.set("client_id", input.clientId);
+    authorizeUrl.searchParams.set("redirect_uri", input.redirectUri);
+    authorizeUrl.searchParams.set("response_type", "code");
+    authorizeUrl.searchParams.set("scope", "email profile");
+    authorizeUrl.searchParams.set("state", input.state);
+
+    return authorizeUrl.toString();
+}
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const code = searchParams.get("code");
     const state = searchParams.get("state");
 
-    if (!code) {
-        return NextResponse.json({ error: "No code provided" }, { status: 400 });
+    const redirectPath = state ? decodeURIComponent(state) : "/";
+    const baseUrl = getPublicBaseUrl(request);
+    const redirectUri = `${baseUrl}/api/auth/google`;
+
+    const clientId = ENV_VARS.GOOGLE_CLIENT_ID;
+    if (!clientId) {
+        return NextResponse.json({ error: "Missing GOOGLE_CLIENT_ID" }, { status: 500 });
     }
 
-    const redirectPath = state ? decodeURIComponent(state) : "/";
+    if (!code) {
+        const authorizeUrl = createGoogleAuthorizeUrl({
+            clientId,
+            redirectUri,
+            state: redirectPath,
+        });
+
+        return NextResponse.redirect(authorizeUrl);
+    }
 
     try {
-        const tokenData = await exchangeCodeForToken(code);
+        const tokenData = await exchangeCodeForToken(code, redirectUri);
         const user = await fetchGoogleUserInfo(tokenData.access_token);
         const authData = generateAuthData(user);
 
-        const callbackUrl = `${BASE_URL}/auth/callback?data=${encodeURIComponent(
+        const callbackUrl = `${baseUrl}/auth/callback?data=${encodeURIComponent(
             JSON.stringify(authData)
         )}&redirect=${encodeURIComponent(redirectPath)}`;
 

@@ -4,9 +4,15 @@ import type { IGoogleTokenResponse, IGoogleUserInfo, IAuthData } from "./types";
 
 const GOOGLE_CLIENT_ID = ENV_VARS.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = ENV_VARS.GOOGLE_CLIENT_SECRET;
-const BASE_URL = ENV_VARS.BASE_URL;
 
-export async function exchangeCodeForToken(code: string): Promise<IGoogleTokenResponse> {
+export async function exchangeCodeForToken(
+    code: string,
+    redirectUri: string
+): Promise<IGoogleTokenResponse> {
+    if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.includes("your-google-client-id")) {
+        throw new Error("Set Google Client ID in server/config/constants.ts");
+    }
+
     const tokenResponse = await fetch(URLS.GOOGLE_TOKEN_ENDPOINT, {
         method: "POST",
         headers: {
@@ -14,9 +20,9 @@ export async function exchangeCodeForToken(code: string): Promise<IGoogleTokenRe
         },
         body: new URLSearchParams({
             code,
-            client_id: GOOGLE_CLIENT_ID!,
-            client_secret: GOOGLE_CLIENT_SECRET!,
-            redirect_uri: `${BASE_URL}/api/auth/google`,
+            client_id: GOOGLE_CLIENT_ID,
+            client_secret: GOOGLE_CLIENT_SECRET || "",
+            redirect_uri: redirectUri,
             grant_type: "authorization_code",
         }),
     });
@@ -50,7 +56,7 @@ export function generateAuthData(userInfo: IGoogleUserInfo): IAuthData {
 
     return {
         token: authToken,
-        email: userInfo.email,
+        email: userInfo.email.trim().toLowerCase(),
         name: userInfo.name || "",
         expires,
     };

@@ -1,0 +1,120 @@
+@use "@/shared/styles/variables" as *;
+@use "@/shared/styles/mixins" as *;
+
+.page {
+    min-height: 100vh;
+    padding: 2.5rem 1rem 4rem;
+    background:
+        radial-gradient(circle at 12% 10%, #fffbec 0, transparent 34%),
+        radial-gradient(circle at 88% 0, #edf6ff 0, transparent 30%),
+        linear-gradient(180deg, #fffdf8 0%, #fff 65%, #fffefc 100%);
+}
+
+.loadingPage {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 1.25rem;
+    border: 1px solid #ede5d7;
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 24px 40px rgba(68, 52, 27, 0.08);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.identity {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7a6954;
+}
+
+.title {
+    margin: 0 0 1.4rem;
+    color: #2b210f;
+    font-size: 1.8rem;
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.label {
+    font-size: 0.85rem;
+    color: #6e5a42;
+    font-weight: $font-weight-semibold;
+}
+
+.input,
+.select,
+.editor {
+    border: 1px solid #e4d7c0;
+    border-radius: 12px;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.96rem;
+    background: #fffdfa;
+    color: #1f1b13;
+
+    &:focus {
+        border-color: #be9a58;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(190, 154, 88, 0.18);
+    }
+}
+
+.editor {
+    min-height: 420px;
+    resize: vertical;
+    font-family: $font-family-mono;
+}
+
+.gridRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0.8rem;
+
+    @include respond-to(md) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.footer {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.deleteButton {
+    border: 1px solid #f0aab0;
+    border-radius: 999px;
+    background: #fff;
+    color: #d13d4f;
+    padding: 0.48rem 1rem;
+    cursor: pointer;
+
+    &:hover {
+        background: #fff3f4;
+    }
+}
+
+.error {
+    margin: 0;
+    color: #be2340;
+    font-size: 0.88rem;
+}

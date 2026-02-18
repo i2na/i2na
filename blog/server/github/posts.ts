@@ -38,6 +38,47 @@ export async function updateGitHubFile(
     }
 }
 
+export async function upsertGitHubFile(
+    filename: string,
+    content: string,
+    message: string
+): Promise<void> {
+    let sha: string | null = null;
+
+    try {
+        sha = await getGitHubFileSha(filename);
+    } catch (error: unknown) {
+        if (!(error instanceof Error) || error.message !== "NOT_FOUND") {
+            throw error;
+        }
+    }
+
+    const url = `${GITHUB.API_BASE_URL}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filename}`;
+    const encodedContent = Buffer.from(content, "utf-8").toString("base64");
+
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github.v3+json",
+            "User-Agent": GITHUB.USER_AGENT,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            message,
+            content: encodedContent,
+            ...(sha ? { sha } : {}),
+        }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+            `GitHub API error: ${response.status} - ${errorData.message || response.statusText}`
+        );
+    }
+}
+
 export async function deleteGitHubFile(filename: string): Promise<void> {
     const sha = await getGitHubFileSha(filename);
     const url = `${GITHUB.API_BASE_URL}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filename}`;

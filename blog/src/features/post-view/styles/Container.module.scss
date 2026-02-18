@@ -1,15 +1,17 @@
-@use "@/shared/styles/variables" as *;
 @use "@/shared/styles/mixins" as *;
 
 .viewPage {
-    .container {
-        max-width: $container-max-width;
-        margin: 0 auto;
-        padding: 0 $base-size-16 4rem;
+    min-height: 100vh;
+    padding: 1.8rem 0 3rem;
+    background:
+        radial-gradient(circle at 14% 0%, #f2f8ff 0, transparent 24%),
+        radial-gradient(circle at 92% 10%, #fff3e2 0, transparent 28%),
+        linear-gradient(180deg, #fffdf8 0%, #fff 55%, #fffef9 100%);
 
-        @include respond-to(md) {
-            padding: 0 $base-size-16 2rem;
-        }
+    .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 0 1rem 2rem;
     }
 }
 
@@ -18,5 +20,40 @@
 }
 
 .loading {
-    min-height: 400px;
+    min-height: 260px;
+}
+
+.error {
+    border: 1px dashed #e2d2b8;
+    border-radius: 12px;
+    background: #fff;
+    color: #745f40;
+    text-align: center;
+    padding: 2rem;
+}
+
+.reactionRow {
+    margin: 0.9rem 0;
+    padding: 0.55rem 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #eadfcf;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.reactionLabel {
+    color: #6f5d46;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.viewCount {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #2e2416;
+    font-weight: 600;
 }

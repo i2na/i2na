@@ -1,20 +1,22 @@
-import { ENV_VARS } from "./constants";
+import { APP_CONFIG, ENV_VARS } from "./constants";
 
-export function validateEnv() {
-    const required = [
-        "POSTS_REPO_OWNER",
-        "POSTS_REPO_NAME",
-        "POSTS_GITHUB_TOKEN",
-        "GOOGLE_CLIENT_ID",
-        "GOOGLE_CLIENT_SECRET",
-        "BASE_URL",
-    ];
+const REQUIRED_ENV_KEYS = [
+    "PUBLIC_BASE_URL",
+    "GOOGLE_CLIENT_ID",
+    "MONGO_URI",
+    "GOOGLE_CLIENT_SECRET",
+] as const;
 
-    const missing = required.filter((key) => !process.env[key.replace("NEXT_PUBLIC_", "")]);
+export function validateEnv(): void {
+    const missingSecretKeys = REQUIRED_ENV_KEYS.filter((key) => !process.env[key]);
 
-    if (missing.length > 0) {
-        throw new Error(`Missing environment variables: ${missing.join(", ")}`);
+    if (missingSecretKeys.length > 0) {
+        throw new Error(`Missing secret environment variables: ${missingSecretKeys.join(", ")}`);
     }
+}
+
+export function isGitHubBackupEnabled(): boolean {
+    return Boolean(process.env.POSTS_GITHUB_TOKEN && APP_CONFIG.GITHUB.POSTS_REPO_NAME);
 }
 
 export { ENV_VARS };

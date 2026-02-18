@@ -1,22 +1,19 @@
 "use client";
 
-import { GoRepo, GoLock } from "react-icons/go";
-import type { IMarkdownFile } from "@/shared/lib/types";
+import { GoLock, GoRepo } from "react-icons/go";
+import { FiEye } from "react-icons/fi";
+import { SITE_CONFIG } from "@/shared/config";
+import type { IPostSummary } from "@/shared/lib/types";
 import styles from "../styles/Card.module.scss";
 
 interface CardProps {
-    post: IMarkdownFile;
-    onClick: (filename: string) => void;
+    post: IPostSummary;
+    onClick: (slug: string) => void;
 }
 
 export function Card({ post, onClick }: CardProps) {
-    const handleClick = () => {
-        const baseFilename = post.filename.replace(".md", "");
-        onClick(baseFilename);
-    };
-
     return (
-        <div className={styles.item} onClick={handleClick}>
+        <article className={styles.item} onClick={() => onClick(post.slug)}>
             <div className={styles.itemMain}>
                 <div className={styles.itemTitleRow}>
                     <GoRepo className={styles.repoIcon} />
@@ -26,16 +23,24 @@ export function Card({ post, onClick }: CardProps) {
                     {post.metadata.visibility === "private" && (
                         <span className={styles.sharedBadge}>
                             <GoLock size={12} />
-                            <span className={styles.badgeText}>Shared</span>
+                            <span>Private</span>
                         </span>
                     )}
                 </div>
+
+                <p className={styles.description}>{post.description}</p>
+
                 <div className={styles.itemMeta}>
-                    {post.metadata.createdAt && (
-                        <span className={styles.date}>{post.metadata.createdAt}</span>
-                    )}
+                    <span className={styles.author}>@{SITE_CONFIG.TITLE}</span>
+                    <span className={styles.dot}>•</span>
+                    <span className={styles.date}>{post.metadata.createdAt || "No date"}</span>
+                    <span className={styles.dot}>•</span>
+                    <span className={styles.viewCount}>
+                        <FiEye />
+                        {post.viewCount}
+                    </span>
                 </div>
             </div>
-        </div>
+        </article>
     );
 }

@@ -1,75 +1,85 @@
 import type { IPostMetadata } from "../markdown/types";
 import { fetchGitHubFile } from "../github/client";
+import { APP_CONFIG } from "../config/constants";
 
-// @note Private: admins (email.yaml) + sharedWith; admin checks for privileged ops.
+function normalizeEmail(value: string | null | undefined): string {
+    return (value || "").trim().toLowerCase();
+}
+
+function parseYamlArray(content: string, key: string): string[] {
+    const match = content.match(new RegExp(`${key}:\\s*\\n((?:\\s+-\\s+[^\\n]+\\n?)+)`));
+    if (!match) {
+        return [];
+    }
+
+    return match[1]
+        .split("\n")
+        .map((line) => normalizeEmail(line.match(/^\s+-\s+(.+)$/)?.[1] || ""))
+        .filter((item) => item.length > 0);
+}
 
 export function hasAccessToPost(
-    metadata: IPostMetadata,
+    metadata: Pick<IPostMetadata, "visibility" | "sharedWith">,
     userEmail: string | null | undefined,
     adminEmails: string[] = []
 ): boolean {
+    const normalizedViewerEmail = normalizeEmail(userEmail);
+
     if (metadata.visibility === "public") {
         return true;
     }
 
-    if (!userEmail) {
+    if (!normalizedViewerEmail) {
         return false;
     }
 
-    if (adminEmails.includes(userEmail)) {
+    if (adminEmails.map((email) => normalizeEmail(email)).includes(normalizedViewerEmail)) {
         return true;
     }
 
-    return metadata.sharedWith.includes(userEmail);
+    return metadata.sharedWith.map((email) => normalizeEmail(email)).includes(normalizedViewerEmail);
 }
 
 export async function getAdminEmails(): Promise<string[]> {
+    if (APP_CONFIG.ACCESS.ADMIN_EMAILS.length > 0) {
+        return APP_CONFIG.ACCESS.ADMIN_EMAILS.map((email) => normalizeEmail(email)).filter(Boolean);
+    }
+
     try {
         const emailConfigContent = await fetchGitHubFile("email.yaml");
-        const adminMatch = emailConfigContent.match(/admin:\s*\n((?:\s+-\s+[^\n]+\n?)+)/);
-        if (!adminMatch) return [];
-
-        return adminMatch[1]
-            .split("\n")
-            .map((line) => {
-                const itemMatch = line.match(/^\s+-\s+(.+)$/);
-                return itemMatch ? itemMatch[1].trim() : null;
-            })
-            .filter((item): item is string => item !== null && item.length > 0);
-    } catch (error) {
-        console.error("Error fetching admin emails:", error);
+        return parseYamlArray(emailConfigContent, "admin");
+    } catch {
         return [];
     }
 }
 
 export async function getEmailConfig(): Promise<{ admin: string[]; archive: string[] }> {
+    if (APP_CONFIG.ACCESS.ADMIN_EMAILS.length > 0 || APP_CONFIG.ACCESS.ARCHIVE_EMAILS.length > 0) {
+        return {
+            admin: APP_CONFIG.ACCESS.ADMIN_EMAILS.map((email) => normalizeEmail(email)).filter(Boolean),
+            archive: APP_CONFIG.ACCESS.ARCHIVE_EMAILS.map((email) => normalizeEmail(email)).filter(Boolean),
+        };
+    }
+
     try {
         const emailConfigContent = await fetchGitHubFile("email.yaml");
-        const adminMatch = emailConfigContent.match(/admin:\s*\n((?:\s+-\s+[^\n]+\n?)+)/);
-        const archiveMatch = emailConfigContent.match(/archive:\s*\n((?:\s+-\s+[^\n]+\n?)+)/);
-
-        const parseYamlArray = (match: RegExpMatchArray | null): string[] => {
-            if (!match) return [];
-            return match[1]
-                .split("\n")
-                .map((line) => {
-                    const itemMatch = line.match(/^\s+-\s+(.+)$/);
-                    return itemMatch ? itemMatch[1].trim() : null;
-                })
-                .filter((item): item is string => item !== null && item.length > 0);
-        };
-
         return {
-            admin: parseYamlArray(adminMatch),
-            archive: parseYamlArray(archiveMatch),
+            admin: parseYamlArray(emailConfigContent, "admin"),
+            archive: parseYamlArray(emailConfigContent, "archive"),
         };
-    } catch (error) {
-        console.error("Error fetching email config:", error);
-        return { admin: [], archive: [] };
+    } catch {
+        return {
+            admin: [],
+            archive: [],
+        };
     }
 }
 
 export function isAdmin(userEmail: string | undefined, adminEmails: string[]): boolean {
-    if (!userEmail) return false;
-    return adminEmails.includes(userEmail);
+    const normalizedUserEmail = normalizeEmail(userEmail);
+    if (!normalizedUserEmail) {
+        return false;
+    }
+
+    return adminEmails.map((email) => normalizeEmail(email)).includes(normalizedUserEmail);
 }

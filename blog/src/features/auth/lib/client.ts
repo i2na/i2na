@@ -1,6 +1,6 @@
 "use client";
 
-import { STORAGE_KEYS, ENV, OAUTH } from "@/shared/config";
+import { STORAGE_KEYS } from "@/shared/config";
 import type { IUserInfo } from "@/shared/lib/types";
 
 export function isAuthenticated(): boolean {
@@ -28,7 +28,7 @@ export function getUserInfo(): IUserInfo | null {
     if (!email) return null;
 
     return {
-        email,
+        email: email.trim().toLowerCase(),
         name: name || "",
     };
 }
@@ -44,20 +44,10 @@ export function startGoogleLogin(returnPath?: string): void {
         return;
     }
 
-    const clientId = ENV.GOOGLE_CLIENT_ID;
-    const baseUrl = ENV.BASE_URL;
-    const redirectUri = `${baseUrl}/api/auth/google`;
-
     const currentPath = returnPath || window.location.pathname + window.location.search;
     localStorage.setItem(STORAGE_KEYS.AUTH_RETURN_PATH, currentPath);
 
-    const authUrl =
-        `${OAUTH.GOOGLE_AUTH_URL}?` +
-        `client_id=${clientId}&` +
-        `redirect_uri=${encodeURIComponent(redirectUri)}&` +
-        `response_type=code&` +
-        `scope=${encodeURIComponent(OAUTH.SCOPE)}&` +
-        `state=${encodeURIComponent(currentPath)}`;
+    const authUrl = `/api/auth/google?state=${encodeURIComponent(currentPath)}`;
 
     window.location.href = authUrl;
 }
@@ -76,8 +66,10 @@ export function saveAuthData(data: {
     name: string;
     expires: number;
 }): void {
+    const normalizedEmail = data.email.trim().toLowerCase();
+
     localStorage.setItem(STORAGE_KEYS.TOKEN, data.token);
-    localStorage.setItem(STORAGE_KEYS.EMAIL, data.email);
+    localStorage.setItem(STORAGE_KEYS.EMAIL, normalizedEmail);
     localStorage.setItem(STORAGE_KEYS.NAME, data.name);
     localStorage.setItem(STORAGE_KEYS.EXPIRES, data.expires.toString());
 }

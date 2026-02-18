@@ -6,14 +6,15 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
-import type { IMarkdownFile } from "@/shared/lib/types";
+import { SITE_CONFIG } from "@/shared/config";
+import type { IPostDetail } from "@/shared/lib/types";
 import { smoothScrollToElement } from "../lib/scroll";
 import { HeaderLink } from "./HeaderLink";
 import styles from "../styles/Renderer.module.scss";
 import "highlight.js/styles/github.css";
 
 interface RendererProps {
-    file: IMarkdownFile;
+    file: IPostDetail;
 }
 
 export function Renderer({ file }: RendererProps) {
@@ -30,10 +31,16 @@ export function Renderer({ file }: RendererProps) {
 
     return (
         <article className={styles.article}>
+            <header className={styles.postHeader}>
+                <p className={styles.identity}>{`${SITE_CONFIG.TITLE}/${file.filename}`}</p>
+                <h1 className={styles.postTitle}>{file.title}</h1>
+                <p className={styles.postDescription}>{file.description}</p>
+                <div className={styles.metaRow}>
+                    <span>{file.metadata.createdAt || "No publish date"}</span>
+                </div>
+            </header>
+
             <div className={`markdown-body ${styles.markdownContent}`}>
-                {file.metadata.createdAt && (
-                    <span className={styles.createdAt}>{file.metadata.createdAt}</span>
-                )}
                 <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeRaw, rehypeHighlight]}

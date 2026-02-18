@@ -5,6 +5,10 @@ import { getUserInfo } from "@/features/auth/lib/client";
 import { fetchEmailConfig } from "@/shared/lib/api";
 import type { IAdminState } from "./types";
 
+function normalizeEmail(value: string | null | undefined): string {
+    return (value || "").trim().toLowerCase();
+}
+
 export const useAdminStore = create<IAdminState>((set, get) => ({
     isAdmin: false,
     adminEmails: [],
@@ -18,16 +22,22 @@ export const useAdminStore = create<IAdminState>((set, get) => ({
         }
 
         const { adminEmails } = get();
-        const isAdmin = adminEmails.includes(user.email);
+        const normalizedUserEmail = normalizeEmail(user.email);
+        const isAdmin = adminEmails.some((email) => normalizeEmail(email) === normalizedUserEmail);
         set({ isAdmin });
     },
 
     loadEmailConfig: async () => {
         try {
             const config = await fetchEmailConfig();
+            const adminEmails = Array.isArray(config.admin) ? config.admin : [];
+            const archiveEmails = Array.isArray(config.archive) ? config.archive : [];
+
             set({
-                adminEmails: config.admin || [],
-                archiveEmails: config.archive || [],
+                adminEmails: adminEmails.map((email: string) => normalizeEmail(email)).filter(Boolean),
+                archiveEmails: archiveEmails
+                    .map((email: string) => normalizeEmail(email))
+                    .filter(Boolean),
             });
             await get().checkAdminStatus();
         } catch (error) {

@@ -3,6 +3,8 @@ export { Toolbar } from "./ui/Toolbar";
 export { TableOfContents } from "./ui/TableOfContents";
 export { Renderer } from "./ui/Renderer";
 export { HeaderLink } from "./ui/HeaderLink";
+export { CommentsSection } from "./ui/CommentsSection";
 export { usePost } from "./lib/use-post";
 export { extractTableOfContents } from "./lib/use-toc";
 export { smoothScrollToElement } from "./lib/scroll";
+export { useEngagement } from "./lib/use-engagement";

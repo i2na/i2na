@@ -14,23 +14,25 @@ i2na-blog keeps markdown publishing and access control in the web application wi
 
 ## Tech Stack
 
-| Layer    | Technologies                                                   |
-| -------- | -------------------------------------------------------------- |
-| Frontend | Next.js (App Router), React, TypeScript, SCSS Modules, Zustand |
-| Backend  | Next.js API Routes, server utilities, GitHub API               |
+| Layer    | Technologies                                                                           |
+| -------- | -------------------------------------------------------------------------------------- |
+| Frontend | Next.js (App Router), React, TypeScript, SCSS Modules, Zustand                         |
+| Backend  | Next.js API Routes, layered server controllers/models, MongoDB (MONGO_URI), GitHub backup |
 
 ## Features
 
-- **Frontmatter-based access control** — Public/private visibility and email-based sharing
-- **Git-backed versioning** — Change history and rollback via the posts repository
-- **Automatic table of contents** — TOC and anchors from markdown headings
-- **Admin tools** — Delete, visibility, and sharing management
+- **MongoDB runtime data layer** — Post, comment, analytics, subscription, and media persistence
+- **GitHub real-time backup** — Post content backup commits on create/update/delete
+- **Google OAuth only access** — Single login path with `Continue with Google`
+- **Discovery and engagement** — Search, visibility filter, sorting, view count, comments, replies
+- **Media workflow** — Drag-and-drop upload with extension/size policy and local storage lifecycle
 
 ## Run locally
 
 ```bash
 yarn install
-cp .env.example .env.local  # edit with your values
+cp .env.example .env.local  # secrets only
+# non-secret runtime values: server/config/constants.ts and src/shared/config/constants.ts
 yarn dev
 ```
 
@@ -38,3 +40,4 @@ yarn dev
 
 - [Frontend Guide](README.frontend.md)
 - [Backend Guide](README.backend.md)
+- [On-Premise Mac mini Deployment](docs/on-premise-mac-mini.md)

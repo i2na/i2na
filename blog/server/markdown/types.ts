@@ -1,9 +1,10 @@
-// @note Frontmatter: visibility, sharedWith, createdAt.
-
 export interface IPostMetadata {
-    visibility: string;
+    title: string;
+    description: string;
+    visibility: "public" | "private";
     sharedWith: string[];
     createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface IParsedPost {

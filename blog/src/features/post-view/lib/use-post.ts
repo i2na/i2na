@@ -1,38 +1,59 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchPost } from "@/shared/lib/api";
-import type { IMarkdownFile } from "@/shared/lib/types";
+import type { IPostDetail } from "@/shared/lib/types";
 
-export function usePost(slug: string, userEmail: string | null = null) {
-    const [post, setPost] = useState<IMarkdownFile | null>(null);
+export function usePost(
+    slug: string,
+    userEmail: string | null = null,
+    userName: string | null = null
+) {
+    const [post, setPost] = useState<IPostDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        let isMounted = true;
+
         const loadPost = async () => {
             try {
                 setLoading(true);
-                const data = await fetchPost(slug, { userEmail });
+                const data = await fetchPost(slug, {
+                    userEmail,
+                    userName,
+                });
 
-                if (!data) {
-                    setError("Access denied or post not found");
-                    setPost(null);
-                } else {
-                    setPost(data);
-                    setError(null);
+                if (!isMounted) {
+                    return;
                 }
-            } catch (err) {
-                console.error("Error fetching post:", err);
-                setError("Failed to load post");
+
+                setPost(data);
+                setError(null);
+            } catch (error) {
+                if (!isMounted) {
+                    return;
+                }
+
                 setPost(null);
+                setError(error instanceof Error ? error.message : "Failed to load post");
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
 
         loadPost();
-    }, [slug, userEmail]);
 
-    return { post, loading, error };
+        return () => {
+            isMounted = false;
+        };
+    }, [slug, userEmail, userName]);
+
+    return {
+        post,
+        loading,
+        error,
+    };
 }

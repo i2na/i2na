@@ -1,86 +1,80 @@
 @use "@/shared/styles/variables" as *;
-@use "@/shared/styles/mixins" as *;
 
 .item {
-    padding: $base-size-24 0;
-    border-bottom: 1px solid $gh-border-muted;
+    border: 1px solid #eee3d4;
+    border-radius: 16px;
+    background: #fff;
+    padding: 1rem;
+    margin-bottom: 0.7rem;
     cursor: pointer;
+    transition: transform 130ms ease;
 
     &:hover {
-        .itemTitle {
-            text-decoration: underline;
-        }
-    }
-
-    @include respond-to(md) {
-        padding: $base-size-16 0;
+        transform: translateY(-1px);
+        border-color: #dcc8a7;
     }
 }
 
 .itemMain {
     display: flex;
     flex-direction: column;
-    gap: $base-size-4;
+    gap: 0.5rem;
 }
 
 .itemTitleRow {
     display: flex;
     align-items: center;
-    gap: $base-size-8;
+    gap: 0.5rem;
 }
 
 .repoIcon {
-    color: $gh-fg-muted;
-    font-size: 1.1rem;
-    flex-shrink: 0;
+    color: #7c6a55;
 }
 
 .itemTitle {
-    font-size: 1.25rem;
-    font-weight: $font-weight-semibold;
-    color: $gh-fg-accent;
     margin: 0;
-    line-height: 1.25;
-
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word;
-
-    @include respond-to(md) {
-        font-size: 1.125rem;
-    }
+    font-size: 1.12rem;
+    color: #2b2416;
+    line-height: 1.35;
 }
 
 .sharedBadge {
+    margin-left: auto;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    font-size: 0.75rem;
-    color: $gh-fg-muted;
-    border: 1px solid $gh-border-default;
-    padding: 2px 7px;
-    border-radius: 20px;
-    font-weight: $font-weight-medium;
+    gap: 0.3rem;
+    border: 1px solid #e5d6bf;
+    border-radius: 999px;
+    color: #6f5f4a;
+    padding: 0.18rem 0.55rem;
+    font-size: 0.74rem;
 }
 
-.badgeText {
-    @include respond-to(md) {
-        display: none;
-    }
+.description {
+    margin: 0;
+    color: #61543f;
+    line-height: 1.5;
 }
 
 .itemMeta {
     display: flex;
     align-items: center;
-    gap: $base-size-16;
-    margin-top: $base-size-4;
+    gap: 0.45rem;
+    color: #7f6f59;
+    font-size: 0.82rem;
 }
 
-.date {
-    font-size: 0.75rem;
-    color: $gh-fg-muted;
+.author {
+    font-weight: $font-weight-semibold;
+    color: #6f5d46;
+}
+
+.dot {
+    opacity: 0.5;
+}
+
+.viewCount {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
 }

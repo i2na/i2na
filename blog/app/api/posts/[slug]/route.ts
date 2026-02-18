@@ -1,39 +1,51 @@
-import { NextRequest, NextResponse } from "next/server";
-import { fetchGitHubFile } from "@server/github/client";
-import { parseFrontmatter } from "@server/markdown/parse";
+import { NextRequest } from "next/server";
 import { getUserEmailFromRequest } from "@server/auth/session";
-import { hasAccessToPost, getAdminEmails } from "@server/auth/access";
+import {
+    deletePostController,
+    getPostController,
+    updatePostController,
+} from "@server/controllers/posts.controller";
+import { createErrorResponse, createSuccessResponse } from "@server/utils/route";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
-    const filename = `${slug}.md`;
+interface IRouteContext {
+    params: Promise<{
+        slug: string;
+    }>;
+}
 
+export async function GET(request: NextRequest, context: IRouteContext) {
     try {
+        const { slug } = await context.params;
         const userEmail = getUserEmailFromRequest(request.headers);
-        const adminEmails = await getAdminEmails();
+        const data = await getPostController(slug, userEmail);
 
-        const fileContent = await fetchGitHubFile(filename);
-        const { content, metadata } = parseFrontmatter(fileContent);
+        return createSuccessResponse(data);
+    } catch (error) {
+        return createErrorResponse(error);
+    }
+}
 
-        if (!hasAccessToPost(metadata, userEmail, adminEmails)) {
-            return NextResponse.json({ error: "Access denied" }, { status: 403 });
-        }
+export async function PUT(request: NextRequest, context: IRouteContext) {
+    try {
+        const { slug } = await context.params;
+        const userEmail = getUserEmailFromRequest(request.headers);
+        const body = await request.json();
 
-        return NextResponse.json({
-            filename,
-            title: filename.replace(".md", ""),
-            content,
-            path: filename,
-            metadata,
-        });
-    } catch (error: any) {
-        console.error("[API] Error:", error);
-        if (error.message === "NOT_FOUND") {
-            return NextResponse.json({ error: "Post not found" }, { status: 404 });
-        }
-        return NextResponse.json(
-            { error: "Failed to fetch post", details: error.message },
-            { status: 500 }
-        );
+        const data = await updatePostController(slug, body, userEmail);
+        return createSuccessResponse(data);
+    } catch (error) {
+        return createErrorResponse(error);
+    }
+}
+
+export async function DELETE(request: NextRequest, context: IRouteContext) {
+    try {
+        const { slug } = await context.params;
+        const userEmail = getUserEmailFromRequest(request.headers);
+        const data = await deletePostController(slug, userEmail);
+
+        return createSuccessResponse(data);
+    } catch (error) {
+        return createErrorResponse(error);
     }
 }

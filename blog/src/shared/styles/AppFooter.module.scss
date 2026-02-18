@@ -1,0 +1,26 @@
+.footer {
+    margin-top: 2rem;
+    border-top: 1px solid #efe1cc;
+    background: linear-gradient(180deg, #fffcf5 0%, #fff 100%);
+}
+
+.container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.1rem;
+    justify-content: center;
+
+    a {
+        color: #705f49;
+        font-size: 0.8rem;
+        text-decoration: none;
+
+        &:hover {
+            color: #4f402b;
+            text-decoration: underline;
+        }
+    }
+}

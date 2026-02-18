@@ -2,58 +2,210 @@
 @use "@/shared/styles/mixins" as *;
 
 .listPage {
-    padding: 3rem $base-size-16;
-
-    @include respond-to(md) {
-        padding: 2rem $base-size-16;
-    }
+    min-height: 100vh;
+    padding: 2.2rem 1rem 4rem;
+    background:
+        radial-gradient(circle at 6% 0%, #f8f4ff 0%, transparent 24%),
+        radial-gradient(circle at 100% 0%, #f1fbff 0%, transparent 34%),
+        linear-gradient(180deg, #fffcf5 0%, #fff 55%, #fffef8 100%);
 }
 
 .container {
-    max-width: $container-max-width;
+    max-width: 1080px;
     margin: 0 auto;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: $base-size-16;
-    border-bottom: 1px solid $gh-border-default;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.1rem;
 
     @include respond-to(md) {
         flex-direction: column;
-        align-items: flex-start;
-        gap: $base-size-16;
-        margin-bottom: $base-size-24;
     }
 }
 
+.brandBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
 .title {
-    font-size: 1.5rem;
-    font-weight: $font-weight-semibold;
-    color: $gh-fg-default;
+    margin: 0;
+    font-size: 2.1rem;
+    color: #1e1a14;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    margin: 0;
+    color: #77624a;
+    font-size: 0.94rem;
 }
 
 .userInfo {
     display: flex;
     align-items: center;
-    gap: $base-size-8;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+}
+
+.userSummary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+
+    @include respond-to(md) {
+        align-items: flex-start;
+    }
+}
+
+.userName {
+    color: #2a2114;
+    font-weight: $font-weight-semibold;
 }
 
 .userEmail {
-    font-size: 0.875rem;
-    color: $gh-fg-muted;
+    color: #7b6b55;
+    font-size: 0.8rem;
+}
+
+.newPostButton {
+    border: 1px solid #d9b978;
+    background: linear-gradient(180deg, #fff5dc 0%, #ffe5b8 100%);
+    color: #65491a;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: $font-weight-semibold;
+    padding: 0.52rem 0.92rem;
+    cursor: pointer;
+}
+
+.syncButton {
+    border: 1px solid #a6bfd7;
+    background: linear-gradient(180deg, #f2f8ff 0%, #d9edff 100%);
+    color: #22415c;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: $font-weight-semibold;
+    padding: 0.52rem 0.92rem;
+    cursor: pointer;
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+}
+
+.subscribeSection {
+    margin: 1rem 0 1.2rem;
+    border: 1px solid #eee3d1;
+    border-radius: 18px;
+    background: #fff;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1rem;
+
+    @include respond-to(md) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.subscribeText {
+    h2 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #2f271a;
+    }
+
+    p {
+        margin: 0.35rem 0 0;
+        color: #7d6c57;
+    }
+}
+
+.subscribeForm {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.subscribeInput {
+    flex: 1;
+    border: 1px solid #e5d4bb;
+    border-radius: 10px;
+    padding: 0.6rem 0.78rem;
+    background: #fffdfa;
+
+    &:focus {
+        outline: none;
+        border-color: #cfa35d;
+    }
+}
+
+.subscribeButton {
+    border: 1px solid #be9a58;
+    border-radius: 10px;
+    background: #fff3d9;
+    color: #58411c;
+    font-weight: $font-weight-semibold;
+    padding: 0.58rem 0.88rem;
+    cursor: pointer;
+}
+
+.controls {
+    margin-top: 1.15rem;
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+
+    @include respond-to(md) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.searchInput {
+    flex: 1;
+    border: 1px solid #e8dbc8;
+    border-radius: 12px;
+    padding: 0.65rem 0.82rem;
+    background: #fff;
+
+    &:focus {
+        outline: none;
+        border-color: #b58f51;
+    }
+}
+
+.selectGroup {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.select {
+    border: 1px solid #e8dbc8;
+    border-radius: 10px;
+    padding: 0.56rem 0.78rem;
+    background: #fff;
 }
 
 .list {
+    margin-top: 0.75rem;
     display: flex;
     flex-direction: column;
 }
 
 .empty {
-    padding: 4rem 0;
+    border: 1px dashed #e7d8c2;
+    border-radius: 14px;
+    color: #7d6b55;
     text-align: center;
-    color: $gh-fg-muted;
+    padding: 3rem 1rem;
+    background: #fff;
 }

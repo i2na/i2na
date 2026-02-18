@@ -1,6 +1,10 @@
 import type { IPostMetadata } from "./types";
 
 export function validatePostMetadata(metadata: IPostMetadata): boolean {
+    if (!metadata.title.trim() || !metadata.description.trim()) {
+        return false;
+    }
+
     if (!metadata.visibility || !["public", "private"].includes(metadata.visibility)) {
         return false;
     }
