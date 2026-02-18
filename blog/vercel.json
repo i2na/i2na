@@ -1,4 +1,3 @@
 {
-    "rootDirectory": "blog",
     "ignoreCommand": "git diff HEAD^ HEAD --quiet ."
 }
