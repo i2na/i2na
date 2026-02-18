@@ -1,9 +1,17 @@
+.DS_Store
+
 node_modules/
 dist/
 yarn.lock
+
+.next/
+out/
 
 .agents/
 .claude/
 .cursor/
 .github/
 .heymark/
+
+.env
+.env.local

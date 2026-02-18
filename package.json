@@ -2,8 +2,12 @@
     "name": "i2na",
     "version": "1.0.0",
     "private": true,
-    "description": "i2na monorepo",
+    "description": "i2na-monorepo",
     "scripts": {
-        "postinstall": "node git-hook/install.js"
+        "postinstall": "node git-hook/install.js",
+        "format": "prettier --write"
+    },
+    "devDependencies": {
+        "prettier": "^3"
     }
 }
