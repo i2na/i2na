@@ -1,0 +1,324 @@
+<svg width="1600" height="1080" viewBox="0 0 1600 1080" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">YENA digital twin developer</title>
+  <desc id="desc">A white-background animated abstract digital twin developer profile with vision scan rings, isometric spatial lattice, agent paths, point clouds, and web graphics curves.</desc>
+
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1600" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#F7FBFF"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+
+    <linearGradient id="cyanMagenta" x1="310" y1="160" x2="1290" y2="920" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00D6C9"/>
+      <stop offset="0.48" stop-color="#4169FF"/>
+      <stop offset="1" stop-color="#FF3EA5"/>
+    </linearGradient>
+
+    <linearGradient id="hotRoute" x1="345" y1="770" x2="1240" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFB000"/>
+      <stop offset="0.45" stop-color="#00D6C9"/>
+      <stop offset="1" stop-color="#4169FF"/>
+    </linearGradient>
+
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#00D6C9" stop-opacity="0.24"/>
+      <stop offset="0.42" stop-color="#4169FF" stop-opacity="0.11"/>
+      <stop offset="1" stop-color="#FF3EA5" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="orangeAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FFB000" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FFB000" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="glowCyan" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 0 0 0 .84  0 0 0 0 .79  0 0 0 .8 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="glowPink" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 1  0 0 0 0 .24  0 0 0 0 .65  0 0 0 .75 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="paperShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#0B1020" flood-opacity="0.08"/>
+    </filter>
+
+    <pattern id="microGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M36 0H0V36" stroke="#0B1020" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+
+    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#0B1020" fill-opacity="0.075"/>
+    </pattern>
+
+    <clipPath id="softFrame">
+      <rect x="54" y="54" width="1492" height="972" rx="46"/>
+    </clipPath>
+
+    <path id="agentPath" d="M238 720C368 588 470 596 608 646C754 699 854 620 928 504C1032 342 1180 266 1368 328"/>
+    <path id="signalPath" d="M354 777C520 718 638 486 816 526C984 564 1010 764 1208 698C1310 664 1364 566 1432 496"/>
+    <path id="renderPath" d="M174 884C372 964 532 908 692 840C846 774 990 762 1132 836C1256 901 1376 902 1482 846"/>
+
+    <style>
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+      .sans { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .ink { fill: #071018; }
+      .softInk { fill: #334155; }
+      .wire { stroke: #071018; stroke-opacity: .18; }
+      .fine { stroke: #071018; stroke-opacity: .11; }
+      .cyan { stroke: #00D6C9; }
+      .blue { stroke: #4169FF; }
+      .pink { stroke: #FF3EA5; }
+      .orange { stroke: #FFB000; }
+      .route { stroke-dasharray: 14 18; animation: routeShift 12s linear infinite; }
+      .routeFast { stroke-dasharray: 7 14; animation: routeShift 7s linear infinite reverse; }
+      .scan { animation: scanSweep 8.8s ease-in-out infinite; }
+      .pulse { animation: pulse 3.4s ease-in-out infinite; }
+      .pulseSlow { animation: pulse 5.2s ease-in-out infinite; }
+      .blink { animation: blink 5.8s steps(1, end) infinite; }
+      .flicker { animation: flicker 4.4s ease-in-out infinite; }
+      .hoverOnly { opacity: 0; transition: opacity .35s ease; }
+      svg:hover .hoverOnly { opacity: 1; }
+      svg:hover .interactiveLine { stroke-opacity: .85; }
+      svg:hover .quietLine { stroke-opacity: .26; }
+
+      @keyframes routeShift {
+        to { stroke-dashoffset: -260; }
+      }
+
+      @keyframes scanSweep {
+        0%, 100% { opacity: .12; }
+        45%, 55% { opacity: .62; }
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: .44; }
+        50% { opacity: 1; }
+      }
+
+      @keyframes blink {
+        0%, 18%, 25%, 100% { opacity: .88; }
+        21%, 22% { opacity: .12; }
+      }
+
+      @keyframes flicker {
+        0%, 100% { opacity: .18; }
+        24% { opacity: .62; }
+        38% { opacity: .28; }
+        74% { opacity: .86; }
+      }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1080" fill="url(#paper)"/>
+  <rect x="54" y="54" width="1492" height="972" rx="46" fill="#FFFFFF" stroke="#071018" stroke-opacity="0.08" filter="url(#paperShadow)"/>
+
+  <g clip-path="url(#softFrame)">
+    <rect x="54" y="54" width="1492" height="972" fill="url(#microGrid)"/>
+    <rect x="54" y="54" width="1492" height="972" fill="url(#dotGrid)" opacity=".65"/>
+    <circle cx="822" cy="540" r="492" fill="url(#aura)"/>
+    <circle cx="1168" cy="368" r="250" fill="url(#orangeAura)" opacity=".62"/>
+
+    <g opacity=".75">
+      <path d="M-40 364C216 242 368 296 522 402C684 516 820 554 1012 458C1182 373 1348 294 1652 412" class="fine quietLine" stroke-width="1.4" fill="none"/>
+      <path d="M-26 742C190 612 348 626 506 700C674 780 815 824 1008 728C1189 639 1332 600 1630 692" class="fine quietLine" stroke-width="1.4" fill="none"/>
+      <path d="M112 186C306 314 430 326 594 246C792 150 930 126 1116 202C1288 274 1388 228 1506 140" class="fine quietLine" stroke-width="1.1" fill="none"/>
+    </g>
+
+    <g transform="translate(104 118)">
+      <text x="0" y="0" class="sans ink" font-size="52" font-weight="780" letter-spacing=".04em">YENA</text>
+      <text x="4" y="36" class="mono softInk" font-size="14" letter-spacing=".2em">DIGITAL TWIN DEVELOPER</text>
+      <text x="4" y="70" class="mono softInk" font-size="15">physical space -> spatial data -> real-time 3D interface</text>
+    </g>
+
+    <g transform="translate(1050 95)">
+      <rect x="0" y="0" width="382" height="112" rx="28" fill="#FFFFFF" fill-opacity=".92" stroke="#071018" stroke-opacity=".1"/>
+      <text x="34" y="44" class="mono ink" font-size="14" letter-spacing=".12em">SPATIAL AI</text>
+      <text x="34" y="74" class="mono softInk" font-size="13">vision / simulation / agents</text>
+      <circle cx="322" cy="55" r="14" fill="#00D6C9" filter="url(#glowCyan)" class="pulse"/>
+      <circle cx="342" cy="55" r="5" fill="#4169FF" filter="url(#glowCyan)" class="pulseSlow"/>
+    </g>
+
+    <g transform="translate(168 304)">
+      <circle cx="128" cy="128" r="118" fill="#FFFFFF" fill-opacity=".78" stroke="#071018" stroke-opacity=".13"/>
+      <circle cx="128" cy="128" r="76" stroke="#00D6C9" stroke-width="3" stroke-opacity=".8"/>
+      <circle cx="128" cy="128" r="38" stroke="#4169FF" stroke-width="2" stroke-opacity=".32"/>
+      <circle cx="128" cy="128" r="12" fill="#071018"/>
+
+      <g class="scan">
+        <path d="M128 128L240 88" stroke="#00D6C9" stroke-width="24" stroke-linecap="round" stroke-opacity=".13"/>
+        <path d="M128 128L240 88" stroke="#00D6C9" stroke-width="2.5" stroke-linecap="round"/>
+        <animateTransform attributeName="transform" type="rotate" values="0 128 128;360 128 128" dur="8.8s" repeatCount="indefinite"/>
+      </g>
+
+      <g stroke="#071018" stroke-opacity=".14">
+        <path d="M128 10V246"/>
+        <path d="M10 128H246"/>
+        <path d="M44 44L212 212"/>
+        <path d="M212 44L44 212"/>
+      </g>
+
+      <g filter="url(#glowCyan)">
+        <circle cx="238" cy="82" r="6" fill="#00D6C9">
+          <animate attributeName="opacity" values=".2;1;.2" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="82" cy="234" r="5" fill="#00D6C9">
+          <animate attributeName="opacity" values="1;.25;1" dur="3.1s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+
+    </g>
+
+    <g transform="translate(118 586)">
+      <rect x="0" y="0" width="308" height="102" rx="24" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
+      <text x="28" y="38" class="mono ink" font-size="14" letter-spacing=".12em">PERCEPTION</text>
+      <text x="28" y="64" class="mono softInk" font-size="13">computer vision</text>
+      <text x="28" y="82" class="mono softInk" font-size="13">scene understanding</text>
+    </g>
+
+    <g transform="translate(474 270)">
+      <path d="M80 344L390 182L760 314L438 504Z" fill="#FFFFFF" fill-opacity=".48" stroke="url(#cyanMagenta)" stroke-width="2.4"/>
+      <path d="M80 344L80 526L438 704L438 504Z" fill="#071018" fill-opacity=".025" stroke="#071018" stroke-opacity=".15"/>
+      <path d="M760 314L760 496L438 704L438 504Z" fill="#071018" fill-opacity=".035" stroke="#071018" stroke-opacity=".15"/>
+      <path d="M390 182V362M80 344V526M760 314V496M438 504V704" class="wire" stroke-width="1.5"/>
+
+      <g class="interactiveLine" stroke-opacity=".62" stroke-width="1.8">
+        <path d="M164 358L428 224L676 312L404 460Z" stroke="#00D6C9" fill="none"/>
+        <path d="M164 398L404 520L676 352" stroke="#00D6C9" fill="none"/>
+        <path d="M218 330V424M272 302V452M326 274V480M380 246V508M434 226V536M488 246V508M542 266V480M596 286V452M650 306V424" stroke="#00D6C9"/>
+      </g>
+
+      <g stroke="#4169FF" stroke-opacity=".25">
+        <path d="M80 526L438 704L760 496"/>
+        <path d="M80 434L438 612L760 404"/>
+        <path d="M166 390L522 572"/>
+        <path d="M252 346L608 528"/>
+        <path d="M338 302L694 484"/>
+      </g>
+
+      <g opacity=".98">
+        <path d="M206 556C300 486 386 495 488 438C574 391 626 336 704 340" stroke="url(#hotRoute)" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 22" class="routeFast" fill="none"/>
+        <circle cx="206" cy="556" r="13" fill="#FFB000" filter="url(#glowPink)" class="pulseSlow"/>
+        <circle cx="704" cy="340" r="12" fill="#FF3EA5" filter="url(#glowPink)" class="pulse"/>
+        <circle r="9" fill="#00D6C9" filter="url(#glowCyan)">
+          <animateMotion dur="7.6s" repeatCount="indefinite" path="M206 556C300 486 386 495 488 438C574 391 626 336 704 340"/>
+        </circle>
+      </g>
+
+      <g class="hoverOnly" opacity="0" stroke="#FF3EA5" stroke-width="1.6" stroke-opacity=".8">
+        <path d="M232 370L420 278L608 344L414 450Z" fill="#FF3EA5" fill-opacity=".035"/>
+        <path d="M232 370V456M420 278V364M608 344V430M414 450V536"/>
+      </g>
+    </g>
+
+    <g transform="translate(536 232)">
+      <rect x="0" y="0" width="378" height="102" rx="24" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
+      <text x="28" y="38" class="mono ink" font-size="14" letter-spacing=".12em">SPATIAL MODELING</text>
+      <text x="28" y="64" class="mono softInk" font-size="13">3D reconstruction / sensor fusion</text>
+      <text x="28" y="82" class="mono softInk" font-size="13">state estimation</text>
+    </g>
+
+    <g>
+      <use href="#agentPath" stroke="#4169FF" stroke-width="2.2" stroke-opacity=".34" class="route interactiveLine" fill="none"/>
+      <use href="#signalPath" stroke="#00D6C9" stroke-width="3.2" stroke-opacity=".38" class="routeFast interactiveLine" fill="none"/>
+      <use href="#renderPath" stroke="#FF3EA5" stroke-width="1.9" stroke-opacity=".3" class="route quietLine" fill="none"/>
+
+      <circle r="10" fill="#4169FF" filter="url(#glowCyan)">
+        <animateMotion dur="10.8s" repeatCount="indefinite">
+          <mpath href="#agentPath"/>
+        </animateMotion>
+      </circle>
+      <circle r="8" fill="#FFB000" filter="url(#glowPink)">
+        <animateMotion dur="9s" repeatCount="indefinite">
+          <mpath href="#signalPath"/>
+        </animateMotion>
+      </circle>
+      <circle r="6" fill="#FF3EA5" filter="url(#glowPink)">
+        <animateMotion dur="13.2s" repeatCount="indefinite">
+          <mpath href="#renderPath"/>
+        </animateMotion>
+      </circle>
+    </g>
+
+    <g transform="translate(1124 356)">
+      <rect x="0" y="0" width="310" height="310" rx="38" fill="#FFFFFF" fill-opacity=".76" stroke="#071018" stroke-opacity=".12"/>
+      <circle cx="155" cy="155" r="102" stroke="#071018" stroke-opacity=".12"/>
+      <circle cx="155" cy="155" r="62" stroke="#071018" stroke-opacity=".1"/>
+
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="0 155 155;360 155 155" dur="18s" repeatCount="indefinite"/>
+        <path d="M155 53L244 154L155 257L66 154Z" fill="none" stroke="#071018" stroke-opacity=".24"/>
+        <path d="M66 154H244M155 53V257M96 96L214 214M214 96L96 214" stroke="#071018" stroke-opacity=".12"/>
+        <circle cx="155" cy="53" r="11" fill="#00D6C9" filter="url(#glowCyan)"/>
+        <circle cx="244" cy="154" r="11" fill="#4169FF" filter="url(#glowCyan)"/>
+        <circle cx="155" cy="257" r="11" fill="#FF3EA5" filter="url(#glowPink)"/>
+        <circle cx="66" cy="154" r="11" fill="#FFB000" filter="url(#glowPink)"/>
+      </g>
+
+      <circle cx="155" cy="155" r="18" fill="#071018"/>
+      <path d="M155 119C180 127 194 142 202 166" stroke="#00D6C9" stroke-width="4" stroke-linecap="round" class="blink"/>
+      <path d="M122 176C137 195 158 204 184 198" stroke="#FF3EA5" stroke-width="4" stroke-linecap="round" class="blink"/>
+    </g>
+
+    <g transform="translate(1112 690)">
+      <rect x="0" y="0" width="338" height="102" rx="24" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
+      <text x="28" y="38" class="mono ink" font-size="14" letter-spacing=".12em">AGENTIC LAYER</text>
+      <text x="28" y="64" class="mono softInk" font-size="13">context monitoring</text>
+      <text x="28" y="82" class="mono softInk" font-size="13">reasoning / action triggering</text>
+    </g>
+
+    <g transform="translate(114 820)">
+      <g opacity=".95">
+        <path d="M0 88C172 -20 298 22 432 80C580 144 680 132 816 34" stroke="#071018" stroke-opacity=".12" stroke-width="18" stroke-linecap="round" fill="none"/>
+        <path d="M0 88C172 -20 298 22 432 80C580 144 680 132 816 34" stroke="#FF3EA5" stroke-opacity=".74" stroke-width="2.6" stroke-linecap="round" class="route" fill="none"/>
+        <path d="M0 132C166 72 300 94 440 146C590 202 742 196 900 82" stroke="#4169FF" stroke-opacity=".6" stroke-width="2.6" stroke-linecap="round" class="routeFast" fill="none"/>
+        <path d="M0 176C170 202 304 180 458 132C626 80 760 98 930 184" stroke="#00D6C9" stroke-opacity=".68" stroke-width="2.6" stroke-linecap="round" class="route" fill="none"/>
+      </g>
+    </g>
+
+    <g transform="translate(118 766)">
+      <rect x="0" y="0" width="326" height="102" rx="24" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
+      <text x="28" y="38" class="mono ink" font-size="14" letter-spacing=".12em">3D WEB INTERFACE</text>
+      <text x="28" y="64" class="mono softInk" font-size="13">real-time rendering</text>
+      <text x="28" y="82" class="mono softInk" font-size="13">spatial interaction UI</text>
+    </g>
+
+    <g class="flicker">
+      <circle cx="742" cy="372" r="4" fill="#071018"/>
+      <circle cx="795" cy="368" r="3" fill="#071018"/>
+      <circle cx="858" cy="356" r="4" fill="#071018"/>
+      <circle cx="922" cy="418" r="3" fill="#071018"/>
+      <circle cx="646" cy="460" r="4" fill="#071018"/>
+      <circle cx="1010" cy="548" r="3" fill="#071018"/>
+      <circle cx="552" cy="610" r="4" fill="#071018"/>
+      <circle cx="890" cy="704" r="4" fill="#071018"/>
+      <circle cx="1208" cy="830" r="3" fill="#071018"/>
+      <circle cx="1322" cy="260" r="4" fill="#071018"/>
+    </g>
+
+    <g transform="translate(104 956)">
+      <path d="M0 0H96M122 0H242M268 0H332" stroke="#071018" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"/>
+      <path d="M0 22H178M204 22H292" stroke="#071018" stroke-opacity=".12" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(1284 930)">
+      <rect x="0" y="0" width="122" height="50" rx="25" fill="#071018"/>
+      <circle cx="35" cy="25" r="7" fill="#00D6C9" filter="url(#glowCyan)" class="pulse"/>
+      <circle cx="61" cy="25" r="7" fill="#4169FF" filter="url(#glowCyan)" class="pulseSlow"/>
+      <circle cx="87" cy="25" r="7" fill="#FF3EA5" filter="url(#glowPink)" class="pulse"/>
+    </g>
+  </g>
+
+  <rect x="54.5" y="54.5" width="1491" height="971" rx="45.5" stroke="#071018" stroke-opacity=".08"/>
+</svg>
