@@ -50,10 +50,6 @@
       </feMerge>
     </filter>
 
-    <filter id="paperShadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#0B1020" flood-opacity="0.08"/>
-    </filter>
-
     <pattern id="microGrid" width="36" height="36" patternUnits="userSpaceOnUse">
       <path d="M36 0H0V36" stroke="#0B1020" stroke-opacity="0.045" stroke-width="1"/>
     </pattern>
@@ -61,10 +57,6 @@
     <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
       <circle cx="2" cy="2" r="1.2" fill="#0B1020" fill-opacity="0.075"/>
     </pattern>
-
-    <clipPath id="softFrame">
-      <rect x="54" y="54" width="1492" height="972" rx="46"/>
-    </clipPath>
 
     <path id="agentPath" d="M238 720C368 588 470 596 608 646C754 699 854 620 928 504C1032 342 1180 266 1368 328"/>
     <path id="signalPath" d="M354 777C520 718 638 486 816 526C984 564 1010 764 1208 698C1310 664 1364 566 1432 496"/>
@@ -122,11 +114,10 @@
   </defs>
 
   <rect width="1600" height="1080" fill="url(#paper)"/>
-  <rect x="54" y="54" width="1492" height="972" rx="46" fill="#FFFFFF" stroke="#071018" stroke-opacity="0.08" filter="url(#paperShadow)"/>
 
-  <g clip-path="url(#softFrame)">
-    <rect x="54" y="54" width="1492" height="972" fill="url(#microGrid)"/>
-    <rect x="54" y="54" width="1492" height="972" fill="url(#dotGrid)" opacity=".65"/>
+  <g>
+    <rect width="1600" height="1080" fill="url(#microGrid)"/>
+    <rect width="1600" height="1080" fill="url(#dotGrid)" opacity=".65"/>
     <circle cx="822" cy="540" r="492" fill="url(#aura)"/>
     <circle cx="1168" cy="368" r="250" fill="url(#orangeAura)" opacity=".62"/>
 
@@ -211,8 +202,8 @@
         <path d="M206 556C300 486 386 495 488 438C574 391 626 336 704 340" stroke="url(#hotRoute)" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 22" class="routeFast" fill="none"/>
         <circle cx="206" cy="556" r="13" fill="#FFB000" filter="url(#glowPink)" class="pulseSlow"/>
         <circle cx="704" cy="340" r="12" fill="#FF3EA5" filter="url(#glowPink)" class="pulse"/>
-        <circle r="9" fill="#00D6C9" filter="url(#glowCyan)">
-          <animateMotion dur="7.6s" repeatCount="indefinite" path="M206 556C300 486 386 495 488 438C574 391 626 336 704 340"/>
+        <circle cx="206" cy="556" r="9" fill="#00D6C9" filter="url(#glowCyan)">
+          <animateMotion dur="7.6s" repeatCount="indefinite" path="M0 0C94 -70 180 -61 282 -118C368 -165 420 -220 498 -216"/>
         </circle>
       </g>
 
@@ -234,19 +225,16 @@
       <use href="#signalPath" stroke="#00D6C9" stroke-width="3.2" stroke-opacity=".38" class="routeFast interactiveLine" fill="none"/>
       <use href="#renderPath" stroke="#FF3EA5" stroke-width="1.9" stroke-opacity=".3" class="route quietLine" fill="none"/>
 
-      <circle r="10" fill="#4169FF" filter="url(#glowCyan)">
-        <animateMotion dur="10.8s" repeatCount="indefinite">
-          <mpath href="#agentPath"/>
+      <circle cx="238" cy="720" r="10" fill="#4169FF" filter="url(#glowCyan)">
+        <animateMotion dur="10.8s" repeatCount="indefinite" path="M0 0C130 -132 232 -124 370 -74C516 -21 616 -100 690 -216C794 -378 942 -454 1130 -392">
         </animateMotion>
       </circle>
-      <circle r="8" fill="#FFB000" filter="url(#glowPink)">
-        <animateMotion dur="9s" repeatCount="indefinite">
-          <mpath href="#signalPath"/>
+      <circle cx="354" cy="777" r="8" fill="#FFB000" filter="url(#glowPink)">
+        <animateMotion dur="9s" repeatCount="indefinite" path="M0 0C166 -59 284 -291 462 -251C630 -213 656 -13 854 -79C956 -113 1010 -211 1078 -281">
         </animateMotion>
       </circle>
-      <circle r="6" fill="#FF3EA5" filter="url(#glowPink)">
-        <animateMotion dur="13.2s" repeatCount="indefinite">
-          <mpath href="#renderPath"/>
+      <circle cx="174" cy="884" r="6" fill="#FF3EA5" filter="url(#glowPink)">
+        <animateMotion dur="13.2s" repeatCount="indefinite" path="M0 0C198 80 358 24 518 -44C672 -110 816 -122 958 -48C1082 17 1202 18 1308 -38">
         </animateMotion>
       </circle>
     </g>
@@ -320,5 +308,4 @@
     </g>
   </g>
 
-  <rect x="54.5" y="54.5" width="1491" height="971" rx="45.5" stroke="#071018" stroke-opacity=".08"/>
 </svg>
