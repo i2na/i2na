@@ -128,17 +128,17 @@
     </g>
 
     <g transform="translate(104 118)">
-      <text x="0" y="0" class="sans ink" font-size="66" font-weight="780" letter-spacing=".035em">YENA</text>
-      <text x="5" y="48" class="mono softInk" font-size="22" letter-spacing=".12em">DIGITAL TWIN DEVELOPER</text>
-      <text x="5" y="88" class="mono softInk" font-size="20">physical space -> spatial data -> real-time 3D interface</text>
+      <text x="0" y="0" class="sans ink" font-size="84" font-weight="780" letter-spacing=".03em">YENA</text>
+      <text x="6" y="62" class="mono softInk" font-size="30" letter-spacing=".08em">DIGITAL TWIN DEVELOPER</text>
+      <text x="6" y="110" class="mono softInk" font-size="26">physical space -> spatial data -> real-time 3D interface</text>
     </g>
 
-    <g transform="translate(1050 95)">
-      <rect x="0" y="0" width="430" height="132" rx="30" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
-      <text x="34" y="52" class="mono ink" font-size="24" letter-spacing=".06em">SPATIAL AI</text>
-      <text x="34" y="90" class="mono softInk" font-size="20">vision / simulation / agents</text>
-      <circle cx="322" cy="55" r="14" fill="#00D6C9" filter="url(#glowCyan)" class="pulse"/>
-      <circle cx="342" cy="55" r="5" fill="#4169FF" filter="url(#glowCyan)" class="pulseSlow"/>
+    <g transform="translate(1030 94)">
+      <rect x="0" y="0" width="500" height="154" rx="34" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
+      <text x="38" y="60" class="mono ink" font-size="30" letter-spacing=".04em">SPATIAL AI</text>
+      <text x="38" y="106" class="mono softInk" font-size="24">vision / simulation / agents</text>
+      <circle cx="414" cy="63" r="16" fill="#00D6C9" filter="url(#glowCyan)" class="pulse"/>
+      <circle cx="440" cy="63" r="6" fill="#4169FF" filter="url(#glowCyan)" class="pulseSlow"/>
     </g>
 
     <g transform="translate(168 304)">
@@ -171,11 +171,11 @@
 
     </g>
 
-    <g transform="translate(118 568)">
-      <rect x="0" y="0" width="390" height="132" rx="28" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
-      <text x="28" y="48" class="mono ink" font-size="24" letter-spacing=".06em">PERCEPTION</text>
-      <text x="28" y="84" class="mono softInk" font-size="20">computer vision</text>
-      <text x="28" y="110" class="mono softInk" font-size="20">scene understanding</text>
+    <g transform="translate(118 552)">
+      <rect x="0" y="0" width="470" height="154" rx="34" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
+      <text x="34" y="58" class="mono ink" font-size="30" letter-spacing=".04em">PERCEPTION</text>
+      <text x="34" y="100" class="mono softInk" font-size="24">computer vision</text>
+      <text x="34" y="130" class="mono softInk" font-size="24">scene understanding</text>
     </g>
 
     <g transform="translate(474 270)">
@@ -213,11 +213,11 @@
       </g>
     </g>
 
-    <g transform="translate(536 220)">
-      <rect x="0" y="0" width="516" height="132" rx="28" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
-      <text x="28" y="48" class="mono ink" font-size="24" letter-spacing=".06em">SPATIAL MODELING</text>
-      <text x="28" y="84" class="mono softInk" font-size="20">3D reconstruction / sensor fusion</text>
-      <text x="28" y="110" class="mono softInk" font-size="20">state estimation</text>
+    <g transform="translate(512 260)">
+      <rect x="0" y="0" width="604" height="154" rx="34" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
+      <text x="34" y="58" class="mono ink" font-size="30" letter-spacing=".04em">SPATIAL MODELING</text>
+      <text x="34" y="100" class="mono softInk" font-size="24">3D reconstruction / sensor fusion</text>
+      <text x="34" y="130" class="mono softInk" font-size="24">state estimation</text>
     </g>
 
     <g>
@@ -259,11 +259,11 @@
       <path d="M122 176C137 195 158 204 184 198" stroke="#FF3EA5" stroke-width="4" stroke-linecap="round" class="blink"/>
     </g>
 
-    <g transform="translate(1112 680)">
-      <rect x="0" y="0" width="420" height="132" rx="28" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
-      <text x="28" y="48" class="mono ink" font-size="24" letter-spacing=".06em">AGENTIC LAYER</text>
-      <text x="28" y="84" class="mono softInk" font-size="20">context monitoring</text>
-      <text x="28" y="110" class="mono softInk" font-size="20">reasoning / action triggering</text>
+    <g transform="translate(1110 672)">
+      <rect x="0" y="0" width="488" height="154" rx="34" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
+      <text x="34" y="58" class="mono ink" font-size="30" letter-spacing=".04em">AGENTIC LAYER</text>
+      <text x="34" y="100" class="mono softInk" font-size="24">context monitoring</text>
+      <text x="34" y="130" class="mono softInk" font-size="24">reasoning / action triggering</text>
     </g>
 
     <g transform="translate(114 820)">
@@ -275,18 +275,18 @@
       </g>
     </g>
 
-    <g transform="translate(118 748)">
-      <rect x="0" y="0" width="416" height="132" rx="28" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
-      <text x="28" y="48" class="mono ink" font-size="24" letter-spacing=".06em">3D WEB INTERFACE</text>
-      <text x="28" y="84" class="mono softInk" font-size="20">real-time rendering</text>
-      <text x="28" y="110" class="mono softInk" font-size="20">spatial interaction UI</text>
+    <g transform="translate(118 730)">
+      <rect x="0" y="0" width="500" height="154" rx="34" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
+      <text x="34" y="58" class="mono ink" font-size="30" letter-spacing=".04em">3D WEB INTERFACE</text>
+      <text x="34" y="100" class="mono softInk" font-size="24">real-time rendering</text>
+      <text x="34" y="130" class="mono softInk" font-size="24">spatial interaction UI</text>
     </g>
 
     <g class="flicker">
-      <circle cx="742" cy="372" r="4" fill="#071018"/>
-      <circle cx="795" cy="368" r="3" fill="#071018"/>
-      <circle cx="858" cy="356" r="4" fill="#071018"/>
-      <circle cx="922" cy="418" r="3" fill="#071018"/>
+      <circle cx="742" cy="430" r="4" fill="#071018"/>
+      <circle cx="795" cy="442" r="3" fill="#071018"/>
+      <circle cx="858" cy="430" r="4" fill="#071018"/>
+      <circle cx="922" cy="466" r="3" fill="#071018"/>
       <circle cx="646" cy="460" r="4" fill="#071018"/>
       <circle cx="1010" cy="548" r="3" fill="#071018"/>
       <circle cx="552" cy="610" r="4" fill="#071018"/>
