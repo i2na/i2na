@@ -128,15 +128,15 @@
     </g>
 
     <g transform="translate(104 118)">
-      <text x="0" y="0" class="sans ink" font-size="52" font-weight="780" letter-spacing=".04em">YENA</text>
-      <text x="4" y="36" class="mono softInk" font-size="14" letter-spacing=".2em">DIGITAL TWIN DEVELOPER</text>
-      <text x="4" y="70" class="mono softInk" font-size="15">physical space -> spatial data -> real-time 3D interface</text>
+      <text x="0" y="0" class="sans ink" font-size="66" font-weight="780" letter-spacing=".035em">YENA</text>
+      <text x="5" y="48" class="mono softInk" font-size="22" letter-spacing=".12em">DIGITAL TWIN DEVELOPER</text>
+      <text x="5" y="88" class="mono softInk" font-size="20">physical space -> spatial data -> real-time 3D interface</text>
     </g>
 
     <g transform="translate(1050 95)">
-      <rect x="0" y="0" width="382" height="112" rx="28" fill="#FFFFFF" fill-opacity=".92" stroke="#071018" stroke-opacity=".1"/>
-      <text x="34" y="44" class="mono ink" font-size="14" letter-spacing=".12em">SPATIAL AI</text>
-      <text x="34" y="74" class="mono softInk" font-size="13">vision / simulation / agents</text>
+      <rect x="0" y="0" width="430" height="132" rx="30" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
+      <text x="34" y="52" class="mono ink" font-size="24" letter-spacing=".06em">SPATIAL AI</text>
+      <text x="34" y="90" class="mono softInk" font-size="20">vision / simulation / agents</text>
       <circle cx="322" cy="55" r="14" fill="#00D6C9" filter="url(#glowCyan)" class="pulse"/>
       <circle cx="342" cy="55" r="5" fill="#4169FF" filter="url(#glowCyan)" class="pulseSlow"/>
     </g>
@@ -171,11 +171,11 @@
 
     </g>
 
-    <g transform="translate(118 586)">
-      <rect x="0" y="0" width="308" height="102" rx="24" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
-      <text x="28" y="38" class="mono ink" font-size="14" letter-spacing=".12em">PERCEPTION</text>
-      <text x="28" y="64" class="mono softInk" font-size="13">computer vision</text>
-      <text x="28" y="82" class="mono softInk" font-size="13">scene understanding</text>
+    <g transform="translate(118 568)">
+      <rect x="0" y="0" width="390" height="132" rx="28" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
+      <text x="28" y="48" class="mono ink" font-size="24" letter-spacing=".06em">PERCEPTION</text>
+      <text x="28" y="84" class="mono softInk" font-size="20">computer vision</text>
+      <text x="28" y="110" class="mono softInk" font-size="20">scene understanding</text>
     </g>
 
     <g transform="translate(474 270)">
@@ -213,11 +213,11 @@
       </g>
     </g>
 
-    <g transform="translate(536 232)">
-      <rect x="0" y="0" width="378" height="102" rx="24" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
-      <text x="28" y="38" class="mono ink" font-size="14" letter-spacing=".12em">SPATIAL MODELING</text>
-      <text x="28" y="64" class="mono softInk" font-size="13">3D reconstruction / sensor fusion</text>
-      <text x="28" y="82" class="mono softInk" font-size="13">state estimation</text>
+    <g transform="translate(536 220)">
+      <rect x="0" y="0" width="516" height="132" rx="28" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
+      <text x="28" y="48" class="mono ink" font-size="24" letter-spacing=".06em">SPATIAL MODELING</text>
+      <text x="28" y="84" class="mono softInk" font-size="20">3D reconstruction / sensor fusion</text>
+      <text x="28" y="110" class="mono softInk" font-size="20">state estimation</text>
     </g>
 
     <g>
@@ -259,11 +259,11 @@
       <path d="M122 176C137 195 158 204 184 198" stroke="#FF3EA5" stroke-width="4" stroke-linecap="round" class="blink"/>
     </g>
 
-    <g transform="translate(1112 690)">
-      <rect x="0" y="0" width="338" height="102" rx="24" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
-      <text x="28" y="38" class="mono ink" font-size="14" letter-spacing=".12em">AGENTIC LAYER</text>
-      <text x="28" y="64" class="mono softInk" font-size="13">context monitoring</text>
-      <text x="28" y="82" class="mono softInk" font-size="13">reasoning / action triggering</text>
+    <g transform="translate(1112 680)">
+      <rect x="0" y="0" width="420" height="132" rx="28" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
+      <text x="28" y="48" class="mono ink" font-size="24" letter-spacing=".06em">AGENTIC LAYER</text>
+      <text x="28" y="84" class="mono softInk" font-size="20">context monitoring</text>
+      <text x="28" y="110" class="mono softInk" font-size="20">reasoning / action triggering</text>
     </g>
 
     <g transform="translate(114 820)">
@@ -275,11 +275,11 @@
       </g>
     </g>
 
-    <g transform="translate(118 766)">
-      <rect x="0" y="0" width="326" height="102" rx="24" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
-      <text x="28" y="38" class="mono ink" font-size="14" letter-spacing=".12em">3D WEB INTERFACE</text>
-      <text x="28" y="64" class="mono softInk" font-size="13">real-time rendering</text>
-      <text x="28" y="82" class="mono softInk" font-size="13">spatial interaction UI</text>
+    <g transform="translate(118 748)">
+      <rect x="0" y="0" width="416" height="132" rx="28" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
+      <text x="28" y="48" class="mono ink" font-size="24" letter-spacing=".06em">3D WEB INTERFACE</text>
+      <text x="28" y="84" class="mono softInk" font-size="20">real-time rendering</text>
+      <text x="28" y="110" class="mono softInk" font-size="20">spatial interaction UI</text>
     </g>
 
     <g class="flicker">
