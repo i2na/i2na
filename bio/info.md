@@ -1,0 +1,8 @@
+- university of seoul, electrical and computer engineering b.s. (2020.03-2026.02)
+- QUIPU, university of seoul computer club, former president and frontend developer (2022.09-2025.06)
+- Mossland, Software Engineer (2025.07-present)
+    - github.com/mossland
+- github.com/i2na
+- yena@moss.land
+- instagram.com/2ye._na
+- South Korea, Seoul, Gwanghwamun
