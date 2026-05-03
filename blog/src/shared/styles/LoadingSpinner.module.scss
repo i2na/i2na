@@ -1,6 +1,0 @@
-@use "@/shared/styles/variables" as *;
-@use "@/shared/styles/mixins" as *;
-
-.spinner {
-    @include loading-spinner(0.9rem, rgba($theme-primary-strong, 0.9));
-}
