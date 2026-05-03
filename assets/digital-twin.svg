@@ -58,6 +58,39 @@
       <circle cx="2" cy="2" r="1.2" fill="#0B1020" fill-opacity="0.075"/>
     </pattern>
 
+    <clipPath id="backgroundInset">
+      <rect x="72" y="72" width="1456" height="936"/>
+    </clipPath>
+
+    <linearGradient id="bgFadeLeft" x1="72" y1="0" x2="132" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+
+    <linearGradient id="bgFadeRight" x1="1468" y1="0" x2="1528" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+
+    <linearGradient id="bgFadeTop" x1="0" y1="72" x2="0" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+
+    <linearGradient id="bgFadeBottom" x1="0" y1="968" x2="0" y2="1008" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+
+    <mask id="backgroundFade" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="1080">
+      <rect width="1600" height="1080" fill="#000000"/>
+      <rect x="132" y="112" width="1336" height="856" fill="#FFFFFF"/>
+      <rect x="72" y="112" width="60" height="856" fill="url(#bgFadeLeft)"/>
+      <rect x="1468" y="112" width="60" height="856" fill="url(#bgFadeRight)"/>
+      <rect x="132" y="72" width="1336" height="40" fill="url(#bgFadeTop)"/>
+      <rect x="132" y="968" width="1336" height="40" fill="url(#bgFadeBottom)"/>
+    </mask>
+
     <path id="agentPath" d="M238 720C368 588 470 596 608 646C754 699 854 620 928 504C1032 342 1180 266 1368 328"/>
     <path id="signalPath" d="M354 777C520 718 638 486 816 526C984 564 1010 764 1208 698C1310 664 1364 566 1432 496"/>
     <path id="renderPath" d="M174 884C372 964 532 908 692 840C846 774 990 762 1132 836C1256 901 1376 902 1482 846"/>
@@ -123,18 +156,21 @@
     </style>
   </defs>
 
-  <rect width="1600" height="1080" fill="url(#paper)"/>
+  <rect width="1600" height="1080" fill="#FFFFFF"/>
 
   <g>
-    <rect width="1600" height="1080" fill="url(#microGrid)"/>
-    <rect width="1600" height="1080" fill="url(#dotGrid)" opacity=".65"/>
-    <circle cx="822" cy="540" r="492" fill="url(#aura)"/>
-    <circle cx="1168" cy="368" r="250" fill="url(#orangeAura)" opacity=".62"/>
+    <g clip-path="url(#backgroundInset)" mask="url(#backgroundFade)">
+      <rect width="1600" height="1080" fill="url(#paper)"/>
+      <rect width="1600" height="1080" fill="url(#microGrid)"/>
+      <rect width="1600" height="1080" fill="url(#dotGrid)" opacity=".65"/>
+      <circle cx="822" cy="540" r="492" fill="url(#aura)"/>
+      <circle cx="1168" cy="368" r="250" fill="url(#orangeAura)" opacity=".62"/>
 
-    <g opacity=".75">
-      <path d="M-40 364C216 242 368 296 522 402C684 516 820 554 1012 458C1182 373 1348 294 1652 412" class="fine quietLine" stroke-width="1.4" fill="none"/>
-      <path d="M-26 742C190 612 348 626 506 700C674 780 815 824 1008 728C1189 639 1332 600 1630 692" class="fine quietLine" stroke-width="1.4" fill="none"/>
-      <path d="M112 186C306 314 430 326 594 246C792 150 930 126 1116 202C1288 274 1388 228 1506 140" class="fine quietLine" stroke-width="1.1" fill="none"/>
+      <g opacity=".75">
+        <path d="M-40 364C216 242 368 296 522 402C684 516 820 554 1012 458C1182 373 1348 294 1652 412" class="fine quietLine" stroke-width="1.4" fill="none"/>
+        <path d="M-26 742C190 612 348 626 506 700C674 780 815 824 1008 728C1189 639 1332 600 1630 692" class="fine quietLine" stroke-width="1.4" fill="none"/>
+        <path d="M112 186C306 314 430 326 594 246C792 150 930 126 1116 202C1288 274 1388 228 1506 140" class="fine quietLine" stroke-width="1.1" fill="none"/>
+      </g>
     </g>
 
     <g transform="translate(104 118)">
