@@ -10,6 +10,7 @@ const mobileFlowDots = Array.from(document.querySelectorAll(".mobile-flow-dot"))
 const nodePanels = Array.from(document.querySelectorAll(".data-node"));
 const traceShell = document.querySelector(".trace-shell");
 const styleTarget = stage || root;
+const MOBILE_PACKET_STEPS = 160;
 
 let toastTimer = 0;
 let ticking = false;
@@ -19,17 +20,68 @@ let maxScroll = 1;
 let nodeMetrics = [];
 let lastProgress = -1;
 let mobilePacketMetrics = [];
+let styleValueCache = new WeakMap();
+let attributeValueCache = new WeakMap();
+
+function setCssVar(element, property, value) {
+  let cache = styleValueCache.get(element);
+
+  if (!cache) {
+    cache = new Map();
+    styleValueCache.set(element, cache);
+  }
+
+  if (cache.get(property) === value) return;
+  cache.set(property, value);
+  element.style.setProperty(property, value);
+}
+
+function setAttributeValue(element, property, value) {
+  let cache = attributeValueCache.get(element);
+
+  if (!cache) {
+    cache = new Map();
+    attributeValueCache.set(element, cache);
+  }
+
+  if (cache.get(property) === value) return;
+  cache.set(property, value);
+  element.setAttribute(property, value);
+}
+
+function sampleRoute(path, length) {
+  return Array.from({ length: MOBILE_PACKET_STEPS + 1 }, (_, index) => {
+    const point = path.getPointAtLength((length * index) / MOBILE_PACKET_STEPS);
+
+    return { x: point.x, y: point.y };
+  });
+}
+
+function getSampledPoint(route, progress) {
+  const scaledProgress = clamp(progress, 0, 1) * MOBILE_PACKET_STEPS;
+  const startIndex = Math.floor(scaledProgress);
+  const endIndex = Math.min(MOBILE_PACKET_STEPS, startIndex + 1);
+  const ratio = scaledProgress - startIndex;
+  const start = route.samples[startIndex];
+  const end = route.samples[endIndex];
+
+  return {
+    x: start.x + (end.x - start.x) * ratio,
+    y: start.y + (end.y - start.y) * ratio,
+  };
+}
+
 const routes = routePaths.map((path) => {
   const length = path.getTotalLength();
-  path.style.setProperty("--route-length", length.toFixed(2));
-  path.style.setProperty("--route-offset", length.toFixed(2));
+  setCssVar(path, "--route-length", length.toFixed(2));
+  setCssVar(path, "--route-offset", length.toFixed(2));
   return { path, length };
 });
 const mobileRoutes = mobileFlowRoutePaths.map((path, index) => {
   const length = path.getTotalLength();
-  path.style.setProperty("--mobile-route-length", length.toFixed(2));
-  path.style.setProperty("--mobile-route-offset", length.toFixed(2));
-  return { path, length, index };
+  setCssVar(path, "--mobile-route-length", length.toFixed(2));
+  setCssVar(path, "--mobile-route-offset", length.toFixed(2));
+  return { path, length, index, samples: sampleRoute(path, length) };
 });
 const mobilePacketConfig = [
   { selector: ".mobile-flow-packet-primary", routeIndex: 0, delay: 0, speed: 1 },
@@ -99,41 +151,43 @@ function refreshMetrics() {
     .filter(({ element, route }) => element && route);
 }
 
-function updateMobileFlow(progress) {
+function updateMobileFlow(progress, reduceMotion) {
   mobileRoutes.forEach(({ path, length, index }) => {
-    const routeProgress = reducedMotion.matches
+    const routeProgress = reduceMotion
       ? 1
       : delayedProgress(progress, index === 0 ? 0 : 0.04);
     const routeEase = routeProgress;
 
-    path.style.setProperty("--mobile-route-offset", (length * (1 - routeEase)).toFixed(1));
-    path.style.setProperty("--mobile-route-opacity", (0.28 + routeEase * 0.68).toFixed(3));
+    setCssVar(path, "--mobile-route-offset", (length * (1 - routeEase)).toFixed(1));
+    setCssVar(path, "--mobile-route-opacity", (0.28 + routeEase * 0.68).toFixed(3));
   });
 
   mobileFlowDots.forEach((dot, index) => {
-    const dotProgress = reducedMotion.matches
+    const dotProgress = reduceMotion
       ? 1
       : softLinear(delayedProgress(progress, index * 0.018));
 
-    dot.style.setProperty("--mobile-dot-opacity", (0.28 + dotProgress * 0.7).toFixed(3));
-    dot.style.setProperty("--mobile-dot-scale", (0.72 + dotProgress * 0.5).toFixed(3));
+    setCssVar(dot, "--mobile-dot-opacity", (0.28 + dotProgress * 0.7).toFixed(3));
+    setCssVar(dot, "--mobile-dot-scale", (0.72 + dotProgress * 0.5).toFixed(3));
   });
 
   mobilePacketMetrics.forEach(({ element, route, delay, speed }) => {
-    const packetProgress = reducedMotion.matches ? 1 : delayedProgress(progress, delay) ** (1 / speed);
-    const point = route.path.getPointAtLength(route.length * packetProgress);
+    const packetProgress = reduceMotion ? 1 : delayedProgress(progress, delay) ** (1 / speed);
+    const point = getSampledPoint(route, packetProgress);
     const visibility = packetProgress <= 0 ? 0 : 0.18 + softLinear(packetProgress) * 0.78;
 
-    element.setAttribute("cx", point.x.toFixed(1));
-    element.setAttribute("cy", point.y.toFixed(1));
-    element.style.opacity = visibility.toFixed(3);
+    setAttributeValue(element, "transform", `translate(${point.x.toFixed(1)} ${point.y.toFixed(1)})`);
+    setCssVar(element, "opacity", visibility.toFixed(3));
   });
 }
 
 function setProgress(force = false) {
   const isMobile = mobileLayout.matches;
-  const rawProgress = reducedMotion.matches ? 1 : clamp(window.scrollY / maxScroll, 0, 1);
-  if (!force && Math.abs(rawProgress - lastProgress) < 0.0008) return;
+  const reduceMotion = reducedMotion.matches;
+  const rawProgress = reduceMotion ? 1 : clamp(window.scrollY / maxScroll, 0, 1);
+  const progressThreshold = isMobile ? 0.0014 : 0.0008;
+
+  if (!force && Math.abs(rawProgress - lastProgress) < progressThreshold) return;
   lastProgress = rawProgress;
 
   const progress = isMobile
@@ -152,28 +206,30 @@ function setProgress(force = false) {
   const rainX = ambientProgress * (isMobile ? 128 : 16);
   const scanY = isMobile ? -52 + progress * 96 : -58 + ambientProgress * 108;
 
-  styleTarget.style.setProperty("--grid-x", `${gridX.toFixed(1)}px`);
-  styleTarget.style.setProperty("--grid-y", `${gridY.toFixed(1)}px`);
-  styleTarget.style.setProperty("--rain-x", `${rainX.toFixed(1)}px`);
-  styleTarget.style.setProperty("--layer-before-y", `${(layerShift * -0.55).toFixed(1)}px`);
-  styleTarget.style.setProperty("--shell-layer-x", `${(layerShift * shellFactorX).toFixed(1)}px`);
-  styleTarget.style.setProperty("--shell-layer-y", `${(layerShift * shellFactorY).toFixed(1)}px`);
-  styleTarget.style.setProperty("--shell-layer-inverse-x", `${(layerShift * shellFactorX * -1).toFixed(1)}px`);
-  styleTarget.style.setProperty("--shell-layer-inverse-y", `${(layerShift * shellFactorY * -1).toFixed(1)}px`);
-  styleTarget.style.setProperty("--floor-layer-y", `${(layerShift * (isMobile ? -0.46 : -0.28)).toFixed(1)}px`);
-  styleTarget.style.setProperty("--core-layer-y", `${(layerShift * (isMobile ? -0.4 : -0.12)).toFixed(1)}px`);
-  styleTarget.style.setProperty("--scan-y", `${scanY.toFixed(1)}svh`);
-  styleTarget.style.setProperty("--packet-one-distance", `${(delayedProgress(progress, 0) * 100).toFixed(1)}%`);
-  styleTarget.style.setProperty("--packet-two-distance", `${(delayedProgress(progress, isMobile ? 0.04 : 0.12) * 100).toFixed(1)}%`);
-  styleTarget.style.setProperty("--packet-three-distance", `${(delayedProgress(progress, isMobile ? 0.1 : 0.22) * 100).toFixed(1)}%`);
-  styleTarget.style.setProperty("--mobile-flow-x", `${(Math.sin(progress * Math.PI) * (isMobile ? 3 : 0)).toFixed(1)}px`);
-  styleTarget.style.setProperty("--mobile-flow-y", `${((0.5 - ambientProgress) * (isMobile ? 12 : 0)).toFixed(1)}px`);
+  if (isMobile) {
+    setCssVar(styleTarget, "--mobile-flow-x", `${(Math.sin(progress * Math.PI) * 3).toFixed(1)}px`);
+    setCssVar(styleTarget, "--mobile-flow-y", `${((0.5 - ambientProgress) * 12).toFixed(1)}px`);
+    updateMobileFlow(progress, reduceMotion);
+  } else {
+    setCssVar(styleTarget, "--grid-x", `${gridX.toFixed(1)}px`);
+    setCssVar(styleTarget, "--grid-y", `${gridY.toFixed(1)}px`);
+    setCssVar(styleTarget, "--rain-x", `${rainX.toFixed(1)}px`);
+    setCssVar(styleTarget, "--layer-before-y", `${(layerShift * -0.55).toFixed(1)}px`);
+    setCssVar(styleTarget, "--shell-layer-x", `${(layerShift * shellFactorX).toFixed(1)}px`);
+    setCssVar(styleTarget, "--shell-layer-y", `${(layerShift * shellFactorY).toFixed(1)}px`);
+    setCssVar(styleTarget, "--shell-layer-inverse-x", `${(layerShift * shellFactorX * -1).toFixed(1)}px`);
+    setCssVar(styleTarget, "--shell-layer-inverse-y", `${(layerShift * shellFactorY * -1).toFixed(1)}px`);
+    setCssVar(styleTarget, "--floor-layer-y", `${(layerShift * -0.28).toFixed(1)}px`);
+    setCssVar(styleTarget, "--core-layer-y", `${(layerShift * -0.12).toFixed(1)}px`);
+    setCssVar(styleTarget, "--scan-y", `${scanY.toFixed(1)}svh`);
+    setCssVar(styleTarget, "--packet-one-distance", `${(delayedProgress(progress, 0) * 100).toFixed(1)}%`);
+    setCssVar(styleTarget, "--packet-two-distance", `${(delayedProgress(progress, 0.12) * 100).toFixed(1)}%`);
+    setCssVar(styleTarget, "--packet-three-distance", `${(delayedProgress(progress, 0.22) * 100).toFixed(1)}%`);
 
-  routes.forEach(({ path, length }) => {
-    path.style.setProperty("--route-offset", (length * hiddenRatio).toFixed(1));
-  });
-
-  updateMobileFlow(progress);
+    routes.forEach(({ path, length }) => {
+      setCssVar(path, "--route-offset", (length * hiddenRatio).toFixed(1));
+    });
+  }
 
   nodeMetrics.forEach(({ node, index, layoutTop, driftX, driftY }) => {
     const viewportProgress = clamp(
@@ -183,7 +239,7 @@ function setProgress(force = false) {
       1
     );
     const mobileNodeProgress = clamp(progress * 0.72 + viewportProgress * 0.48, 0, 1);
-    const localProgress = reducedMotion.matches
+    const localProgress = reduceMotion
       ? 1
       : isMobile
         ? mobileNodeProgress
@@ -193,7 +249,7 @@ function setProgress(force = false) {
     let moveX = driftX * hiddenRatio * (isMobile ? 1 : 0.42);
     let moveY = driftY * hiddenRatio * (isMobile ? 1 : 0.42);
 
-    if (isMobile && !reducedMotion.matches) {
+    if (isMobile && !reduceMotion) {
       const traceArc = Math.sin(localGlow * Math.PI);
       const traceRipple = Math.sin(localGlow * Math.PI * 2) * (3 + index * 0.8);
       const direction = index % 2 === 0 ? 1 : -1;
@@ -202,27 +258,32 @@ function setProgress(force = false) {
       moveY = driftY * (1 - localGlow) - (20 + index * 4.8) * traceArc;
     }
 
-    node.style.setProperty("--node-opacity", (baseOpacity + localGlow * (1 - baseOpacity)).toFixed(3));
-    node.style.setProperty("--move-x", `${moveX.toFixed(1)}px`);
-    node.style.setProperty("--move-y", `${moveY.toFixed(1)}px`);
-    node.style.setProperty("--node-branch", `${(isMobile ? 10 + localGlow * 46 + Math.sin(localGlow * Math.PI) * 12 : localGlow * 12).toFixed(1)}px`);
-    node.style.setProperty("--node-scale", (0.9 + localGlow * (isMobile ? 0.24 : 0.24)).toFixed(3));
-    node.style.setProperty("--node-glow-size", `${(18 + localGlow * (isMobile ? 18 : 14)).toFixed(1)}px`);
-    node.style.setProperty("--node-line-opacity", (0.34 + localGlow * 0.66).toFixed(3));
-    node.style.setProperty("--node-line-scale", (0.58 + localGlow * 0.42).toFixed(3));
+    setCssVar(node, "--node-opacity", (baseOpacity + localGlow * (1 - baseOpacity)).toFixed(3));
+    setCssVar(node, "--move-x", `${moveX.toFixed(1)}px`);
+    setCssVar(node, "--move-y", `${moveY.toFixed(1)}px`);
+    setCssVar(node, "--node-branch", `${(isMobile ? 10 + localGlow * 46 + Math.sin(localGlow * Math.PI) * 12 : localGlow * 12).toFixed(1)}px`);
+    setCssVar(node, "--node-scale", (0.9 + localGlow * 0.24).toFixed(3));
+    setCssVar(node, "--node-glow-size", `${(18 + localGlow * (isMobile ? 18 : 14)).toFixed(1)}px`);
+    setCssVar(node, "--node-line-opacity", (0.34 + localGlow * 0.66).toFixed(3));
+    setCssVar(node, "--node-line-scale", (0.58 + localGlow * 0.42).toFixed(3));
   });
 }
 
 function requestProgressUpdate() {
-  if (!isScrolling) {
+  const shouldPauseAmbientAnimation = !mobileLayout.matches && !reducedMotion.matches;
+
+  if (shouldPauseAmbientAnimation && !isScrolling) {
     isScrolling = true;
     document.body.classList.add("is-scrolling");
   }
-  window.clearTimeout(scrollTimer);
-  scrollTimer = window.setTimeout(() => {
-    isScrolling = false;
-    document.body.classList.remove("is-scrolling");
-  }, 140);
+
+  if (shouldPauseAmbientAnimation) {
+    window.clearTimeout(scrollTimer);
+    scrollTimer = window.setTimeout(() => {
+      isScrolling = false;
+      document.body.classList.remove("is-scrolling");
+    }, 140);
+  }
 
   if (ticking) return;
   ticking = true;

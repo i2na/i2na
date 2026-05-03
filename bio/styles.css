@@ -783,9 +783,8 @@ body.is-scrolling .scan-core {
   body {
     min-height: 168svh;
     background:
-      radial-gradient(circle at 72% 18%, rgba(23, 200, 191, 0.16), transparent 22rem),
-      radial-gradient(circle at 84% 74%, rgba(255, 95, 159, 0.1), transparent 19rem),
-      radial-gradient(circle at 18% 78%, rgba(73, 105, 255, 0.09), transparent 21rem),
+      radial-gradient(circle at 78% 12%, rgba(23, 200, 191, 0.11), transparent 18rem),
+      radial-gradient(circle at 12% 82%, rgba(73, 105, 255, 0.08), transparent 18rem),
       linear-gradient(135deg, #ffffff 0%, var(--paper-warm) 48%, #ffffff 100%);
   }
 
@@ -804,7 +803,8 @@ body.is-scrolling .scan-core {
 
   .trace-shell::before {
     inset: 20px 10px;
-    transform: translate3d(var(--shell-layer-x), var(--shell-layer-y), 0);
+    transform: none;
+    will-change: auto;
     background:
       linear-gradient(90deg, transparent 0 18%, rgba(7, 16, 24, 0.045) 18.2%, transparent 18.5%),
       linear-gradient(180deg, transparent 0 20%, rgba(7, 16, 24, 0.04) 20.2%, transparent 20.5%),
@@ -821,43 +821,26 @@ body.is-scrolling .scan-core {
     width: 1px;
     height: auto;
     background: linear-gradient(180deg, rgba(23, 200, 191, 0.42), rgba(73, 105, 255, 0.24), rgba(255, 95, 159, 0.34));
+    transform: none;
+    will-change: auto;
   }
 
   .grid-plane {
     opacity: 0.52;
+    transform: none;
+    will-change: auto;
+    background:
+      linear-gradient(rgba(7, 16, 24, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(7, 16, 24, 0.045) 1px, transparent 1px);
   }
 
+  .grid-plane::before,
   .grid-plane::after {
-    opacity: 0.58;
+    display: none;
   }
 
   .connection-map {
-    inset: -1% -56%;
-    width: 212%;
-    height: 100%;
-    opacity: 0.22;
-  }
-
-  .floor-network {
-    opacity: 0.5;
-  }
-
-  .trace-shadow {
-    stroke-width: 14;
-    opacity: 0.24;
-  }
-
-  .energy-field {
-    opacity: 0.78;
-  }
-
-  .route {
-    opacity: 0.76;
-  }
-
-  .trace-secondary,
-  .trace-third {
-    opacity: 0.44;
+    display: none;
   }
 
   .mobile-flow-map {
@@ -870,6 +853,7 @@ body.is-scrolling .scan-core {
     opacity: 0.96;
     transform: translate3d(var(--mobile-flow-x), var(--mobile-flow-y), 0);
     will-change: transform;
+    contain: paint;
   }
 
   .mobile-flow-base,
@@ -891,7 +875,7 @@ body.is-scrolling .scan-core {
     stroke-dasharray: var(--mobile-route-length, 960);
     stroke-dashoffset: var(--mobile-route-offset, var(--mobile-route-length, 960));
     opacity: var(--mobile-route-opacity, 0.7);
-    filter: url("#mobile-flow-glow");
+    filter: none;
   }
 
   .mobile-flow-route-alt {
@@ -932,7 +916,7 @@ body.is-scrolling .scan-core {
     stroke: rgba(255, 255, 255, 0.86);
     stroke-width: 1.8;
     opacity: 0;
-    filter: url("#mobile-flow-glow");
+    filter: none;
   }
 
   .mobile-flow-packet-secondary {
@@ -944,29 +928,15 @@ body.is-scrolling .scan-core {
   }
 
   .signal-rain {
-    opacity: 0.16;
-    background:
-      repeating-linear-gradient(100deg, transparent 0 56px, rgba(23, 200, 191, 0.052) 58px, transparent 62px),
-      repeating-linear-gradient(64deg, transparent 0 86px, rgba(255, 95, 159, 0.036) 88px, transparent 92px);
+    display: none;
   }
 
   .scan-band {
-    opacity: 0.3;
+    display: none;
   }
 
   .sweep {
-    opacity: 0.58;
-    width: min(118vw, 520px);
-  }
-
-  .sweep-one {
-    left: -42%;
-    top: 2%;
-  }
-
-  .sweep-two {
-    right: -52%;
-    bottom: 10%;
+    display: none;
   }
 
   .scan-core {
@@ -974,9 +944,12 @@ body.is-scrolling .scan-core {
     top: 38%;
     height: 88px;
     opacity: 0.78;
+    animation: none;
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.5),
-      0 0 22px rgba(23, 200, 191, 0.36);
+      0 0 12px rgba(23, 200, 191, 0.24);
+    transform: none;
+    will-change: auto;
   }
 
   .identity-core,
@@ -989,7 +962,9 @@ body.is-scrolling .scan-core {
     width: 100%;
     max-width: 420px;
     opacity: var(--node-opacity);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.82);
     transform: translate3d(var(--move-x, 0px), var(--move-y, 18px), 0);
+    will-change: transform, opacity;
   }
 
   .identity-core {
@@ -1017,8 +992,9 @@ body.is-scrolling .scan-core {
     left: -24px;
     top: 9px;
     box-shadow:
-      0 0 0 5px rgba(255, 255, 255, 0.72),
-      0 0 var(--node-glow-size, 24px) var(--node-glow-color, rgba(23, 200, 191, 0.72));
+      0 0 0 4px rgba(255, 255, 255, 0.72),
+      0 0 14px var(--node-glow-color, rgba(23, 200, 191, 0.56));
+    will-change: transform, opacity;
   }
 
   .node-label::after {
@@ -1026,6 +1002,7 @@ body.is-scrolling .scan-core {
     top: 12px;
     --node-line-length: calc(28px + var(--node-branch, 0px));
     background: linear-gradient(90deg, var(--node-color, var(--cyan)), rgba(73, 105, 255, 0.22), transparent);
+    will-change: transform, opacity;
   }
 
   .education,
