@@ -73,6 +73,16 @@
       .blue { stroke: #4169FF; }
       .pink { stroke: #FF3EA5; }
       .orange { stroke: #FFB000; }
+      .labelTitle {
+        fill: #071018;
+      }
+      .labelDetail {
+        fill: #334155;
+      }
+      .labelAnchor {
+        stroke-width: 4;
+        stroke-linecap: round;
+      }
       .route { stroke-dasharray: 14 18; animation: routeShift 12s linear infinite; }
       .routeFast { stroke-dasharray: 7 14; animation: routeShift 7s linear infinite reverse; }
       .scan { animation: scanSweep 8.8s ease-in-out infinite; }
@@ -128,17 +138,17 @@
     </g>
 
     <g transform="translate(104 118)">
-      <text x="0" y="0" class="sans ink" font-size="84" font-weight="780" letter-spacing=".03em">YENA</text>
-      <text x="6" y="62" class="mono softInk" font-size="30" letter-spacing=".08em">DIGITAL TWIN DEVELOPER</text>
-      <text x="6" y="110" class="mono softInk" font-size="26">physical space -> spatial data -> real-time 3D interface</text>
+      <text x="0" y="0" class="sans ink" font-size="76" font-weight="780" letter-spacing=".03em">YENA</text>
+      <text x="5" y="56" class="mono softInk" font-size="26" letter-spacing=".08em">DIGITAL TWIN DEVELOPER</text>
+      <text x="5" y="98" class="mono softInk" font-size="23">physical space -> spatial data -> real-time 3D interface</text>
     </g>
 
-    <g transform="translate(1030 94)">
-      <rect x="0" y="0" width="500" height="154" rx="34" fill="#FFFFFF" fill-opacity=".94" stroke="#071018" stroke-opacity=".1"/>
-      <text x="38" y="60" class="mono ink" font-size="30" letter-spacing=".04em">SPATIAL AI</text>
-      <text x="38" y="106" class="mono softInk" font-size="24">vision / simulation / agents</text>
-      <circle cx="414" cy="63" r="16" fill="#00D6C9" filter="url(#glowCyan)" class="pulse"/>
-      <circle cx="440" cy="63" r="6" fill="#4169FF" filter="url(#glowCyan)" class="pulseSlow"/>
+    <g transform="translate(1056 112)">
+      <path d="M0 0H88" class="labelAnchor cyan" opacity=".8"/>
+      <text x="0" y="42" class="mono labelTitle" font-size="25" letter-spacing=".04em">SPATIAL AI</text>
+      <text x="0" y="78" class="mono labelDetail" font-size="20">vision / simulation / agents</text>
+      <circle cx="326" cy="40" r="13" fill="#00D6C9" filter="url(#glowCyan)" class="pulse"/>
+      <circle cx="349" cy="40" r="5" fill="#4169FF" filter="url(#glowCyan)" class="pulseSlow"/>
     </g>
 
     <g transform="translate(168 304)">
@@ -171,11 +181,11 @@
 
     </g>
 
-    <g transform="translate(118 552)">
-      <rect x="0" y="0" width="470" height="154" rx="34" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
-      <text x="34" y="58" class="mono ink" font-size="30" letter-spacing=".04em">PERCEPTION</text>
-      <text x="34" y="100" class="mono softInk" font-size="24">computer vision</text>
-      <text x="34" y="130" class="mono softInk" font-size="24">scene understanding</text>
+    <g transform="translate(118 566)">
+      <path d="M0 0H88" class="labelAnchor cyan" opacity=".78"/>
+      <text x="0" y="42" class="mono labelTitle" font-size="25" letter-spacing=".04em">PERCEPTION</text>
+      <text x="0" y="76" class="mono labelDetail" font-size="20">computer vision</text>
+      <text x="0" y="100" class="mono labelDetail" font-size="20">scene understanding</text>
     </g>
 
     <g transform="translate(474 270)">
@@ -213,11 +223,11 @@
       </g>
     </g>
 
-    <g transform="translate(512 260)">
-      <rect x="0" y="0" width="604" height="154" rx="34" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
-      <text x="34" y="58" class="mono ink" font-size="30" letter-spacing=".04em">SPATIAL MODELING</text>
-      <text x="34" y="100" class="mono softInk" font-size="24">3D reconstruction / sensor fusion</text>
-      <text x="34" y="130" class="mono softInk" font-size="24">state estimation</text>
+    <g transform="translate(532 250)">
+      <path d="M0 0H112" class="labelAnchor blue" opacity=".7"/>
+      <text x="0" y="42" class="mono labelTitle" font-size="25" letter-spacing=".04em">SPATIAL MODELING</text>
+      <text x="0" y="76" class="mono labelDetail" font-size="20">3D reconstruction / sensor fusion</text>
+      <text x="0" y="100" class="mono labelDetail" font-size="20">state estimation</text>
     </g>
 
     <g>
@@ -240,7 +250,7 @@
     </g>
 
     <g transform="translate(1124 356)">
-      <rect x="0" y="0" width="310" height="310" rx="38" fill="#FFFFFF" fill-opacity=".76" stroke="#071018" stroke-opacity=".12"/>
+      <rect x="0" y="0" width="310" height="310" rx="38" fill="#FFFFFF" fill-opacity=".32" stroke="#071018" stroke-opacity=".1"/>
       <circle cx="155" cy="155" r="102" stroke="#071018" stroke-opacity=".12"/>
       <circle cx="155" cy="155" r="62" stroke="#071018" stroke-opacity=".1"/>
 
@@ -259,11 +269,11 @@
       <path d="M122 176C137 195 158 204 184 198" stroke="#FF3EA5" stroke-width="4" stroke-linecap="round" class="blink"/>
     </g>
 
-    <g transform="translate(1110 672)">
-      <rect x="0" y="0" width="488" height="154" rx="34" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
-      <text x="34" y="58" class="mono ink" font-size="30" letter-spacing=".04em">AGENTIC LAYER</text>
-      <text x="34" y="100" class="mono softInk" font-size="24">context monitoring</text>
-      <text x="34" y="130" class="mono softInk" font-size="24">reasoning / action triggering</text>
+    <g transform="translate(1120 690)">
+      <path d="M0 0H96" class="labelAnchor pink" opacity=".75"/>
+      <text x="0" y="42" class="mono labelTitle" font-size="25" letter-spacing=".04em">AGENTIC LAYER</text>
+      <text x="0" y="76" class="mono labelDetail" font-size="20">context monitoring</text>
+      <text x="0" y="100" class="mono labelDetail" font-size="20">reasoning / action triggering</text>
     </g>
 
     <g transform="translate(114 820)">
@@ -275,11 +285,11 @@
       </g>
     </g>
 
-    <g transform="translate(118 730)">
-      <rect x="0" y="0" width="500" height="154" rx="34" fill="#FFFFFF" fill-opacity=".96" stroke="#071018" stroke-opacity=".1"/>
-      <text x="34" y="58" class="mono ink" font-size="30" letter-spacing=".04em">3D WEB INTERFACE</text>
-      <text x="34" y="100" class="mono softInk" font-size="24">real-time rendering</text>
-      <text x="34" y="130" class="mono softInk" font-size="24">spatial interaction UI</text>
+    <g transform="translate(118 770)">
+      <path d="M0 0H104" class="labelAnchor pink" opacity=".76"/>
+      <text x="0" y="42" class="mono labelTitle" font-size="25" letter-spacing=".04em">3D WEB INTERFACE</text>
+      <text x="0" y="76" class="mono labelDetail" font-size="20">real-time rendering</text>
+      <text x="0" y="100" class="mono labelDetail" font-size="20">spatial interaction UI</text>
     </g>
 
     <g class="flicker">
