@@ -84,9 +84,10 @@ const mobileRoutes = mobileFlowRoutePaths.map((path, index) => {
   return { path, length, index, samples: sampleRoute(path, length) };
 });
 const mobilePacketConfig = [
-  { selector: ".mobile-flow-packet-primary", routeIndex: 0, delay: 0, speed: 1 },
-  { selector: ".mobile-flow-packet-secondary", routeIndex: 1, delay: 0.04, speed: 1.06 },
-  { selector: ".mobile-flow-packet-tertiary", routeIndex: 0, delay: 0.1, speed: 1.1 },
+  { selector: ".mobile-flow-packet-primary", routeIndex: 0, delay: 0, speed: 1.04 },
+  { selector: ".mobile-flow-packet-secondary", routeIndex: 1, delay: 0.035, speed: 1.08 },
+  { selector: ".mobile-flow-packet-tertiary", routeIndex: 2, delay: 0.085, speed: 0.96 },
+  { selector: ".mobile-flow-packet-quaternary", routeIndex: 1, delay: 0.16, speed: 1.18 },
 ];
 
 function clamp(value, min, max) {
@@ -95,6 +96,11 @@ function clamp(value, min, max) {
 
 function smoothStep(value) {
   return value * value * (3 - value * 2);
+}
+
+function easeOutCubic(value) {
+  const progress = clamp(value, 0, 1);
+  return 1 - (1 - progress) ** 3;
 }
 
 function softLinear(value) {
@@ -118,30 +124,55 @@ function getLayoutTop(element) {
   return top;
 }
 
-function readCssNumber(element, property) {
-  return Number.parseFloat(window.getComputedStyle(element).getPropertyValue(property)) || 0;
+function readComputedNumber(computedStyle, property) {
+  return Number.parseFloat(computedStyle.getPropertyValue(property)) || 0;
+}
+
+function getMobileMoveBounds(node, computedStyle) {
+  if (!traceShell) return { minMoveX: Number.NEGATIVE_INFINITY, maxMoveX: Number.POSITIVE_INFINITY };
+
+  const shellLeft = traceShell.getBoundingClientRect().left;
+  const viewportPadding = readComputedNumber(computedStyle, "--mobile-viewport-padding") || 10;
+  const leftGuard = readComputedNumber(computedStyle, "--mobile-left-guard") || 30;
+  const rightGuard = readComputedNumber(computedStyle, "--mobile-right-guard") || 6;
+  const nodeLeft = shellLeft + node.offsetLeft;
+
+  return {
+    minMoveX: viewportPadding + leftGuard - nodeLeft,
+    maxMoveX: window.innerWidth - viewportPadding - rightGuard - nodeLeft - node.offsetWidth,
+  };
+}
+
+function clampMoveX(value, min, max) {
+  if (min > max) return (min + max) / 2;
+  return clamp(value, min, max);
 }
 
 function refreshMetrics() {
   const documentMaxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
 
-  if (mobileLayout.matches && traceShell) {
-    const shellBottom = traceShell.getBoundingClientRect().bottom + window.scrollY;
-    const contentScrollEnd = Math.max(1, shellBottom - window.innerHeight * 1.05);
-    const naturalEnd = Math.min(documentMaxScroll, contentScrollEnd);
+  maxScroll = documentMaxScroll;
 
-    maxScroll = Math.max(1, naturalEnd * 0.62);
-  } else {
-    maxScroll = documentMaxScroll;
-  }
+  nodeMetrics = nodePanels.map((node, index) => {
+    const computedStyle = window.getComputedStyle(node);
+    const isMobile = mobileLayout.matches;
+    const bounds = isMobile
+      ? getMobileMoveBounds(node, computedStyle)
+      : { minMoveX: Number.NEGATIVE_INFINITY, maxMoveX: Number.POSITIVE_INFINITY };
 
-  nodeMetrics = nodePanels.map((node, index) => ({
-    node,
-    index,
-    layoutTop: getLayoutTop(node),
-    driftX: mobileLayout.matches ? readCssNumber(node, "--mobile-x-drift") : readCssNumber(node, "--x-drift"),
-    driftY: mobileLayout.matches ? readCssNumber(node, "--mobile-y-drift") : readCssNumber(node, "--y-drift"),
-  }));
+    return {
+      node,
+      index,
+      layoutTop: getLayoutTop(node),
+      driftX: isMobile ? readComputedNumber(computedStyle, "--mobile-x-drift") : readComputedNumber(computedStyle, "--x-drift"),
+      driftY: isMobile ? readComputedNumber(computedStyle, "--mobile-y-drift") : readComputedNumber(computedStyle, "--y-drift"),
+      mobileBiasX: isMobile ? readComputedNumber(computedStyle, "--mobile-x-bias") : 0,
+      mobileSway: isMobile ? readComputedNumber(computedStyle, "--mobile-sway") : 0,
+      mobileLift: isMobile ? readComputedNumber(computedStyle, "--mobile-lift") : 0,
+      mobilePhase: isMobile ? readComputedNumber(computedStyle, "--mobile-phase") : 0,
+      ...bounds,
+    };
+  });
   mobilePacketMetrics = mobilePacketConfig
     .map((config) => ({
       ...config,
@@ -207,9 +238,14 @@ function setProgress(force = false) {
   const scanY = isMobile ? -52 + progress * 96 : -58 + ambientProgress * 108;
 
   if (isMobile) {
-    setCssVar(styleTarget, "--mobile-flow-x", `${(Math.sin(progress * Math.PI) * 3).toFixed(1)}px`);
-    setCssVar(styleTarget, "--mobile-flow-y", `${((0.5 - ambientProgress) * 12).toFixed(1)}px`);
-    updateMobileFlow(progress, reduceMotion);
+    const mobileFlowProgress = reduceMotion ? 1 : rawProgress;
+    const flowEase = smoothStep(mobileFlowProgress);
+    const flowX = (0.5 - flowEase) * -16 + Math.sin(mobileFlowProgress * Math.PI) * 4;
+    const flowY = -12 + flowEase * 34;
+
+    setCssVar(styleTarget, "--mobile-flow-x", `${flowX.toFixed(1)}px`);
+    setCssVar(styleTarget, "--mobile-flow-y", `${flowY.toFixed(1)}px`);
+    updateMobileFlow(mobileFlowProgress, reduceMotion);
   } else {
     setCssVar(styleTarget, "--grid-x", `${gridX.toFixed(1)}px`);
     setCssVar(styleTarget, "--grid-y", `${gridY.toFixed(1)}px`);
@@ -231,38 +267,63 @@ function setProgress(force = false) {
     });
   }
 
-  nodeMetrics.forEach(({ node, index, layoutTop, driftX, driftY }) => {
+  nodeMetrics.forEach(({
+    node,
+    index,
+    layoutTop,
+    driftX,
+    driftY,
+    mobileBiasX,
+    mobileSway,
+    mobileLift,
+    mobilePhase,
+    minMoveX,
+    maxMoveX,
+  }) => {
     const viewportProgress = clamp(
       (window.scrollY + window.innerHeight * (isMobile ? 0.88 : 0.76) - layoutTop) /
         (window.innerHeight * (isMobile ? 0.58 : 0.86)),
       0,
       1
     );
-    const mobileNodeProgress = clamp(progress * 0.72 + viewportProgress * 0.48, 0, 1);
+    const mobileNodeProgress = clamp(rawProgress * 0.24 + viewportProgress * 0.86 - 0.06, 0, 1);
     const localProgress = reduceMotion
       ? 1
       : isMobile
         ? mobileNodeProgress
         : delayedProgress(progress, index * 0.1);
-    const localGlow = isMobile ? softLinear(localProgress) : smoothStep(localProgress);
+    const localGlow = isMobile ? easeOutCubic(localProgress) : smoothStep(localProgress);
     const baseOpacity = isMobile ? 0.58 : 0.36;
     let moveX = driftX * hiddenRatio * (isMobile ? 1 : 0.42);
     let moveY = driftY * hiddenRatio * (isMobile ? 1 : 0.42);
+    let mobileArc = 0;
 
     if (isMobile && !reduceMotion) {
-      const traceArc = Math.sin(localGlow * Math.PI);
-      const traceRipple = Math.sin(localGlow * Math.PI * 2) * (3 + index * 0.8);
-      const direction = index % 2 === 0 ? 1 : -1;
+      const settle = localGlow;
+      const scatter = 1 - settle;
+      const direction = mobilePhase >= 0.5 ? -1 : 1;
 
-      moveX = driftX * (1 - localGlow) + direction * (18 + index * 5) * traceArc + traceRipple;
-      moveY = driftY * (1 - localGlow) - (20 + index * 4.8) * traceArc;
+      mobileArc = Math.sin(settle * Math.PI);
+      moveX =
+        driftX * scatter +
+        mobileBiasX * settle +
+        direction * mobileSway * mobileArc * (0.72 - settle * 0.22);
+      moveY =
+        driftY * scatter -
+        (mobileLift || 18 + index * 3.5) * mobileArc * 0.36 +
+        index * 1.4 * scatter;
+      moveX = clampMoveX(moveX, minMoveX, maxMoveX);
     }
 
     setCssVar(node, "--node-opacity", (baseOpacity + localGlow * (1 - baseOpacity)).toFixed(3));
     setCssVar(node, "--move-x", `${moveX.toFixed(1)}px`);
     setCssVar(node, "--move-y", `${moveY.toFixed(1)}px`);
-    setCssVar(node, "--node-branch", `${(isMobile ? 10 + localGlow * 46 + Math.sin(localGlow * Math.PI) * 12 : localGlow * 12).toFixed(1)}px`);
-    setCssVar(node, "--node-scale", (0.9 + localGlow * 0.24).toFixed(3));
+    setCssVar(
+      node,
+      "--node-branch",
+      `${(isMobile ? 8 + localGlow * 26 + mobileArc * 5 + Math.max(0, moveX) * 0.22 : localGlow * 12).toFixed(1)}px`
+    );
+    setCssVar(node, "--node-scale", (0.94 + localGlow * 0.13).toFixed(3));
     setCssVar(node, "--node-glow-size", `${(18 + localGlow * (isMobile ? 18 : 14)).toFixed(1)}px`);
     setCssVar(node, "--node-line-opacity", (0.34 + localGlow * 0.66).toFixed(3));
     setCssVar(node, "--node-line-scale", (0.58 + localGlow * 0.42).toFixed(3));
