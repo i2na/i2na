@@ -14,14 +14,16 @@ const MOBILE_PACKET_STEPS = 160;
 
 let toastTimer = 0;
 let ticking = false;
-let scrollTimer = 0;
-let isScrolling = false;
 let maxScroll = 1;
 let nodeMetrics = [];
-let lastProgress = -1;
+let lastMobileProgress = -1;
 let mobilePacketMetrics = [];
 let styleValueCache = new WeakMap();
 let attributeValueCache = new WeakMap();
+let desktopAnimationFrame = 0;
+let desktopStartedAt = 0;
+
+const TWO_PI = Math.PI * 2;
 
 function setCssVar(element, property, value) {
   let cache = styleValueCache.get(element);
@@ -92,6 +94,14 @@ const mobilePacketConfig = [
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
+}
+
+function loopProgress(timestamp, duration, phase = 0) {
+  return (timestamp / duration + phase) % 1;
+}
+
+function sineProgress(timestamp, duration, phase = 0) {
+  return 0.5 + Math.sin(loopProgress(timestamp, duration, phase) * TWO_PI) * 0.5;
 }
 
 function smoothStep(value) {
@@ -212,60 +222,150 @@ function updateMobileFlow(progress, reduceMotion) {
   });
 }
 
-function setProgress(force = false) {
-  const isMobile = mobileLayout.matches;
+function setDesktopReducedMotion() {
+  setCssVar(styleTarget, "--grid-x", "0px");
+  setCssVar(styleTarget, "--grid-y", "0px");
+  setCssVar(styleTarget, "--rain-x", "0px");
+  setCssVar(styleTarget, "--layer-before-y", "0px");
+  setCssVar(styleTarget, "--shell-layer-x", "0px");
+  setCssVar(styleTarget, "--shell-layer-y", "0px");
+  setCssVar(styleTarget, "--shell-layer-inverse-x", "0px");
+  setCssVar(styleTarget, "--shell-layer-inverse-y", "0px");
+  setCssVar(styleTarget, "--floor-layer-y", "0px");
+  setCssVar(styleTarget, "--core-layer-y", "0px");
+  setCssVar(styleTarget, "--scan-y", "0px");
+  setCssVar(styleTarget, "--packet-one-distance", "100%");
+  setCssVar(styleTarget, "--packet-two-distance", "100%");
+  setCssVar(styleTarget, "--packet-three-distance", "100%");
+
+  routes.forEach(({ path }) => {
+    setCssVar(path, "--route-offset", "0");
+  });
+
+  nodeMetrics.forEach(({ node }) => {
+    setCssVar(node, "--node-opacity", "1");
+    setCssVar(node, "--move-x", "0px");
+    setCssVar(node, "--move-y", "0px");
+    setCssVar(node, "--node-branch", "12px");
+    setCssVar(node, "--node-scale", "1");
+    setCssVar(node, "--node-glow-size", "28px");
+    setCssVar(node, "--node-line-opacity", "0.9");
+    setCssVar(node, "--node-line-scale", "1");
+  });
+}
+
+function setDesktopMotion(timestamp) {
+  const elapsed = Math.max(0, timestamp - desktopStartedAt);
+  const gridX = (sineProgress(elapsed, 18000, 0.15) - 0.5) * 9;
+  const gridY = (sineProgress(elapsed, 22000, 0.45) - 0.5) * 12;
+  const rainX = (sineProgress(elapsed, 24000, 0.05) - 0.5) * 24;
+  const layerShift = (sineProgress(elapsed, 16000, 0.18) - 0.5) * 16;
+  const scanY = -52 + sineProgress(elapsed, 14500, 0.08) * 96;
+  const shellFactorX = 0.16;
+  const shellFactorY = -0.2;
+
+  setCssVar(styleTarget, "--grid-x", `${gridX.toFixed(1)}px`);
+  setCssVar(styleTarget, "--grid-y", `${gridY.toFixed(1)}px`);
+  setCssVar(styleTarget, "--rain-x", `${rainX.toFixed(1)}px`);
+  setCssVar(styleTarget, "--layer-before-y", `${(layerShift * -0.55).toFixed(1)}px`);
+  setCssVar(styleTarget, "--shell-layer-x", `${(layerShift * shellFactorX).toFixed(1)}px`);
+  setCssVar(styleTarget, "--shell-layer-y", `${(layerShift * shellFactorY).toFixed(1)}px`);
+  setCssVar(styleTarget, "--shell-layer-inverse-x", `${(layerShift * shellFactorX * -1).toFixed(1)}px`);
+  setCssVar(styleTarget, "--shell-layer-inverse-y", `${(layerShift * shellFactorY * -1).toFixed(1)}px`);
+  setCssVar(styleTarget, "--floor-layer-y", `${(layerShift * -0.28).toFixed(1)}px`);
+  setCssVar(styleTarget, "--core-layer-y", `${(layerShift * -0.12).toFixed(1)}px`);
+  setCssVar(styleTarget, "--scan-y", `${scanY.toFixed(1)}svh`);
+  setCssVar(styleTarget, "--packet-one-distance", `${(loopProgress(elapsed, 16500, 0.04) * 100).toFixed(1)}%`);
+  setCssVar(styleTarget, "--packet-two-distance", `${(loopProgress(elapsed, 19000, 0.38) * 100).toFixed(1)}%`);
+  setCssVar(styleTarget, "--packet-three-distance", `${(loopProgress(elapsed, 21000, 0.68) * 100).toFixed(1)}%`);
+
+  routes.forEach(({ path, length }, index) => {
+    const routeReveal = 0.72 + sineProgress(elapsed, 17000 + index * 1300, 0.24 + index * 0.12) * 0.26;
+
+    setCssVar(path, "--route-offset", (length * (1 - routeReveal)).toFixed(1));
+  });
+
+  nodeMetrics.forEach(({ node, index, driftX, driftY }) => {
+    const orbit = loopProgress(elapsed, 8200 + index * 700, index * 0.17) * TWO_PI;
+    const localGlow = 0.62 + sineProgress(elapsed, 9400 + index * 620, 0.24 + index * 0.11) * 0.38;
+    const amplitude = 1.8 + index * 0.24;
+    const moveX = driftX * 0.08 + Math.sin(orbit) * amplitude;
+    const moveY = driftY * 0.08 + Math.cos(orbit * 0.82) * amplitude * 0.78;
+
+    setCssVar(node, "--node-opacity", (0.72 + localGlow * 0.28).toFixed(3));
+    setCssVar(node, "--move-x", `${moveX.toFixed(1)}px`);
+    setCssVar(node, "--move-y", `${moveY.toFixed(1)}px`);
+    setCssVar(node, "--node-branch", `${(7 + localGlow * 7).toFixed(1)}px`);
+    setCssVar(node, "--node-scale", (0.98 + localGlow * 0.05).toFixed(3));
+    setCssVar(node, "--node-glow-size", `${(22 + localGlow * 10).toFixed(1)}px`);
+    setCssVar(node, "--node-line-opacity", (0.52 + localGlow * 0.44).toFixed(3));
+    setCssVar(node, "--node-line-scale", (0.82 + localGlow * 0.18).toFixed(3));
+  });
+}
+
+function runDesktopMotion(timestamp) {
+  if (mobileLayout.matches || reducedMotion.matches) {
+    desktopAnimationFrame = 0;
+
+    if (!mobileLayout.matches) {
+      setDesktopReducedMotion();
+    }
+
+    return;
+  }
+
+  setDesktopMotion(timestamp);
+  desktopAnimationFrame = window.requestAnimationFrame(runDesktopMotion);
+}
+
+function stopDesktopMotion() {
+  if (!desktopAnimationFrame) return;
+
+  window.cancelAnimationFrame(desktopAnimationFrame);
+  desktopAnimationFrame = 0;
+}
+
+function startDesktopMotion() {
+  if (mobileLayout.matches) {
+    stopDesktopMotion();
+    return;
+  }
+
+  if (reducedMotion.matches) {
+    stopDesktopMotion();
+    setDesktopReducedMotion();
+    return;
+  }
+
+  if (desktopAnimationFrame) {
+    setDesktopMotion(window.performance.now());
+    return;
+  }
+
+  desktopStartedAt = window.performance.now();
+  setDesktopMotion(desktopStartedAt);
+  desktopAnimationFrame = window.requestAnimationFrame(runDesktopMotion);
+}
+
+function setMobileProgress(force = false) {
   const reduceMotion = reducedMotion.matches;
   const rawProgress = reduceMotion ? 1 : clamp(window.scrollY / maxScroll, 0, 1);
-  const progressThreshold = isMobile ? 0.0014 : 0.0008;
+  const progressThreshold = 0.0014;
 
-  if (!force && Math.abs(rawProgress - lastProgress) < progressThreshold) return;
-  lastProgress = rawProgress;
+  if (!force && Math.abs(rawProgress - lastMobileProgress) < progressThreshold) return;
+  lastMobileProgress = rawProgress;
 
-  const progress = isMobile
-    ? Math.pow(rawProgress, 0.62)
-    : Math.pow(rawProgress, 1.42);
-  const ambientProgress = isMobile
-    ? Math.pow(rawProgress, 0.72)
-    : Math.pow(rawProgress, 1.34);
+  const progress = Math.pow(rawProgress, 0.62);
   const lineReveal = clamp(progress, 0, 1);
   const hiddenRatio = 1 - lineReveal;
-  const layerShift = (ambientProgress - 0.5) * (isMobile ? 72 : 14);
-  const shellFactorX = isMobile ? 0.34 : 0.12;
-  const shellFactorY = isMobile ? -0.56 : -0.18;
-  const gridX = ambientProgress * (isMobile ? -84 : -7);
-  const gridY = ambientProgress * (isMobile ? 98 : 13);
-  const rainX = ambientProgress * (isMobile ? 128 : 16);
-  const scanY = isMobile ? -52 + progress * 96 : -58 + ambientProgress * 108;
+  const mobileFlowProgress = reduceMotion ? 1 : rawProgress;
+  const flowEase = smoothStep(mobileFlowProgress);
+  const flowX = (0.5 - flowEase) * -16 + Math.sin(mobileFlowProgress * Math.PI) * 4;
+  const flowY = -12 + flowEase * 34;
 
-  if (isMobile) {
-    const mobileFlowProgress = reduceMotion ? 1 : rawProgress;
-    const flowEase = smoothStep(mobileFlowProgress);
-    const flowX = (0.5 - flowEase) * -16 + Math.sin(mobileFlowProgress * Math.PI) * 4;
-    const flowY = -12 + flowEase * 34;
-
-    setCssVar(styleTarget, "--mobile-flow-x", `${flowX.toFixed(1)}px`);
-    setCssVar(styleTarget, "--mobile-flow-y", `${flowY.toFixed(1)}px`);
-    updateMobileFlow(mobileFlowProgress, reduceMotion);
-  } else {
-    setCssVar(styleTarget, "--grid-x", `${gridX.toFixed(1)}px`);
-    setCssVar(styleTarget, "--grid-y", `${gridY.toFixed(1)}px`);
-    setCssVar(styleTarget, "--rain-x", `${rainX.toFixed(1)}px`);
-    setCssVar(styleTarget, "--layer-before-y", `${(layerShift * -0.55).toFixed(1)}px`);
-    setCssVar(styleTarget, "--shell-layer-x", `${(layerShift * shellFactorX).toFixed(1)}px`);
-    setCssVar(styleTarget, "--shell-layer-y", `${(layerShift * shellFactorY).toFixed(1)}px`);
-    setCssVar(styleTarget, "--shell-layer-inverse-x", `${(layerShift * shellFactorX * -1).toFixed(1)}px`);
-    setCssVar(styleTarget, "--shell-layer-inverse-y", `${(layerShift * shellFactorY * -1).toFixed(1)}px`);
-    setCssVar(styleTarget, "--floor-layer-y", `${(layerShift * -0.28).toFixed(1)}px`);
-    setCssVar(styleTarget, "--core-layer-y", `${(layerShift * -0.12).toFixed(1)}px`);
-    setCssVar(styleTarget, "--scan-y", `${scanY.toFixed(1)}svh`);
-    setCssVar(styleTarget, "--packet-one-distance", `${(delayedProgress(progress, 0) * 100).toFixed(1)}%`);
-    setCssVar(styleTarget, "--packet-two-distance", `${(delayedProgress(progress, 0.12) * 100).toFixed(1)}%`);
-    setCssVar(styleTarget, "--packet-three-distance", `${(delayedProgress(progress, 0.22) * 100).toFixed(1)}%`);
-
-    routes.forEach(({ path, length }) => {
-      setCssVar(path, "--route-offset", (length * hiddenRatio).toFixed(1));
-    });
-  }
+  setCssVar(styleTarget, "--mobile-flow-x", `${flowX.toFixed(1)}px`);
+  setCssVar(styleTarget, "--mobile-flow-y", `${flowY.toFixed(1)}px`);
+  updateMobileFlow(mobileFlowProgress, reduceMotion);
 
   nodeMetrics.forEach(({
     node,
@@ -281,24 +381,20 @@ function setProgress(force = false) {
     maxMoveX,
   }) => {
     const viewportProgress = clamp(
-      (window.scrollY + window.innerHeight * (isMobile ? 0.88 : 0.76) - layoutTop) /
-        (window.innerHeight * (isMobile ? 0.58 : 0.86)),
+      (window.scrollY + window.innerHeight * 0.88 - layoutTop) /
+        (window.innerHeight * 0.58),
       0,
       1
     );
     const mobileNodeProgress = clamp(rawProgress * 0.24 + viewportProgress * 0.86 - 0.06, 0, 1);
-    const localProgress = reduceMotion
-      ? 1
-      : isMobile
-        ? mobileNodeProgress
-        : delayedProgress(progress, index * 0.1);
-    const localGlow = isMobile ? easeOutCubic(localProgress) : smoothStep(localProgress);
-    const baseOpacity = isMobile ? 0.58 : 0.36;
-    let moveX = driftX * hiddenRatio * (isMobile ? 1 : 0.42);
-    let moveY = driftY * hiddenRatio * (isMobile ? 1 : 0.42);
+    const localProgress = reduceMotion ? 1 : mobileNodeProgress;
+    const localGlow = easeOutCubic(localProgress);
+    const baseOpacity = 0.58;
+    let moveX = driftX * hiddenRatio;
+    let moveY = driftY * hiddenRatio;
     let mobileArc = 0;
 
-    if (isMobile && !reduceMotion) {
+    if (!reduceMotion) {
       const settle = localGlow;
       const scatter = 1 - settle;
       const direction = mobilePhase >= 0.5 ? -1 : 1;
@@ -321,36 +417,23 @@ function setProgress(force = false) {
     setCssVar(
       node,
       "--node-branch",
-      `${(isMobile ? 8 + localGlow * 26 + mobileArc * 5 + Math.max(0, moveX) * 0.22 : localGlow * 12).toFixed(1)}px`
+      `${(8 + localGlow * 26 + mobileArc * 5 + Math.max(0, moveX) * 0.22).toFixed(1)}px`
     );
     setCssVar(node, "--node-scale", (0.94 + localGlow * 0.13).toFixed(3));
-    setCssVar(node, "--node-glow-size", `${(18 + localGlow * (isMobile ? 18 : 14)).toFixed(1)}px`);
+    setCssVar(node, "--node-glow-size", `${(18 + localGlow * 18).toFixed(1)}px`);
     setCssVar(node, "--node-line-opacity", (0.34 + localGlow * 0.66).toFixed(3));
     setCssVar(node, "--node-line-scale", (0.58 + localGlow * 0.42).toFixed(3));
   });
 }
 
-function requestProgressUpdate() {
-  const shouldPauseAmbientAnimation = !mobileLayout.matches && !reducedMotion.matches;
-
-  if (shouldPauseAmbientAnimation && !isScrolling) {
-    isScrolling = true;
-    document.body.classList.add("is-scrolling");
-  }
-
-  if (shouldPauseAmbientAnimation) {
-    window.clearTimeout(scrollTimer);
-    scrollTimer = window.setTimeout(() => {
-      isScrolling = false;
-      document.body.classList.remove("is-scrolling");
-    }, 140);
-  }
+function requestMobileProgressUpdate() {
+  if (!mobileLayout.matches) return;
 
   if (ticking) return;
   ticking = true;
 
   window.requestAnimationFrame(() => {
-    setProgress();
+    setMobileProgress();
     ticking = false;
   });
 }
@@ -405,10 +488,17 @@ function fallbackCopy(text) {
   }
 }
 
-window.addEventListener("scroll", requestProgressUpdate, { passive: true });
+window.addEventListener("scroll", requestMobileProgressUpdate, { passive: true });
 function refreshAndUpdate() {
   refreshMetrics();
-  setProgress(true);
+  lastMobileProgress = -1;
+
+  if (mobileLayout.matches) {
+    stopDesktopMotion();
+    setMobileProgress(true);
+  } else {
+    startDesktopMotion();
+  }
 }
 
 window.addEventListener("resize", refreshAndUpdate);
@@ -422,4 +512,8 @@ if (typeof reducedMotion.addEventListener === "function") {
 copyButton?.addEventListener("click", copyEmail);
 
 refreshMetrics();
-setProgress(true);
+if (mobileLayout.matches) {
+  setMobileProgress(true);
+} else {
+  startDesktopMotion();
+}

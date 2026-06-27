@@ -44,7 +44,7 @@ html {
 }
 
 body {
-  min-height: 260svh;
+  min-height: 100svh;
   margin: 0;
   overflow-x: hidden;
   background:
@@ -70,8 +70,7 @@ a {
 }
 
 .profile-stage {
-  position: sticky;
-  top: 0;
+  position: relative;
   min-height: 100svh;
   overflow: hidden;
   isolation: isolate;
@@ -723,12 +722,6 @@ h2 {
 .toast.is-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0);
-}
-
-body.is-scrolling .spark,
-body.is-scrolling .sweep::after,
-body.is-scrolling .scan-core {
-  animation-play-state: paused;
 }
 
 @media (hover: hover) and (pointer: fine) {
