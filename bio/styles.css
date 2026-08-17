@@ -169,7 +169,7 @@ a {
   position: relative;
   width: min(1220px, calc(100vw - 24px));
   min-height: min(800px, calc(100svh - 24px));
-  margin: 12px auto;
+  margin: max(12px, calc((100svh - 800px) / 2)) auto;
   overflow: hidden;
   contain: layout paint style;
 }
@@ -667,8 +667,8 @@ h2 {
 }
 
 .hackathon {
-  left: 16%;
-  top: 66%;
+  left: 12%;
+  top: 67%;
   width: min(280px, 24vw);
   --node-color: var(--amber);
   --node-glow-color: rgba(243, 170, 35, 0.58);
@@ -678,8 +678,8 @@ h2 {
 
 .work {
   left: 44%;
-  top: 74%;
-  width: min(250px, 22vw);
+  top: 70%;
+  width: min(330px, 28vw);
   --node-color: var(--blue);
   --node-glow-color: rgba(73, 105, 255, 0.62);
   --x-drift: 14px;
@@ -771,24 +771,25 @@ h2 {
   }
 
   .hackathon {
-    left: 8%;
-    top: 60%;
+    left: 4%;
+    top: 65%;
     width: min(270px, 31vw);
   }
 
   .work {
-    left: 42%;
-    top: 72%;
+    left: 40%;
+    top: 68%;
+    width: min(310px, 32vw);
   }
 
   .location {
-    left: 72%;
+    left: 74%;
     top: 62%;
   }
 
   .links {
-    left: 70%;
-    top: 76%;
+    left: 74%;
+    top: 72%;
   }
 }
 
@@ -1087,7 +1088,7 @@ h2 {
   }
 
   .work {
-    --mobile-node-width: 250px;
+    --mobile-node-width: 292px;
     --mobile-node-offset: 12px;
     --mobile-x-drift: 58px;
     --mobile-y-drift: 134px;

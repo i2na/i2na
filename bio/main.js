@@ -459,7 +459,7 @@ async function copyEmail() {
     showToast("Email copied to clipboard.");
   } catch {
     const copied = fallbackCopy(email);
-    showToast(copied ? "Email copied to clipboard." : "Copy failed. Email: yena@moss.land");
+    showToast(copied ? "Email copied to clipboard." : `Copy failed. Email: ${email}`);
   }
 }
 
