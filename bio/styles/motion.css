@@ -1,0 +1,271 @@
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  32% {
+    translate: 2px -6px;
+  }
+
+  66% {
+    translate: -2px 4px;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: var(--route-length, 4000);
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes ring {
+  from {
+    opacity: 0.9;
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+@keyframes sparkPulse {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.72);
+  }
+
+  45% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes sweepRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes coreBlink {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: scaleY(0.7);
+  }
+
+  46% {
+    opacity: 0.88;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes gridDrift {
+  from {
+    transform: translate3d(-4px, -6px, 0);
+  }
+
+  to {
+    transform: translate3d(5px, 6px, 0);
+  }
+}
+
+@keyframes rainDrift {
+  from {
+    transform: translate3d(-12px, 0, 0);
+  }
+
+  to {
+    transform: translate3d(12px, 0, 0);
+  }
+}
+
+.grid-plane {
+  animation: gridDrift 26s var(--ease-soft) infinite alternate;
+}
+
+.signal-rain {
+  animation: rainDrift 24s var(--ease-soft) infinite alternate;
+}
+
+.spark {
+  animation: sparkPulse 4.8s ease-in-out infinite;
+}
+
+.spark-b,
+.spark-e {
+  animation-delay: -1.4s;
+}
+
+.spark-c,
+.spark-f {
+  animation-delay: -2.6s;
+}
+
+.spark-d {
+  animation-delay: -3.2s;
+}
+
+.sweep::after {
+  animation: sweepRotate 9s linear infinite;
+}
+
+.sweep-two::after {
+  animation-duration: 12s;
+  animation-direction: reverse;
+}
+
+.scan-core {
+  animation: coreBlink 3.6s ease-in-out infinite;
+}
+
+.pill::before {
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+.node--now .node-marker::after {
+  animation: ring 2.6s var(--ease-out) infinite;
+}
+
+.now-cap .now-ring {
+  animation: ring 2.6s var(--ease-out) infinite;
+}
+
+.lang-switch,
+.identity-main > *,
+.intro,
+.identity-links,
+.timeline-head {
+  opacity: 0;
+}
+
+.is-ready .lang-switch,
+.is-ready .identity-main > *,
+.is-ready .intro,
+.is-ready .identity-links,
+.is-ready .timeline-head {
+  animation: rise 0.8s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+.is-ready .identity-links {
+  --i: 5;
+}
+
+.is-ready .timeline-head {
+  --i: 6;
+}
+
+@media (min-width: 1024px) {
+  .node-body,
+  .node-marker {
+    opacity: 0;
+  }
+
+  .is-ready .node-body {
+    animation:
+      rise 0.9s var(--ease-out) both,
+      float var(--float-dur, 7s) var(--ease-soft) infinite;
+    animation-delay: calc(0.55s + var(--i, 0) * 130ms), var(--float-delay, 0s);
+  }
+
+  .is-ready .node-marker {
+    animation: rise 0.6s var(--ease-out) both;
+    animation-delay: calc(0.45s + var(--i, 0) * 130ms);
+  }
+
+  .is-ready .route {
+    animation: draw 1.8s var(--ease-out) both;
+    animation-delay: 0.3s;
+  }
+}
+
+@media (max-width: 1023px) {
+  .node-body {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s var(--ease-out),
+      transform 0.7s var(--ease-out);
+  }
+
+  .node-marker {
+    opacity: 0.35;
+    transform: scale(0.6);
+    transition:
+      opacity 0.5s var(--ease-out),
+      transform 0.5s var(--ease-out);
+  }
+
+  .node.is-in .node-body {
+    opacity: 1;
+    transform: none;
+  }
+
+  .node.is-in .node-marker {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 1ms !important;
+  }
+
+  .lang-switch,
+  .identity-main > *,
+  .intro,
+  .identity-links,
+  .timeline-head,
+  .node-body,
+  .node-marker {
+    opacity: 1;
+    transform: none;
+  }
+
+  .route {
+    stroke-dashoffset: 0;
+  }
+
+  .packet {
+    display: none;
+  }
+}

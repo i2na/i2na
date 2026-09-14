@@ -1,0 +1,13 @@
+{
+  "name": "YENA",
+  "short_name": "YENA",
+  "description": "Yena, digital twin software developer.",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#fbfdff",
+  "theme_color": "#fbfdff",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
