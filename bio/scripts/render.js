@@ -35,12 +35,12 @@ function langSwitch(locale, onLocale) {
   );
 }
 
-function linkChip(channel) {
+function linkChip(channel, locale) {
   return h(
     "a",
     {
       class: channel.text ? "chip" : "chip chip--icon",
-      href: channel.href,
+      href: channel.localized ? `${channel.href}/${locale}` : channel.href,
       target: "_blank",
       rel: "noopener noreferrer",
       "aria-label": channel.label,
@@ -75,7 +75,7 @@ function identity(locale, onLocale, onCopy) {
   const links = h(
     "div",
     { class: "identity-links" },
-    h("div", { class: "channels" }, profile.channels.map(linkChip), copyChip(locale, profile.email, onCopy)),
+    h("div", { class: "channels" }, profile.channels.map((channel) => linkChip(channel, locale)), copyChip(locale, profile.email, onCopy)),
     h("p", { class: "location" }, icon("pin"), t(locale, "location"))
   );
 
@@ -105,7 +105,7 @@ function node(item, index, locale) {
       h("p", { class: "node-index" }, h("span", {}, `${item.kind} / ${dates}`), now && h("span", { class: "pill" }, "now")),
       h("h2", {}, item.title),
       item.lines.map((key) => h("p", { class: "node-line" }, t(locale, key))),
-      item.channels && h("div", { class: "node-channels" }, item.channels.map(linkChip))
+      item.channels && h("div", { class: "node-channels" }, item.channels.map((channel) => linkChip(channel, locale)))
     )
   );
 }

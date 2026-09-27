@@ -5,6 +5,7 @@ export const profile = {
     { icon: "github", label: "GitHub", href: "https://github.com/i2na", text: "i2na" },
     { icon: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/i2na/", text: "in/i2na" },
     { icon: "instagram", label: "Instagram", href: "https://instagram.com/2ye._na", text: "2ye._na" },
+    { icon: "article", label: "Blog", href: "https://blog.yena.io.kr", text: "blog", localized: true },
   ],
 };
 
