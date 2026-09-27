@@ -59,11 +59,11 @@ const imageUrl = absolute(image);
     <meta name="twitter:image" content={imageUrl} />
     {site.verification.google && <meta name="google-site-verification" content={site.verification.google} />}
     {site.verification.naver && <meta name="naver-site-verification" content={site.verification.naver} />}
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="mask-icon" href="/favicon.svg" color="#4969ff" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48" href="/favicon.ico?v=3" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+    <link rel="manifest" href="/site.webmanifest?v=3" />
     <link rel="expect" href="#footer" blocking="render" />
     <script is:inline set:html={headScript} />
     <slot name="head" />

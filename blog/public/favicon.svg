@@ -1,10 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <defs>
-    <linearGradient id="route" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#17c8bf"/>
-      <stop offset=".5" stop-color="#4969ff"/>
-      <stop offset="1" stop-color="#ff5f9f"/>
-    </linearGradient>
+    <radialGradient id="glow" cx="23.4" cy="23.1" r="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff5f9f" stop-opacity=".45"/>
+      <stop offset=".4" stop-color="#ff5f9f" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#ff5f9f" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <path d="M3.1 2.9 8 8.4 12.9 2.9M8 8.4V13.2" fill="none" stroke="url(#route)" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect width="32" height="32" rx="7.5" fill="#071018"/>
+  <circle cx="23.4" cy="23.1" r="8" fill="url(#glow)"/>
+  <path d="M7.5 9 14 16.4 20.5 9M14 16.4v7.1" fill="none" stroke="#fbfdff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="23.4" cy="23.1" r="2.4" fill="#ff5f9f"/>
 </svg>
