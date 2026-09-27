@@ -1,7 +1,7 @@
 {
   "name": "YENA",
   "short_name": "YENA",
-  "description": "Yena, digital twin software developer.",
+  "description": "디지털 트윈 소프트웨어 개발자 YENA",
   "start_url": "./",
   "display": "browser",
   "background_color": "#fbfdff",

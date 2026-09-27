@@ -2,27 +2,38 @@ import { renderApp } from "./render.js";
 import { desktopQuery, startMotion } from "./motion.js";
 import { resolveLocale, t } from "./i18n.js";
 
-const STORAGE_KEY = "yena.locale";
+const COOKIE = "yena.locale";
 const root = document.getElementById("app");
 const toast = document.querySelector(".toast");
 
-let locale = resolveLocale(readStored());
+let locale = resolveLocale(takeQueryLocale(), readStored(), ...navigator.languages.map((tag) => tag.slice(0, 2).toLowerCase()));
 let stopMotion = () => {};
 let toastTimer = 0;
 
+function takeQueryLocale() {
+  const url = new URL(location.href);
+  const code = url.searchParams.get("lang");
+  if (code) {
+    url.searchParams.delete("lang");
+    history.replaceState(null, "", url);
+  }
+  return code;
+}
+
 function readStored() {
   try {
-    return localStorage.getItem(STORAGE_KEY);
+    return document.cookie.match(/(?:^|;\s*)yena\.locale=(\w+)/)?.[1] ?? null;
   } catch {
     return null;
   }
 }
 
 function store(code) {
+  const domain = location.hostname.endsWith("yena.io.kr") ? "; domain=yena.io.kr" : "";
   try {
-    localStorage.setItem(STORAGE_KEY, code);
+    document.cookie = `${COOKIE}=${code}; path=/; max-age=31536000; samesite=lax${domain}`;
   } catch {
-    /* storage unavailable */
+    /* cookies unavailable */
   }
 }
 
