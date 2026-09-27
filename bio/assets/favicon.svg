@@ -1,9 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <defs>
-    <mask id="split" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">
-      <path d="M0 0h64v64H0z" fill="#fff"/>
-      <path d="m13.5 10 18.5 23L50.5 10M32 33v24" fill="none" stroke="#000" stroke-width="3"/>
-    </mask>
+    <radialGradient id="glow" cx="23.4" cy="23.1" r="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#17c8bf" stop-opacity=".45"/>
+      <stop offset=".4" stop-color="#17c8bf" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#17c8bf" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <path d="M6 10h15l11 15 11-15h15L40 35v21H24V35Z" fill="#000" mask="url(#split)"/>
+  <rect width="32" height="32" rx="7.5" fill="#071018"/>
+  <circle cx="23.4" cy="23.1" r="8" fill="url(#glow)"/>
+  <path d="M7.5 9 14 16.4 20.5 9M14 16.4v7.1" fill="none" stroke="#fbfdff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="23.4" cy="23.1" r="2.4" fill="#17c8bf"/>
 </svg>
