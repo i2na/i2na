@@ -61,8 +61,10 @@ document.addEventListener("click", (event) => {
   const target = (event.target as Element).closest<HTMLElement>("[data-locale], [data-copy], [data-share]");
   if (!target) return;
   const { locale, copy: text } = target.dataset;
-  if (locale) storeLocale(locale);
-  else if (text) copy(text).then((copied) => showToast(copied ? target.dataset.done : target.dataset.failed));
+  if (locale) {
+    storeLocale(locale);
+    if (target.getAttribute("aria-current") === "true" && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) event.preventDefault();
+  } else if (text) copy(text).then((copied) => showToast(copied ? target.dataset.done : target.dataset.failed));
   else share(target);
 });
 
