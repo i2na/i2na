@@ -39,7 +39,7 @@ const jsonLd = {
   inLanguage: contentLang,
   image: new URL(image, site.url).href,
   url,
-  author: { "@type": "Person", name: site.author, url: site.bio },
+  author: { "@type": "Person", name: site.author, url: site.profile },
 };
 ---
 
@@ -118,7 +118,7 @@ const jsonLd = {
         <Share lang={lang} title={view.title} url={url} />
       </div>
 
-      <a class="group mt-10 flex items-center gap-4" href={`${site.bio}/?lang=${lang}`} data-reveal>
+      <a class="group mt-10 flex items-center gap-4" href={`${site.profile}/?lang=${lang}`} data-reveal>
         <span class="grid size-11 flex-none place-items-center rounded-full border border-hairline bg-white">
           <svg class="size-5" viewBox="3 3 26 26" aria-hidden="true">
             <path d="M7.5 9 14 16.4 20.5 9M14 16.4v7.1" fill="none" stroke="#071018" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />

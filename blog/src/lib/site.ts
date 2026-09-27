@@ -1,6 +1,6 @@
 export const site = {
   url: "https://blog.yena.io.kr",
-  bio: "https://yena.io.kr",
+  profile: "https://yena.io.kr",
   name: "YENA Blog",
   author: "YENA",
   email: "yena@atrn.ai",
