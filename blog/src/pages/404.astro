@@ -1,0 +1,49 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Icon from "../components/Icon.astro";
+import Base from "../layouts/Base.astro";
+import { defaultLocale, langTag, localePath, localePaths, locales, t } from "../lib/i18n";
+---
+
+<Base lang={defaultLocale} title="404" description={t(defaultLocale, "notFoundLead")} paths={localePaths()} noindex>
+  <section class="frame pt-16 pb-8 lg:pt-28">
+    <p class="eyebrow" style="--accent: var(--color-pink); --accent-glow: rgba(255, 95, 159, 0.55)" data-reveal>Error / 404</p>
+    <p class="mt-5 text-[5.5rem] leading-[0.86] font-[780] tracking-[-0.01em] sm:text-[7rem]" aria-hidden="true" data-reveal>404</p>
+    {
+      locales.map((code) => (
+        <div class="mt-8" lang={langTag[code]} data-notfound={code} hidden={code !== defaultLocale} data-reveal>
+          <h1 class="text-[1.5rem] leading-[1.3] font-bold sm:text-[1.75rem]">{t(code, "notFound")}</h1>
+          <p class="mt-3 text-[1rem] leading-[1.65] text-ink-soft">{t(code, "notFoundLead")}</p>
+          <a class="mt-8 inline-flex items-center gap-1.5 text-[0.92rem] font-semibold text-ink transition-colors hover:text-blue" href={localePath(code)}>
+            <Icon name="arrow-left" class="size-4" />
+            <span>{t(code, "home")}</span>
+          </a>
+        </div>
+      ))
+    }
+  </section>
+  <Fragment slot="end">
+    {
+      locales
+        .filter((code) => code !== defaultLocale)
+        .map((code) => (
+          <template data-chrome={code}>
+            <a class="skip-link" href="#main">{t(code, "skip")}</a>
+            <Header lang={code} paths={localePaths()} />
+            <Footer lang={code} />
+          </template>
+        ))
+    }
+    <script is:inline define:vars={{ locales, tags: langTag }}>
+      const stored = document.cookie.match(/(?:^|;\s*)yena\.locale=(\w+)/)?.[1];
+      const code = [location.pathname.split("/")[1], stored, ...navigator.languages.map((tag) => tag.slice(0, 2).toLowerCase())].find((value) => locales.includes(value));
+      const chrome = document.querySelector(`template[data-chrome="${code}"]`)?.content;
+      if (chrome) {
+        document.documentElement.lang = tags[code];
+        document.querySelectorAll("[data-notfound]").forEach((block) => (block.hidden = block.dataset.notfound !== code));
+        for (const selector of [".skip-link", ".site-header", "#footer"]) document.querySelector(selector).replaceWith(chrome.querySelector(selector));
+      }
+    </script>
+  </Fragment>
+</Base>

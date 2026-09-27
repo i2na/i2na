@@ -1,0 +1,21 @@
+---
+import { Image } from "astro:assets";
+import type { PostView } from "../lib/posts";
+
+interface Props {
+  view: PostView;
+  sizes: string;
+  eager?: boolean;
+}
+
+const { view, sizes, eager = false } = Astro.props;
+const loading = eager ? "eager" : "lazy";
+---
+
+{
+  view.thumbnail ? (
+    <Image src={view.thumbnail} alt="" widths={[480, 800, 1200]} sizes={sizes} loading={loading} fetchpriority={eager ? "high" : undefined} />
+  ) : (
+    <img src={`/og/${view.slug}.png`} alt="" width="1200" height="630" loading={loading} decoding="async" />
+  )
+}

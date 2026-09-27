@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths } from "astro";
+import Listing from "../../../components/Listing.astro";
+import Base from "../../../layouts/Base.astro";
+import { localePaths, locales, t } from "../../../lib/i18n";
+import { getPosts, getTags, tagSlug } from "../../../lib/posts";
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return locales.flatMap((lang) => getTags(posts).map((tag) => ({ params: { lang, tag: tagSlug(tag) }, props: { lang, tag, posts } })));
+}) satisfies GetStaticPaths;
+
+const { lang, tag, posts } = Astro.props;
+---
+
+<Base lang={lang} title={`#${tag}`} description={t(lang, "description")} paths={localePaths("tags", tagSlug(tag))}>
+  <Listing lang={lang} posts={posts} shown={posts.filter((post) => post.tags.includes(tag))} activeTag={tag} />
+</Base>

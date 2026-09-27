@@ -1,0 +1,24 @@
+---
+import { t, type Locale } from "../lib/i18n";
+import Icon from "./Icon.astro";
+
+interface Props {
+  lang: Locale;
+  title: string;
+  url: string;
+}
+
+const { lang, title, url } = Astro.props;
+---
+
+<button
+  class="inline-flex h-8 items-center gap-1.5 rounded-full border border-hairline px-3 text-[0.84rem] text-ink-soft transition-colors hover:border-[rgba(7,16,24,0.28)] hover:text-ink"
+  type="button"
+  data-share={url}
+  data-title={title}
+  data-done={t(lang, "linkCopied")}
+  data-failed={t(lang, "linkFailed")}
+>
+  <Icon name="share" class="size-[15px]" />
+  <span>{t(lang, "share")}</span>
+</button>

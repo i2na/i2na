@@ -1,0 +1,46 @@
+---
+import { localePath, t, type Locale } from "../lib/i18n";
+import { formatDate, getTags, tagSlug, viewOf, type Post } from "../lib/posts";
+import PostCard from "./PostCard.astro";
+
+interface Props {
+  lang: Locale;
+  posts: Post[];
+  shown: Post[];
+  activeTag?: string;
+}
+
+const { lang, posts, shown, activeTag } = Astro.props;
+const since = posts.length ? formatDate(posts[posts.length - 1].date).slice(0, 4) : null;
+---
+
+<div class="frame pt-8 pb-5 lg:pt-12 lg:pb-6">
+  <h1 class="eyebrow" data-reveal>Notes{since && ` / ${since} → now`}</h1>
+</div>
+
+<nav class="frame" aria-label={t(lang, "tags")} data-reveal>
+  <ul class="tag-bar" data-tag-bar>
+    <li>
+      <a class="tag-chip" href={localePath(lang)} aria-current={activeTag ? undefined : "page"}>{t(lang, "all")}</a>
+    </li>
+    {
+      getTags(posts).map((tag) => (
+        <li>
+          <a class="tag-chip" href={localePath(lang, "tags", tagSlug(tag))} aria-current={tag === activeTag ? "page" : undefined}>
+            #{tag}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<ul class="frame mt-7 grid gap-x-7 gap-y-12 sm:grid-cols-2 lg:mt-8 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-14">
+  {
+    shown.map((post) => (
+      <li data-reveal>
+        <PostCard view={viewOf(post, lang)} />
+      </li>
+    ))
+  }
+</ul>

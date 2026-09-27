@@ -1,0 +1,19 @@
+---
+interface Props {
+  variant: "field" | "plain";
+}
+
+const { variant } = Astro.props;
+---
+
+<div class:list={["backdrop", `backdrop--${variant}`]} aria-hidden="true">
+  {
+    variant === "field" && (
+      <svg class="backdrop-field" viewBox="0 0 1280 820" preserveAspectRatio="xMidYMid slice">
+        <path class="field-line field-cyan" d="M-30 594 C190 468 338 546 514 454 C720 346 842 214 1084 272 C1172 292 1246 268 1322 208" />
+        <path class="field-line field-blue" d="M-24 284 C168 142 314 210 472 290 C664 386 818 310 954 202 C1068 112 1172 120 1306 178" />
+        <path class="field-line field-pink" d="M40 724 C206 642 364 734 530 654 C706 568 818 594 986 650 C1120 694 1202 646 1298 564" />
+      </svg>
+    )
+  }
+</div>

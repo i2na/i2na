@@ -1,0 +1,37 @@
+---
+import { defaultLocale, localePath, locales, ogLocale, t } from "../lib/i18n";
+import { site } from "../lib/site";
+
+const description = t(defaultLocale, "description");
+const image = new URL("/og.png", site.url).href;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.name}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(localePath(defaultLocale), site.url).href} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={site.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={site.url} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={ogLocale[defaultLocale]} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={image} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline define:vars={{ locales, fallback: defaultLocale }}>
+      const stored = document.cookie.match(/(?:^|;\s*)yena\.locale=(\w+)/)?.[1];
+      const code = [stored, ...navigator.languages.map((tag) => tag.slice(0, 2).toLowerCase())].find((value) => locales.includes(value)) ?? fallback;
+      location.replace(`/${code}`);
+    </script>
+    <noscript><meta http-equiv="refresh" content={`0; url=${localePath(defaultLocale)}`} /></noscript>
+  </head>
+  <body></body>
+</html>

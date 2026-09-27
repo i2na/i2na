@@ -1,0 +1,41 @@
+---
+import { localePath, t, type Locale } from "../lib/i18n";
+import { site } from "../lib/site";
+import Icon from "./Icon.astro";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+---
+
+<footer class="frame mt-24 lg:mt-32" id="footer">
+  <div class="flex flex-col gap-3 border-t border-hairline-soft py-7 sm:flex-row sm:items-center sm:justify-between">
+    <div class="-ml-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+      {
+        site.channels.map((channel) => (
+          <a class="chip chip--icon" href={channel.href} target="_blank" rel="noopener noreferrer" aria-label={channel.label} title={channel.label}>
+            <Icon name={channel.icon} />
+          </a>
+        ))
+      }
+      <a class="chip chip--icon" href={localePath(lang, "rss.xml")} aria-label="RSS" title="RSS">
+        <Icon name="rss" />
+      </a>
+      <button
+        class="chip"
+        type="button"
+        aria-label={t(lang, "copyEmail")}
+        title={t(lang, "copyEmail")}
+        data-copy={site.email}
+        data-done={t(lang, "emailCopied")}
+        data-failed={t(lang, "emailFailed", { email: site.email })}
+      >
+        <Icon name="mail" />
+        <span>{site.email}</span>
+      </button>
+    </div>
+    <p class="font-mono text-[0.7rem] tracking-[0.08em] text-quiet">© {new Date().getFullYear()} {site.author}</p>
+  </div>
+</footer>

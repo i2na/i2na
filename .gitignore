@@ -6,6 +6,8 @@ yarn.lock
 
 .next/
 out/
+.astro/
+.vercel/
 
 .agent/
 .agents/

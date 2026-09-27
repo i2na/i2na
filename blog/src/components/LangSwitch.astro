@@ -1,0 +1,24 @@
+---
+import { langTag, locales, t, type Locale } from "../lib/i18n";
+
+interface Props {
+  lang: Locale;
+  paths: Record<Locale, string>;
+}
+
+const { lang, paths } = Astro.props;
+---
+
+<nav class="lang-switch" aria-label={t(lang, "language")}>
+  <ul>
+    {
+      locales.map((code) => (
+        <li>
+          <a class="lang-code" href={paths[code]} hreflang={langTag[code]} lang={langTag[code]} data-locale={code} aria-current={code === lang ? "true" : undefined}>
+            {code}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

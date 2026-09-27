@@ -1,0 +1,21 @@
+---
+import { localePath, type Locale } from "../lib/i18n";
+import { site } from "../lib/site";
+import LangSwitch from "./LangSwitch.astro";
+
+interface Props {
+  lang: Locale;
+  paths: Record<Locale, string>;
+}
+
+const { lang, paths } = Astro.props;
+---
+
+<header class="site-header frame flex items-center justify-between gap-4 pt-5 lg:pt-7">
+  <p class="flex items-baseline gap-2">
+    <a class="text-[1.12rem] leading-none font-[780] tracking-[-0.01em] transition-colors hover:text-blue" href={`${site.bio}/?lang=${lang}`}>YENA</a>
+    <span class="font-mono text-[0.72rem] text-quiet" aria-hidden="true">/</span>
+    <a class="font-mono text-[0.72rem] tracking-[0.16em] text-muted transition-colors hover:text-ink" href={localePath(lang)}>BLOG</a>
+  </p>
+  <LangSwitch lang={lang} paths={paths} />
+</header>
