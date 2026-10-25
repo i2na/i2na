@@ -61,6 +61,7 @@ export const timeline = [
     title: "ASBG UOS",
     lines: ["asbg.what", "asbg.role"],
     channels: [
+      { icon: "globe", label: "Website", href: "https://asbg.uos.ac.kr/" },
       { icon: "instagram", label: "Instagram", href: "https://www.instagram.com/aws.sbg.uos" },
       { icon: "github", label: "GitHub", href: "https://github.com/AWS-Student-Builder-Group-at-UOS" },
     ],
